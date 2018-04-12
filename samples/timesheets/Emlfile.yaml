@@ -1,0 +1,258 @@
+EmlVersion: 0.1-alpha
+Solution: Timesheets & Billing
+Contexts:
+- Name: Timesheets & Billing
+  Streams:
+  - Stream: contributor
+    Commands:
+    - Command:
+        Name: Register
+        Parameters:
+        - Name: contributorId
+          Type: string
+          Rules:
+          - IsRequired
+        - Name: email
+          Type: string
+          Rules: []
+        Postconditions:
+        - contributorRegistered
+    Events:
+    - Event:
+        Name: contributorRegistered
+        Properties:
+        - Name: contributorId
+          Type: string
+        - Name: email
+          Type: string
+  - Stream: Project
+    Commands:
+    - Command:
+        Name: AddProject
+        Parameters:
+        - Name: projectId
+          Type: string
+          Rules:
+          - IsRequired
+        - Name: name
+          Type: string
+          Rules: []
+        Postconditions:
+        - ProjectAdded
+    - Command:
+        Name: RemoveProject
+        Parameters:
+        - Name: projectId
+          Type: string
+          Rules:
+          - IsRequired
+        Postconditions:
+        - ProjectRemoved
+    Events:
+    - Event:
+        Name: ProjectAdded
+        Properties:
+        - Name: projectId
+          Type: string
+        - Name: name
+          Type: string
+    - Event:
+        Name: ProjectRemoved
+        Properties:
+        - Name: projectId
+          Type: string
+  - Stream: Timesheet
+    Commands:
+    - Command:
+        Name: CreateTimesheet
+        Parameters:
+        - Name: timesheetId
+          Type: string
+          Rules:
+          - IsRequired
+        - Name: contributorId
+          Type: string
+          Rules:
+          - MustExistIn ContributorLookup
+        Postconditions:
+        - TimesheetCreated
+    - Command:
+        Name: LogTimesheetEntry
+        Parameters:
+        - Name: timesheetId
+          Type: string
+          Rules:
+          - IsRequired
+        - Name: timesheetentryId
+          Type: string
+          Rules:
+          - MustExistIn TimesheetentryLookup
+        - Name: projectId
+          Type: string
+          Rules:
+          - MustExistIn ProjectLookup
+        - Name: date
+          Type: string
+          Rules: []
+        - Name: hours
+          Type: string
+          Rules: []
+        - Name: isBillable
+          Type: string
+          Rules: []
+        - Name: description
+          Type: string
+          Rules: []
+        Postconditions:
+        - TimesheetEntryLogged
+    - Command:
+        Name: SubmitTimesheet
+        Parameters:
+        - Name: timesheetId
+          Type: string
+          Rules:
+          - IsRequired
+        - Name: isSubmitted
+          Type: string
+          Rules: []
+        Postconditions:
+        - TimesheetSubmitted
+    - Command:
+        Name: UpdateTimesheetEntry
+        Parameters:
+        - Name: timesheetId
+          Type: string
+          Rules:
+          - IsRequired
+        - Name: timesheetentryId
+          Type: string
+          Rules:
+          - MustExistIn TimesheetentryLookup
+        - Name: projectId
+          Type: string
+          Rules:
+          - MustExistIn ProjectLookup
+        - Name: date
+          Type: string
+          Rules: []
+        - Name: hours
+          Type: string
+          Rules: []
+        - Name: isBillable
+          Type: string
+          Rules: []
+        - Name: description
+          Type: string
+          Rules: []
+        Postconditions:
+        - TimesheetEntryUpdated
+    - Command:
+        Name: DeleteTimesheetEntry
+        Parameters:
+        - Name: timesheetId
+          Type: string
+          Rules:
+          - IsRequired
+        - Name: timesheetentryId
+          Type: string
+          Rules:
+          - MustExistIn TimesheetentryLookup
+        Postconditions:
+        - TimesheetEntryDeleted
+    - Command:
+        Name: DeleteTimesheet
+        Parameters:
+        - Name: timesheetId
+          Type: string
+          Rules:
+          - IsRequired
+        Postconditions:
+        - TimesheetDeleted
+    Events:
+    - Event:
+        Name: TimesheetCreated
+        Properties:
+        - Name: timesheetId
+          Type: string
+        - Name: contributorId
+          Type: string
+    - Event:
+        Name: TimesheetEntryLogged
+        Properties:
+        - Name: timesheetId
+          Type: string
+        - Name: timesheetentryId
+          Type: string
+        - Name: projectId
+          Type: string
+        - Name: date
+          Type: string
+        - Name: hours
+          Type: string
+        - Name: isBillable
+          Type: string
+        - Name: description
+          Type: string
+    - Event:
+        Name: TimesheetSubmitted
+        Properties:
+        - Name: timesheetId
+          Type: string
+        - Name: isSubmitted
+          Type: string
+    - Event:
+        Name: TimesheetEntryUpdated
+        Properties:
+        - Name: timesheetId
+          Type: string
+        - Name: timesheetentryId
+          Type: string
+        - Name: projectId
+          Type: string
+        - Name: date
+          Type: string
+        - Name: hours
+          Type: string
+        - Name: isBillable
+          Type: string
+        - Name: description
+          Type: string
+    - Event:
+        Name: TimesheetEntryDeleted
+        Properties:
+        - Name: timesheetId
+          Type: string
+        - Name: timesheetentryId
+          Type: string
+    - Event:
+        Name: TimesheetDeleted
+        Properties:
+        - Name: timesheetId
+          Type: string
+  Readmodels:
+  - Readmodel:
+      Name: ProjectLookup
+      Key: projectId
+      SubscribesTo:
+      - ProjectAdded
+  - Readmodel:
+      Name: TimesheetentryLookup
+      Key: timesheetentryId
+      SubscribesTo:
+      - TimesheetEntryLogged
+      - TimesheetEntryUpdated
+      - TimesheetEntryDeleted
+  - Readmodel:
+      Name: Timesheets
+      Key: timesheetId
+      SubscribesTo:
+      - TimesheetEntryUpdated
+      - TimesheetEntryDeleted
+      - TimesheetSubmitted
+      - TimesheetEntryLogged
+  - Readmodel:
+      Name: ContributorLookup
+      Key: contributorId
+      SubscribesTo:
+      - contributorRegistered
+Errors: []
