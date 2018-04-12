@@ -1,0 +1,59 @@
+EmlVersion: 0.1-alpha
+Solution: Subscriptions
+Contexts:
+- Name: Subscriptions
+  Streams:
+  - Stream: Subscription
+    Commands:
+    - Command:
+        Name: Subscribe
+        Parameters:
+        - Name: subscriptionId
+          Type: string
+          Rules:
+          - IsRequired
+        Postconditions:
+        - SubscriptionStarted
+    - Command:
+        Name: Deliver
+        Parameters:
+        - Name: subscriptionId
+          Type: string
+          Rules:
+          - IsRequired
+        Postconditions:
+        - SubscriptionReceived
+    - Command:
+        Name: Cancel
+        Parameters:
+        - Name: subscriptionId
+          Type: string
+          Rules:
+          - IsRequired
+        Postconditions:
+        - SubscriptionCancelled
+    Events:
+    - Event:
+        Name: SubscriptionStarted
+        Properties:
+        - Name: subscriptionId
+          Type: string
+        - Name: name
+          Type: string
+    - Event:
+        Name: SubscriptionReceived
+        Properties:
+        - Name: subscriptionId
+          Type: string
+    - Event:
+        Name: SubscriptionCancelled
+        Properties:
+        - Name: subscriptionId
+          Type: string
+  Readmodels:
+  - Readmodel:
+      Name: SubscriptionList
+      Key: naId
+      SubscribesTo:
+      - SubscriptionStarted
+Errors: []

@@ -1,0 +1,78 @@
+EmlVersion: 0.1-alpha
+Solution: Authentication & Access
+Contexts:
+- Name: Authentication & Access
+  Streams:
+  - Stream: User
+    Commands:
+    - Command:
+        Name: RegisterUser
+        Parameters:
+        - Name: userId
+          Type: string
+          Rules:
+          - IsRequired
+        - Name: email
+          Type: string
+          Rules: []
+        - Name: password
+          Type: string
+          Rules: []
+        Postconditions:
+        - UserRegistered
+    - Command:
+        Name: Login
+        Parameters:
+        - Name: userId
+          Type: string
+          Rules:
+          - IsRequired
+        Postconditions:
+        - UserAuthenticated
+    Events:
+    - Event:
+        Name: UserRegistered
+        Properties:
+        - Name: userId
+          Type: string
+        - Name: email
+          Type: string
+        - Name: password
+          Type: string
+          IsHashed: true
+    - Event:
+        Name: UserAuthenticated
+        Properties:
+        - Name: userId
+          Type: string
+  - Stream: ChatAccount
+    Commands:
+    - Command:
+        Name: CreateChatAccount
+        Parameters:
+        - Name: chataccountId
+          Type: string
+          Rules:
+          - IsRequired
+        - Name: userId
+          Type: string
+          Rules:
+          - MustExistIn UserLookup
+        - Name: handle
+          Type: string
+          Rules: []
+        Postconditions:
+        - ChatAccountCreated
+    Events:
+    - Event:
+        Name: ChatAccountCreated
+        Properties:
+        - Name: chataccountId
+          Type: string
+  Readmodels:
+  - Readmodel:
+      Name: UserLookup
+      Key: userId
+      SubscribesTo:
+      - UserRegistered
+Errors: []

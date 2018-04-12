@@ -1,0 +1,9 @@
+package: github.com/Adaptech/les
+import:
+- package: gopkg.in/alecthomas/kingpin.v2
+- package: gopkg.in/yaml.v2
+- package: github.com/ghodss/yaml
+  version: v1.0.0
+- package: github.com/satori/go.uuid
+  version: ~1.2.0
+- package: github.com/Pallinder/go-randomdata

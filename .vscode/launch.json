@@ -1,0 +1,16 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Launch",
+            "type": "go",
+            "request": "launch",
+            "mode": "exec",
+            "cwd": "${workspaceFolder}/samples/tests",
+            "program": "${workspaceFolder}/cmd/esp/esp",
+            "env": {},
+            "args": ["validate"],
+            "showLog": true
+        }
+    ]
+}
