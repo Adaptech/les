@@ -1,0 +1,346 @@
+EmlVersion: 0.1-alpha
+Solution: Medical Research Data Collection Consenting
+Contexts:
+- Name: Medical Research Data Collection Consenting
+  Streams:
+  - Stream: Administer
+    Commands:
+    - Command:
+        Name: RegisterAdministrator
+        Parameters:
+        - Name: email
+          Type: string
+          Rules: []
+        - Name: password
+          Type: string
+          Rules: []
+        - Name: administerId
+          Type: string
+          Rules:
+          - IsRequired
+        Postconditions:
+        - AdministerRegistered
+    Events:
+    - Event:
+        Name: AdministerRegistered
+        Properties:
+        - Name: email
+          Type: string
+        - Name: administerId
+          Type: string
+  - Stream: Project
+    Commands:
+    - Command:
+        Name: Initiate
+        Parameters:
+        - Name: projectId
+          Type: string
+          Rules:
+          - IsRequired
+        - Name: name
+          Type: string
+          Rules: []
+        Postconditions:
+        - ProjectInitiated
+    - Command:
+        Name: RequestData
+        Parameters:
+        - Name: projectId
+          Type: string
+          Rules:
+          - IsRequired
+        - Name: requestId
+          Type: string
+          Rules:
+          - MustExistIn RequestLookup
+        - Name: dataDescription
+          Type: string
+          Rules: []
+        Postconditions:
+        - ProjectDataRequested
+    - Command:
+        Name: RecordDataReview
+        Parameters:
+        - Name: projectId
+          Type: string
+          Rules:
+          - IsRequired
+        - Name: requestId
+          Type: string
+          Rules:
+          - MustExistIn RequestLookup
+        - Name: amended
+          Type: string
+          Rules: []
+        - Name: allowable
+          Type: string
+          Rules: []
+        - Name: consentRequired
+          Type: string
+          Rules: []
+        Postconditions:
+        - ProjectDataReviewed
+    Events:
+    - Event:
+        Name: ProjectInitiated
+        Properties:
+        - Name: projectId
+          Type: string
+        - Name: name
+          Type: string
+    - Event:
+        Name: ProjectDataRequested
+        Properties:
+        - Name: projectId
+          Type: string
+        - Name: requestId
+          Type: string
+        - Name: dataDescription
+          Type: string
+    - Event:
+        Name: ProjectDataReviewed
+        Properties:
+        - Name: projectId
+          Type: string
+        - Name: requestId
+          Type: string
+        - Name: amended
+          Type: string
+        - Name: allowable
+          Type: string
+        - Name: consentRequired
+          Type: string
+  - Stream: Candidate
+    Commands:
+    - Command:
+        Name: IdentifyCandidate
+        Parameters:
+        - Name: projectId
+          Type: string
+          Rules:
+          - MustExistIn ProjectLookup
+        - Name: candidateId
+          Type: string
+          Rules:
+          - IsRequired
+        - Name: candidateEmail
+          Type: string
+          Rules: []
+        Postconditions:
+        - CandidateIdentified
+    - Command:
+        Name: VerifyIdentity
+        Parameters:
+        - Name: candidateId
+          Type: string
+          Rules:
+          - IsRequired
+        - Name: administratorId
+          Type: string
+          Rules:
+          - MustExistIn AdministratorLookup
+        Postconditions:
+        - CandidateIdentityVerified
+    - Command:
+        Name: ContactCandidate
+        Parameters:
+        - Name: candidateId
+          Type: string
+          Rules:
+          - IsRequired
+        - Name: projectId
+          Type: string
+          Rules:
+          - MustExistIn ProjectLookup
+        Postconditions:
+        - CandidateContacted
+    - Command:
+        Name: EnrollCandidate
+        Parameters:
+        - Name: candidateId
+          Type: string
+          Rules:
+          - IsRequired
+        - Name: projectId
+          Type: string
+          Rules:
+          - MustExistIn ProjectLookup
+        - Name: email
+          Type: string
+          Rules: []
+        - Name: password
+          Type: string
+          Rules: []
+        Postconditions:
+        - CandidateEnrolled
+    - Command:
+        Name: RecordConsent
+        Parameters:
+        - Name: candidateId
+          Type: string
+          Rules:
+          - IsRequired
+        - Name: projectId
+          Type: string
+          Rules:
+          - MustExistIn ProjectLookup
+        - Name: requestId
+          Type: string
+          Rules:
+          - MustExistIn RequestLookup
+        Postconditions:
+        - CandidateConsented
+    - Command:
+        Name: RecordDataCollection
+        Parameters:
+        - Name: candidateId
+          Type: string
+          Rules:
+          - IsRequired
+        - Name: projectId
+          Type: string
+          Rules:
+          - MustExistIn ProjectLookup
+        - Name: description
+          Type: string
+          Rules: []
+        Postconditions:
+        - CandidateDataCollected
+    - Command:
+        Name: RevokeConsent
+        Parameters:
+        - Name: candidateId
+          Type: string
+          Rules:
+          - IsRequired
+        - Name: projectId
+          Type: string
+          Rules:
+          - MustExistIn ProjectLookup
+        - Name: requestId
+          Type: string
+          Rules:
+          - MustExistIn RequestLookup
+        Postconditions:
+        - CandidateConsentRevoked
+    Events:
+    - Event:
+        Name: CandidateIdentified
+        Properties:
+        - Name: projectId
+          Type: string
+        - Name: candidateId
+          Type: string
+        - Name: candidateEmail
+          Type: string
+    - Event:
+        Name: CandidateIdentityVerified
+        Properties:
+        - Name: candidateId
+          Type: string
+        - Name: administratorId
+          Type: string
+    - Event:
+        Name: CandidateContacted
+        Properties:
+        - Name: candidateId
+          Type: string
+        - Name: projectId
+          Type: string
+    - Event:
+        Name: CandidateEnrolled
+        Properties:
+        - Name: candidateId
+          Type: string
+        - Name: projectId
+          Type: string
+        - Name: email
+          Type: string
+        - Name: password
+          Type: string
+          IsHashed: true
+    - Event:
+        Name: CandidateConsented
+        Properties:
+        - Name: candidateId
+          Type: string
+        - Name: projectId
+          Type: string
+        - Name: requestId
+          Type: string
+    - Event:
+        Name: CandidateDataCollected
+        Properties:
+        - Name: candidateId
+          Type: string
+        - Name: projectId
+          Type: string
+        - Name: description
+          Type: string
+    - Event:
+        Name: CandidateConsentRevoked
+        Properties:
+        - Name: candidateId
+          Type: string
+        - Name: projectId
+          Type: string
+        - Name: requestId
+          Type: string
+  Readmodels:
+  - Readmodel:
+      Name: AdministratorLookup
+      Key: administratorId
+      SubscribesTo:
+      - CandidateEnrolled
+      - CandidateIdentityVerified
+      - AdministerRegistered
+  - Readmodel:
+      Name: ProjectLookup
+      Key: projectId
+      SubscribesTo:
+      - ProjectInitiated
+  - Readmodel:
+      Name: ProjectDetails
+      Key: projectId
+      SubscribesTo:
+      - ProjectDataRequested
+      - ProjectDataReviewed
+      - CandidateConsented
+      - CandidateConsentRevoked
+  - Readmodel:
+      Name: ProjectDataRequest
+      Key: requestId
+      SubscribesTo:
+      - ProjectDataRequested
+      - ProjectDataReviewed
+      - CandidateConsented
+      - CandidateConsentRevoked
+  - Readmodel:
+      Name: CandidateList
+      Key: candidateId
+      SubscribesTo:
+      - CandidateIdentified
+  - Readmodel:
+      Name: CandidateProfile
+      Key: candidateId
+      SubscribesTo:
+      - CandidateIdentified
+  - Readmodel:
+      Name: CollectedData
+      Key: candidateId
+      SubscribesTo:
+      - CandidateDataCollected
+  - Readmodel:
+      Name: ProjectList
+      Key: projectId
+      SubscribesTo:
+      - ProjectInitiated
+  - Readmodel:
+      Name: RequestLookup
+      Key: requestId
+      SubscribesTo:
+      - ProjectDataRequested
+      - ProjectDataReviewed
+      - CandidateConsented
+      - CandidateConsentRevoked
+Errors: []

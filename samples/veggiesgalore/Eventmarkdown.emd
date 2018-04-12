@@ -1,0 +1,11 @@
+# Veggies Galore
+Add Vegetable To Inventory -> // vegetableId, name
+Vegetable Added // vegetableId, name
+Receive Vegetable -> // vegetableId, amount
+VegetableReceived // vegetableId, amount
+Release Vegetable -> // vegetableId, amount
+Vegetable Released // vegetableId, amount
+Remove Vegetable FromInventroy -> // vegetableId
+Vegetable Removed From Inventory // vegetableId
+Vegetable Inventory * // vegetableId, name, amount
+

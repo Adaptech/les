@@ -1,0 +1,18 @@
+# Email System
+Register -> // userId, email, password
+User Registered // userId, email, password
+
+Log In -> // email, password
+User Authenticated // userId 
+
+Create Mail -> // emailId, fromUserId, toUserId, subject, body
+Email Created // emailId, fromUserId, toUserId, subject, body
+
+Send Mail -> // emailId
+Email Sent // emailId, dateSent
+
+Read Mail -> // emailId, dateTimeRead
+Email Read // dateTimeRead
+
+UserLookup* // userId, email
+EmailLookup* // emailId, fromUserId, toUserId, subject, body
