@@ -1,0 +1,30 @@
+# Timesheets & Billing
+Register -> // contributorId, email
+contributor Registered // contributorId, email
+Add Project -> // projectId, name
+Project Added // projectId, name
+ProjectLookup* // projectId, name
+
+Create Timesheet-> // timesheetId, contributorId
+Timesheet Created // timesheetId, contributorId
+Log Timesheet Entry-> // timesheetId, timesheetentryId, projectId, date, hours, isBillable, description
+Timesheet Entry Logged // timesheetId, timesheetentryId, projectId, date, hours, isBillable, description
+TimesheetentryLookup* // timesheetentryId, projectId, date, hours, isBillable, description
+
+Submit Timesheet -> // timesheetId, isSubmitted
+Timesheet Submitted // timesheetId, isSubmitted
+Timesheets* // timesheetId, timesheetentryId, contributorId, projectId, date, hours, isBillable, description, isSubmitted
+
+Update Timesheet Entry ->  // timesheetId, timesheetentryId, projectId, date, hours, isBillable, description
+Timesheet Entry Updated //  timesheetId, timesheetentryId, projectId, date, hours, isBillable, description
+
+Delete Timesheet Entry -> // timesheetId, timesheetentryId
+Timesheet Entry Deleted // timesheetId, timesheetentryId
+
+Delete Timesheet -> // timesheetId
+Timesheet Deleted // timesheetId
+
+Remove Project -> // projectId
+Project Removed // projectId
+
+ContributorLookup* // contributorId, email

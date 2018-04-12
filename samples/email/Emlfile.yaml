@@ -1,0 +1,139 @@
+EmlVersion: 0.1-alpha
+Solution: Email System
+Contexts:
+- Name: Email System
+  Streams:
+  - Stream: Email
+    Commands:
+    - Command:
+        Name: CreateMail
+        Parameters:
+        - Name: emailId
+          Type: string
+          Rules:
+          - IsRequired
+        - Name: fromUserId
+          Type: string
+          Rules:
+          - MustExistIn UserLookup
+        - Name: toUserId
+          Type: string
+          Rules:
+          - MustExistIn UserLookup
+        - Name: subject
+          Type: string
+          Rules: []
+        - Name: body
+          Type: string
+          Rules: []
+        Postconditions:
+        - EmailCreated
+    - Command:
+        Name: SendMail
+        Parameters:
+        - Name: emailId
+          Type: string
+          Rules:
+          - IsRequired
+        Postconditions:
+        - EmailSent
+    - Command:
+        Name: ReadMail
+        Parameters:
+        - Name: emailId
+          Type: string
+          Rules:
+          - IsRequired
+        - Name: dateTimeRead
+          Type: string
+          Rules: []
+        Postconditions:
+        - EmailRead
+    Events:
+    - Event:
+        Name: EmailCreated
+        Properties:
+        - Name: emailId
+          Type: string
+        - Name: fromUserId
+          Type: string
+        - Name: toUserId
+          Type: string
+        - Name: subject
+          Type: string
+        - Name: body
+          Type: string
+    - Event:
+        Name: EmailSent
+        Properties:
+        - Name: emailId
+          Type: string
+        - Name: dateSent
+          Type: string
+    - Event:
+        Name: EmailRead
+        Properties:
+        - Name: dateTimeRead
+          Type: string
+        - Name: emailId
+          Type: string
+  - Stream: User
+    Commands:
+    - Command:
+        Name: Register
+        Parameters:
+        - Name: userId
+          Type: string
+          Rules:
+          - IsRequired
+        - Name: email
+          Type: string
+          Rules: []
+        - Name: password
+          Type: string
+          Rules: []
+        Postconditions:
+        - UserRegistered
+    - Command:
+        Name: LogIn
+        Parameters:
+        - Name: email
+          Type: string
+          Rules: []
+        - Name: password
+          Type: string
+          Rules: []
+        - Name: userId
+          Type: string
+          Rules:
+          - IsRequired
+        Postconditions:
+        - UserAuthenticated
+    Events:
+    - Event:
+        Name: UserRegistered
+        Properties:
+        - Name: userId
+          Type: string
+        - Name: email
+          Type: string
+        - Name: password
+          Type: string
+          IsHashed: true
+    - Event:
+        Name: UserAuthenticated
+        Properties:
+        - Name: userId
+          Type: string
+  Readmodels:
+  - Readmodel:
+      Name: UserLookup
+      Key: userId
+      SubscribesTo:
+      - UserRegistered
+  - Readmodel:
+      Name: EmailLookup
+      Key: emailId
+      SubscribesTo:
+      - EmailCreated
+Errors: []

@@ -1,0 +1,22 @@
+hash: 87792fa5e8c11a2e839884abb1afa95e0c302c864e6024cd9787ce6375956c16
+updated: 2018-03-19T06:41:58.056105967-07:00
+imports:
+- name: github.com/alecthomas/template
+  version: a0175ee3bccc567396460bf5acd36800cb10c49c
+  subpackages:
+  - parse
+- name: github.com/alecthomas/units
+  version: 2efee857e7cfd4f3d0138cc3cbb1b4966962b93a
+- name: github.com/ghodss/yaml
+  version: 0ca9ea5df5451ffdf184b4428c902747c2c11cd7
+- name: github.com/Pallinder/go-randomdata
+  version: 0eb4fb8a64d92747aa9c557b4c3cafca945802cd
+- name: github.com/radovskyb/watcher
+  version: 6145e1439b9de93806925353403f91d2abbad8a5
+- name: github.com/satori/go.uuid
+  version: f58768cc1a7a7e77a3bd49e98cdd21419399b6a3
+- name: gopkg.in/alecthomas/kingpin.v2
+  version: 947dcec5ba9c011838740e680966fd7087a71d0d
+- name: gopkg.in/yaml.v2
+  version: d670f9405373e636a5a2765eea47fac0c9bc91a4
+testImports: []
