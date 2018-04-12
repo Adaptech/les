@@ -1,0 +1,24 @@
+EmlVersion: 0.1-alpha
+Solution: Hello World
+Contexts:
+- Name: Hello World
+  Streams:
+  - Stream: HelloWorld
+    Commands:
+    - Command:
+        Name: SayHelloWorld
+        Parameters:
+        - Name: helloworldId
+          Type: string
+          Rules:
+          - IsRequired
+        Postconditions:
+        - HelloWorldSaid
+    Events:
+    - Event:
+        Name: HelloWorldSaid
+        Properties:
+        - Name: helloworldId
+          Type: string
+  Readmodels: []
+Errors: []
