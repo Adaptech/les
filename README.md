@@ -71,7 +71,15 @@ There is no step 3.
 * API URI: http://localhost:3001/api/v1
 * Eventstore DB: http://localhost:2113 (username 'admin', password 'changeit')
 
-**Examples: https://github.com/Adaptech/les/src/master/samples**
+## Next Steps
+
+* Learning Event Storming: 
+
+* Learning Event Markdown (EMD): https://webeventstorming.com
+
+* EMD Examples: https://github.com/Adaptech/les/src/master/samples**
+
+* EMD Cheat Sheet: https://github.com/Adaptech/letseventsource/raw/master/EMD-Cheatsheet-0.10.0-alpha.pdf
 
 ## IDE Integrations & Tools
 
