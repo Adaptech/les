@@ -86,16 +86,13 @@ There is no step 3.
 * Event Markdown [vscode extension](https://github.com/markgukov/vscode-event-markdown)
 
 
-## Known Issues
+## Known UX Impacting Issues
 
-* Casing shouldn't matter in property/parameter names (other than the "Id" convention at the end)
+Known user experience impacting bugs when modelling with EMD:
 
-```
-Receive Product-> // productId, description
-InventoryItem Stocked // inventoryitemId, sku, description, purchasePrice, quantityAvailable
-InventoryitemLookup* // inventoryitemId, productId, description
-```
-with "inventoryitemId" works. 
+### "DromedaryCase": myaggregateId GOOD, myAggregateId BAD
+
+https://github.com/Adaptech/les/issues/9
 
 ```
 Receive Product-> // productId, description
@@ -103,5 +100,11 @@ InventoryItem Stocked // inventoryItemId, sku, description, purchasePrice, quant
 InventoryitemLookup* // inventoryItemId, productId, description
 ```
 
-* Race condition when doing ```cd api && npm install && docker-compose up -d```: API doesn't start because Eventstore isn't up yet. (Workaround: ```docker-compose restart api```)
+### Sporadic Race condition when doing ```cd api && npm install && docker-compose up -d```
+
+API doesn't start because Eventstore isn't up yet. (Workaround: ```docker-compose restart api```)
+
+### Need to have at least one read model parameter which is not an aggregate ID
+
+https://github.com/Adaptech/les/issues/10
 
