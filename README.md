@@ -71,7 +71,7 @@ There is no step 3.
 * API URI: http://localhost:3001/api/v1
 * Eventstore DB: http://localhost:2113 (username 'admin', password 'changeit')
 
-## Next Steps
+## What next ...
 
 * Learn Event Storming: http://eventstorming.com
 
