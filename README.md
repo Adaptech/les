@@ -73,9 +73,9 @@ There is no step 3.
 
 ## Next Steps
 
-* Learning Event Storming: 
+* Learn Event Storming: http://eventstorming.com
 
-* Learning Event Markdown (EMD): https://webeventstorming.com
+* Learn Event Markdown (EMD): https://webeventstorming.com
 
 * EMD Examples: https://github.com/Adaptech/les/src/master/samples**
 
