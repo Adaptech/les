@@ -101,17 +101,11 @@ InventoryItem Stocked // inventoryItemId, sku, description, purchasePrice, quant
 InventoryitemLookup* // inventoryItemId, productId, description
 ```
 
-with "inventoryItemId" does not; gives misleading validation errors.
-
-* TODO: 'command -> someParameter' should fail emd validation - 'command -> // someParameter is the correct way. Alternatively: Should the EMD DSL be changed so that this (... and 'This Happened* firstProperty, secondProperty' for events... ) is valid instead of requiring the '//'? 
-
-* TODO: "Emails* // emailId, fromUserId," leads to a validation error (because of the comma at the end), but should be OK.
-* Race condition when doing ```cd api && npm install && docker-compose up -d```: API doesn't start because Eventstore isn't up yet. (Workaround: ```docker-compose restart api```)
+* TODO: Race condition when doing ```cd api && npm install && docker-compose up -d```: API doesn't start because Eventstore isn't up yet. (Workaround: ```docker-compose restart api```)
 * TODO: Find a way of finding SubscribesTo events for read models which exclusively have aggregateId fields.
 * TODO: EMD: A command followed immediately by another command without an event in between should fail validation.
 
 * TODO: Introduce numeric, date and boolean types.
-* TODO: vscode EMD code colorizer
 
 * TODO: Prompt before overwriting 'les convert' files.
 * TODO: Prompt before overwriting 'les-node -b' .api dirctory.
