@@ -49,7 +49,7 @@ Install 'les-node':
 **Step 1:**
 
 ```bash
-cat <<EOT >> Eventmarkdown.emd
+cat <<EOT >> Eventstorming.emd
 # Hello World
 Say Hello World->
 HelloWorld Said
