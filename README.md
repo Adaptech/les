@@ -73,7 +73,7 @@ There is no step 3.
 
 ## IDE Integrations & Tools
 
-[vscode syntax highlighting for EMD](https://github.com/markgukov/vscode-event-markdown)
+* Event Markdown [vscode extension](https://github.com/markgukov/vscode-event-markdown)
 
 
 
