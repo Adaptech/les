@@ -78,13 +78,7 @@ There is no step 3.
 * Event Markdown [vscode extension](https://github.com/markgukov/vscode-event-markdown)
 
 
-
-## Event Markup Language (EML) & Event Markdown (EMD) Versions
-
-### Current (0.1-alpha)
-
-
-**Known Issues** 
+## Known Issues
 
 * Casing shouldn't matter in property/parameter names (other than the "Id" convention at the end)
 
