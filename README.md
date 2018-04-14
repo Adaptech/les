@@ -90,7 +90,7 @@ There is no step 3.
 
 The issues below have been known to mystify EMD users:
 
-### "DromedaryCase": myaggregateId GOOD, myAggregateId BAD
+#### "DromedaryCase": myaggregateId GOOD, myAggregateId BAD
 
 https://github.com/Adaptech/les/issues/9
 
@@ -100,11 +100,11 @@ InventoryItem Stocked // inventoryItemId, sku, description, purchasePrice, quant
 InventoryitemLookup* // inventoryItemId, productId, description
 ```
 
-### Sporadic Race condition when doing ```cd api && npm install && docker-compose up -d```
+#### Sporadic Race condition when doing ```cd api && npm install && docker-compose up -d```
 
 API doesn't start because Eventstore isn't up yet. (Workaround: ```docker-compose restart api```)
 
-### Need to have at least one read model parameter which is not an aggregate ID
+#### Need to have at least one read model parameter which is not an aggregate ID
 
 https://github.com/Adaptech/les/issues/10
 
