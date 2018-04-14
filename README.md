@@ -88,7 +88,7 @@ There is no step 3.
 
 ## Known UX Impacting Issues
 
-Known user experience impacting bugs when modelling with EMD:
+The issues below have been known to mystify EMD users:
 
 ### "DromedaryCase": myaggregateId GOOD, myAggregateId BAD
 
