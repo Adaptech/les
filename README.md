@@ -98,6 +98,8 @@ https://github.com/Adaptech/les/issues/9
 
 API doesn't start because Eventstore isn't up yet. (Workaround: ```docker-compose restart api```)
 
+https://github.com/Adaptech/les/issues/11
+
 #### Need to have at least one read model parameter which is not an aggregate ID
 
 https://github.com/Adaptech/les/issues/10
