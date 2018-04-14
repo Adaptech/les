@@ -71,6 +71,12 @@ There is no step 3.
 
 **Examples: https://github.com/Adaptech/les/src/master/samples**
 
+## IDE Integrations & Tools
+
+[vscode syntax highlighting for EMD](https://github.com/markgukov/vscode-event-markdown)
+
+
+
 ## Event Markup Language (EML) & Event Markdown (EMD) Versions
 
 ### Current (0.1-alpha)
