@@ -7,9 +7,9 @@ import (
 	"gopkg.in/alecthomas/kingpin.v2"
 )
 
-const defaultEmdFile = "Eventmarkdown.emd"
-const defaultEmlFile = "Emlfile.yaml"
-const generatedEmlFile = ".generated.eml.yaml"
+const defaultEmdFile = "Eventstorming.emd"
+const defaultEmlFile = "Eventsourcing.eml.yaml"
+const generatedEmlFile = ".generated.eventsourcing.eml.yaml"
 
 func main() {
 	app := kingpin.New("les", "Let's Event Source: Validate & convert Event Markup Language and Event Markup.")

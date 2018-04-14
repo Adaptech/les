@@ -8,8 +8,8 @@ import (
 	"gopkg.in/alecthomas/kingpin.v2"
 )
 
-const defaultEmlFile = "Emlfile.yaml"
-const generatedEmlFile = ".generated.eml.yaml"
+const defaultEmlFile = "Eventsourcing.eml.yaml"
+const generatedEmlFile = ".generated.eventsourcing.eml.yaml"
 
 var (
 	buildAPI  = kingpin.Flag("build", "Build a NodeJS API from EML.").Short('b').Bool()
