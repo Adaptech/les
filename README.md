@@ -94,12 +94,6 @@ The issues below have been known to mystify EMD users:
 
 https://github.com/Adaptech/les/issues/9
 
-```
-Receive Product-> // productId, description
-InventoryItem Stocked // inventoryItemId, sku, description, purchasePrice, quantityAvailable
-InventoryitemLookup* // inventoryItemId, productId, description
-```
-
 #### Sporadic Race condition when doing ```cd api && npm install && docker-compose up -d```
 
 API doesn't start because Eventstore isn't up yet. (Workaround: ```docker-compose restart api```)
