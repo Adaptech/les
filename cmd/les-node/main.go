@@ -22,7 +22,7 @@ func main() {
 	if *buildAPI {
 		inputFile := useDefaulEmlFileIfInputFileNotSpecified(*inputFile)
 		if inputFile == "" {
-			fmt.Println("No input file found. Try 'les build --help'.")
+			fmt.Println("No input file found. Try 'les-node --help'.")
 			os.Exit(-1)
 		}
 		fmt.Println("API Spec:\t" + inputFile)
