@@ -18,11 +18,11 @@
 
 Install the 'les' validation tool:
 
-```sudo curl -L https://github.com/Adaptech/letseventsource/blob/master/releases/les/0.10.0/les-Linux-x86_64?raw=true -o /usr/local/bin/les && sudo chmod +x /usr/local/bin/les```
+```sudo curl -L https://github.com/Adaptech/letseventsource/blob/master/releases/les/0.10.1/les-Linux-x86_64?raw=true -o /usr/local/bin/les && sudo chmod +x /usr/local/bin/les```
 
 Install 'les-node':
 
-```sudo curl -L https://github.com/Adaptech/letseventsource/blob/master/releases/les-node/0.10.0/les-node-Linux-x86_64?raw=true -o /usr/local/bin/les-node && sudo chmod +x /usr/local/bin/les-node```
+```sudo curl -L https://github.com/Adaptech/letseventsource/blob/master/releases/les-node/0.10.1/les-node-Linux-x86_64?raw=true -o /usr/local/bin/les-node && sudo chmod +x /usr/local/bin/les-node```
 
 ### Windows (x86_84) binaries
 
