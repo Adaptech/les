@@ -1,0 +1,68 @@
+EmlVersion: 0.1-alpha
+Solution: Veggies Galore
+Contexts:
+- Name: Veggies Galore
+  Streams:
+  - Stream: Vegetable
+    Commands:
+    - Command:
+        Name: AddVegetableToInventory
+        Parameters:
+        - Name: vegetableId
+          Type: string
+          Rules:
+          - IsRequired
+        - Name: name
+          Type: string
+          Rules: []
+        Postconditions:
+        - VegetableAdded
+    - Command:
+        Name: ReleaseVegetable
+        Parameters:
+        - Name: vegetableId
+          Type: string
+          Rules:
+          - IsRequired
+        - Name: amount
+          Type: string
+          Rules: []
+        Postconditions:
+        - VegetableReleased
+    - Command:
+        Name: RemoveVegetableFromInventroy
+        Parameters:
+        - Name: vegetableId
+          Type: string
+          Rules:
+          - IsRequired
+        Postconditions:
+        - VegetableRemovedFromInventory
+    Events:
+    - Event:
+        Name: VegetableAdded
+        Properties:
+        - Name: vegetableId
+          Type: string
+        - Name: name
+          Type: string
+    - Event:
+        Name: VegetableReleased
+        Properties:
+        - Name: vegetableId
+          Type: string
+        - Name: amount
+          Type: string
+    - Event:
+        Name: VegetableRemovedFromInventory
+        Properties:
+        - Name: vegetableId
+          Type: string
+  Readmodels:
+  - Readmodel:
+      Name: VegetableInventory
+      Key: vegetableId
+      SubscribesTo:
+      - VegetableAdded
+      - VegetableReleased
+Errors: []

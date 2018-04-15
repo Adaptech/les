@@ -1,0 +1,30 @@
+# Solution: Inventory and Sales
+
+## Bounded Context: Inventory Management
+
+Add Product -> // productId, name
+Product Added To Catalogue // name
+ProductLookup* // productId, name
+
+Receive Product-> // productId, description
+InventoryItem Stocked // inventoryitemId, sku, description, purchasePrice, quantityAvailable
+InventoryitemLookup* // inventoryitemId, productId, description
+
+## Ordering Bounded Context
+
+Add Catalogue Item-> // catalogueitemId, inventoryitemId, salesPrice
+CatalogueItem Added // catalogueitemId, inventoryitemId, salesPrice
+CatalogueitemLookup* // catalogueitemId, inventoryitemId, salesPrice
+
+Create Order-> orderDate
+Order Created // orderId, orderDate
+OrderLookup* // orderId, orderDate
+
+Add Order Item-> // orderItemId, orderId, catalogueitemId, quantity, price
+OrderItem Added // orderItemId, catalogueitemId, quantity, price
+OrderItemLookup* // orderItemId, catalogueitemId, quantity, price
+
+Place Order-> // orderId
+Order Placed // orderId
+InventoryItem Reduced // inventoryitemId, quantity 
+InventoryItem OutOfStock // inventoryitemId

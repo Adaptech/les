@@ -1,0 +1,11 @@
+# Authentication & Access
+Register User-> // userId, email, password
+User Registered // userId, email, password
+UserLookup* // userId, email, password
+
+Login-> // userId
+User Authenticated // userId
+
+# Another bounded context, e.g. "Chat":
+Create Chat Account -> // chataccountId, userId, handle
+ChatAccount Created 
