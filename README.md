@@ -7,16 +7,18 @@
 
 ![LESTER Pipeline](https://github.com/Adaptech/letseventsource/blob/master/LESTER-stack-diagram.png)
 
+## Getting Started
+
 ### Prerequisites
 
-- [NodeJS 8.11.1 LTS](https://nodejs.org/en/) or better
-- [docker-compose](https://docs.docker.com/compose/install/)
+* [NodeJS 8.11.1 LTS](https://nodejs.org/en/) or better
+* [docker-compose](https://docs.docker.com/compose/install/)
 
-## Installation
+### Installation
 
 [Instructions for Linux, Windows & Mac](INSTALL.md)
 
-## Getting Started
+### Hello World
 
 **Step 1:**
 
@@ -75,4 +77,3 @@ https://github.com/Adaptech/les/issues/11
 #### Need to have at least one read model parameter which is not an aggregate ID
 
 https://github.com/Adaptech/les/issues/10
-
