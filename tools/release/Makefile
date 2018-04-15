@@ -2,7 +2,7 @@ SHELL := /bin/bash
 VERSION ?= `date '+%Y-%m-%d-'``git show -s --format='commit-%h'`
 
 .PHONY: dist
-dist: dist-les dist-les-node
+dist: dist-les dist-les-node installation-instructions
 
 .PHONY: dist-les
 dist-les:
@@ -12,8 +12,12 @@ dist-les:
 dist-les-node:
 	./go-multi-platform-build.sh github.com/Adaptech/les/cmd/les-node ../../releases/les-node/$(VERSION)
 
+.PHONY: installation-instructions
+installation-instructions:
+	./make-installation-instructions.sh $(VERSION) ../../INSTALL.md
+
 .PHONY: clean
 clean:
 	rm -fr ../../releases/les/$(VERSION) \
-	&& rm -fr ../../releases/les-node/$(VERSION)
-
+	&& rm -fr ../../releases/les-node/$(VERSION) \
+	&& rm ../../INSTALL.md
