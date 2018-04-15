@@ -5,6 +5,10 @@ IMPROVEMENTS:
 
 * Changed default EML and EMD file names so they say what's in the files.
 
+* Automated multi-platform builds.
+
+* Automated platform-specific installation instructions.
+
 
 ## 0.10.0 (April 11, 2018)
 
