@@ -1,5 +1,5 @@
 SHELL := /bin/bash
-VERSION ?= `date '+%Y-%m-%d-'``git show -s --format='commit-%h'`
+VERSION := 0.10.1
 
 .PHONY: dist
 dist: dist-les dist-les-node installation-instructions

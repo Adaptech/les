@@ -18,23 +18,24 @@ for platform in "${platforms[@]}"
 do
     platform_split=(${platform//\// })
     platform_executable_name=${platform_split[0]}-${platform_split[1]}
-    instructions="## ${platform_split[0]^} ${platform_split[1]^^}\n
-    Install the 'les' validation tool:
+    instructions="## ${platform_split[0]^} ${platform_split[1]^^}
 
-    \`\`\`sudo curl -L https://github.com/Adaptech/les/blob/master/releases/les/${version}/les-${platform_executable_name}?raw=true -o /usr/local/bin/les && sudo chmod +x /usr/local/bin/les\`\`\`
+Install the 'les' validation tool:
 
-    Install 'les-node':
+\`\`\`sudo curl -L https://github.com/Adaptech/les/blob/master/releases/les/${version}/les-${platform_executable_name}?raw=true -o /usr/local/bin/les && sudo chmod +x /usr/local/bin/les\`\`\`
 
-    \`\`\`sudo curl -L https://github.com/Adaptech/les/blob/master/releases/les-node/${version}/les-node-${platform_executable_name}?raw=true -o /usr/local/bin/les-node && sudo chmod +x /usr/local/bin/les-node\`\`\`
+Install 'les-node':
+
+\`\`\`sudo curl -L https://github.com/Adaptech/les/blob/master/releases/les-node/${version}/les-node-${platform_executable_name}?raw=true -o /usr/local/bin/les-node && sudo chmod +x /usr/local/bin/les-node\`\`\`
 "
 
     if [ ${platform_split[0]} = "windows" ]; then
         platform_executable_name+='.exe'
         instructions="## ${platform_split[0]^} ${platform_split[1]^^}
 
-    * [Download](https://github.com/Adaptech/les/blob/master/releases/les/${version}/les-${platform_executable_name}?raw=true) the 'les' validation tool .exe
+* [Download](https://github.com/Adaptech/les/blob/master/releases/les/${version}/les-${platform_executable_name}?raw=true) the 'les' validation tool .exe
 
-    * [Download](https://github.com/Adaptech/les/blob/master/releases/les-node/${version}/les-node-${platform_executable_name}?raw=true) 'les-node' .exe
+* [Download](https://github.com/Adaptech/les/blob/master/releases/les-node/${version}/les-node-${platform_executable_name}?raw=true) 'les-node' .exe
 "
     fi  
 
