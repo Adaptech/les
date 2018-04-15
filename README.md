@@ -7,42 +7,14 @@
 
 ![LESTER Pipeline](https://github.com/Adaptech/letseventsource/blob/master/LESTER-stack-diagram.png)
 
-## Installation
-
 ### Prerequisites
 
 - [NodeJS 8.11.1 LTS](https://nodejs.org/en/) or better
 - [docker-compose](https://docs.docker.com/compose/install/)
 
-### Linux (Ubuntu 16.04 x86_64)
+## Installation
 
-Install the 'les' validation tool:
-
-```sudo curl -L https://github.com/Adaptech/letseventsource/blob/master/releases/les/0.10.1/les-Linux-x86_64?raw=true -o /usr/local/bin/les && sudo chmod +x /usr/local/bin/les```
-
-Install 'les-node':
-
-```sudo curl -L https://github.com/Adaptech/letseventsource/blob/master/releases/les-node/0.10.1/les-node-Linux-x86_64?raw=true -o /usr/local/bin/les-node && sudo chmod +x /usr/local/bin/les-node```
-
-### Windows (x86_84) binaries
-
-Install the 'les' validation tool:
-
-```curl -L https://github.com/Adaptech/letseventsource/blob/master/releases/les/0.10.0/les-windows-x86_64.exe?raw=true -o les.exe```
-
-Install 'les-node':
-
-```curl -L https://github.com/Adaptech/letseventsource/blob/master/releases/les-node/0.10.0/les-node-windows-x86_64.exe?raw=true -o les-node.exe```
-
-### Max OSX (x86_64) binaries
-
-Install the 'les' validation tool:
-
-```sudo curl -L https://github.com/Adaptech/letseventsource/blob/master/releases/les/0.10.0/les-darwin-x86_64?raw=true -o /usr/local/bin/les && sudo chmod +x /usr/local/bin/les```
-
-Install 'les-node':
-
-```sudo curl -L https://github.com/Adaptech/letseventsource/blob/master/releases/les-node/0.10.0/les-node-darwin-x86_64?raw=true -o /usr/local/bin/les-node && sudo chmod +x /usr/local/bin/les-node```
+[Instructions for Linux, Windows & Mac](INSTALL.md)
 
 ## Getting Started
 
