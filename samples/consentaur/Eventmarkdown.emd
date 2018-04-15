@@ -1,0 +1,41 @@
+# Medical Research Data Collection Consenting
+
+Register Administrator-> // email, password 
+Administer Registered // email
+AdministratorLookup* // administratorId, email
+
+Initiate-> // projectId, name
+Project Initiated // projectId, name
+Request Data-> // projectId, requestId, dataDescription
+Project Data Requested // projectId, requestId, dataDescription
+ProjectLookup* // projectId, name
+ProjectDetails* // projectId, requestId, dataDescription
+
+Record Data Review-> //  projectId, requestId, amended, allowable, consentRequired
+Project Data Reviewed // projectId, requestId, amended, allowable, consentRequired
+Project Data Request* // requestId, projectId, amended, allowable, consentRequired
+
+Identify Candidate -> // projectId, candidateId, candidateEmail
+Candidate Identified // projectId, candidateId, candidateEmail
+
+Verify Identity-> // candidateId, administratorId
+Candidate Identity Verified // candidateId, administratorId
+Candidate List* // candidateId, candidateEmail
+Candidate Profile* // candidateId, candidateEmail
+
+Contact Candidate -> // candidateId, projectId
+Candidate Contacted // candidateId, projectId
+Enroll Candidate-> // candidateId, projectId, email, password
+Candidate Enrolled // candidateId, projectId, email, password
+
+Record Consent-> // candidateId, projectId, requestId
+Candidate Consented // candidateId, projectId, requestId
+
+Record Data Collection-> // candidateId, projectId, description
+Candidate Data Collected // candidateId, projectId, description
+Collected Data* // candidateId, projectId, description
+Revoke Consent-> //  candidateId, projectId, requestId
+Candidate Consent Revoked // candidateId, projectId, requestId
+Project List* // projectId, name 
+
+RequestLookup* // requestId, amended, allowable, consentRequired
