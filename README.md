@@ -4,10 +4,10 @@
 
 * Validates the design of an event-based system specified in Event Markdown or Event Markup Language.
 * Generates an API from Event Markdown or Event Markup
+* [LESTER Stack FAQ](https://github.com/Adaptech/letseventsource)
+
 
 ![LESTER Pipeline](https://github.com/Adaptech/letseventsource/blob/master/LESTER-stack-diagram.png)
-
-**LESTER Stack [FAQ](https://github.com/Adaptech/letseventsource)**
 
 ## Getting Started
 
