@@ -7,7 +7,7 @@
 
 ![LESTER Pipeline](https://github.com/Adaptech/letseventsource/blob/master/LESTER-stack-diagram.png)
 
-**[Frequently Asked Questions](https://github.com/Adaptech/letseventsource)**
+**LESTER Stack [FAQ](https://github.com/Adaptech/letseventsource)**
 
 ## Getting Started
 
