@@ -12,11 +12,15 @@ Install 'les-node':
 
 ## Windows AMD64
 
+(experimental)
+
 * [Download](https://github.com/Adaptech/les/blob/master/releases/les/0.10.1/les-windows-amd64.exe?raw=true) the 'les' validation tool .exe
 
 * [Download](https://github.com/Adaptech/les/blob/master/releases/les-node/0.10.1/les-node-windows-amd64.exe?raw=true) 'les-node' .exe
 
 ## Darwin AMD64
+
+(experimental)
 
 Install the 'les' validation tool:
 
