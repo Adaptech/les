@@ -1,5 +1,16 @@
 # Installation
 
+
+### Docker
+
+Build the 'les' validation tool image:
+
+```(cd cmd/les ; docker build . -t les)```
+
+Build the 'les-node' image:
+
+```(cd cmd/les-node ; docker build . -t les-node)```
+
 ## Linux AMD64
 
 Install the 'les' validation tool:
