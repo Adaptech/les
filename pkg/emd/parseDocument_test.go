@@ -53,6 +53,33 @@ func TestShouldGetDocumentParameters(t *testing.T) {
 	}
 }
 
+func TestShouldGetDocumentParametersWithTrailingComma(t *testing.T) {
+	input := []string{"Users* // userId,email  ,     "}
+	result, err := emd.Parse(input)
+	if err != nil {
+		panic(err)
+	}
+	if len(result.Lines) == 0 {
+		t.Error("no document found")
+		return
+	}
+	switch result.Lines[0].(type) {
+	case emd.Document:
+		properties := result.Lines[0].(emd.Document).Properties
+		if len(properties) != 2 {
+			t.Error("Unexpected number of document.Properties")
+		}
+		if properties[0].Name != "userId" {
+			t.Error("Document property not found")
+		}
+		if properties[1].Name != "email" {
+			t.Error("Document property not found")
+		}
+	default:
+		t.Error("expected document")
+	}
+}
+
 func TestShouldGetDocumentProperties(t *testing.T) {
 	input := []string{"Register* // userId,email,password                     "}
 	result, err := emd.Parse(input)
