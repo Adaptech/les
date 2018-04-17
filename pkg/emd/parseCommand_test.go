@@ -27,10 +27,14 @@ func TestShouldGetCommandWithParameters(t *testing.T) {
 }
 
 func TestShouldFindCommandParameters(t *testing.T) {
-	input := []string{"Validate->// userId                    "}
+	input := []string{"Validate->// userId  ,  "}
 	result, err := emd.Parse(input)
 	if err != nil {
 		panic(err)
+	}
+	if len(result.Errors) > 0 {
+		t.Log(result.Errors)
+		t.Error("Unexpected error(s).")
 	}
 	if len(result.Lines) == 0 {
 		t.Error("no command found")
