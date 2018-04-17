@@ -16,6 +16,7 @@ func parseDocument(emdInput string, lineItems []Item) []Item {
 			var properties []Property
 			first := document[0]
 			propertiesList := first[2]
+			propertiesList = strings.Trim(propertiesList, ",")
 			inputProperties := strings.Split(propertiesList, ",")
 			for _, inputParameter := range inputProperties {
 				if inputParameter != "" {
