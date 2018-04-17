@@ -38,6 +38,14 @@ EOT
 les convert && les-node -b && cd api && npm install && docker-compose up -d
 ```
 
+Or using Docker:
+```bash
+docker run -v $(pwd):/les les convert && docker run -v $(pwd):/les les-node -b && cd api && npm install && docker-compose up -d
+```
+
+(If you doing this in Linux and encounter "permission denied" errors, your USER or GROUP ID need to be specified.
+ Say your USER ID is 1003, then add `--user 1003` after each `docker run` in the above command.)
+
 **Step 3:**
 
 There is no step 3.
