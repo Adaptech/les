@@ -16,6 +16,7 @@ func parseCommand(emdInput string, lineItems []Item) []Item {
 			var parameters []Parameter
 			first := command[0]
 			propertiesList := first[2]
+			propertiesList = strings.Trim(propertiesList, ",")
 			inputProperties := strings.Split(propertiesList, ",")
 			for _, inputParameter := range inputProperties {
 				var parsedParameter = Parameter{Name: strings.Trim(inputParameter, " ")}
