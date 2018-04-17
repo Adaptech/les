@@ -16,7 +16,7 @@ func parseEvent(emdInput string, lineItems []Item) []Item {
 			var properties []Property
 			first := event[0]
 			propertiesList := first[2]
-			propertiesList = strings.Trim(propertiesList, ",")
+			propertiesList = strings.Trim(propertiesList, ", ")
 			inputProperties := strings.Split(propertiesList, ",")
 			for _, inputProperty := range inputProperties {
 				var parsedProperty = Property{Name: strings.Trim(inputProperty, " ")}
