@@ -69,6 +69,7 @@ func (c *Solution) validateCommands(boundedContextName string, stream Stream, ev
 							ErrorID: "MustExistInReadmodelNotFound",
 							Context: boundedContextName,
 							Stream:  stream.Name,
+							Command: command.Command.Name,
 							Message: "'" + command.Command.Name + " " + parameter.Name + "' has a MustExistIn " + readModel + " rule, but that read model does not exist.",
 						}
 						c.Errors = append(c.Errors, propertyError)
@@ -79,6 +80,7 @@ func (c *Solution) validateCommands(boundedContextName string, stream Stream, ev
 								ErrorID: "MustExistInReadmodelNotFound",
 								Context: boundedContextName,
 								Stream:  stream.Name,
+								Command: command.Command.Name,
 								Message: "'" + command.Command.Name + " " + parameter.Name + "' has a MustExistIn " + readModel + " rule, but that read model does not exist.",
 							}
 							c.Errors = append(c.Errors, propertyError)
@@ -90,6 +92,7 @@ func (c *Solution) validateCommands(boundedContextName string, stream Stream, ev
 						ErrorID: "MustExistInHasNoReadmodelArgument",
 						Context: boundedContextName,
 						Stream:  stream.Name,
+						Command: command.Command.Name,
 						Message: "'" + command.Command.Name + " " + parameter.Name + "' has a MustExistIn " + readModel + " rule, but no readmodel name argument.",
 					}
 					c.Errors = append(c.Errors, propertyError)
@@ -101,9 +104,39 @@ func (c *Solution) validateCommands(boundedContextName string, stream Stream, ev
 				ErrorID: "CommandHasNoEvents",
 				Context: boundedContextName,
 				Stream:  stream.Name,
+				Command: command.Command.Name,
 				Message: "'" + command.Command.Name + "' does not produce any events. Commands must result in state changes.",
 			}
 			c.Errors = append(c.Errors, propertyTypeValidationError)
+		}
+		for _, precondition := range command.Command.Preconditions {
+			rule := parsePrecondition(precondition)
+			if rule == nil {
+				propertyTypeValidationError := ValidationError{
+					ErrorID: "UnknownCommandPreconditionType",
+					Context: boundedContextName,
+					Stream:  stream.Name,
+					Command: command.Command.Name,
+					Message: "Unknown command precondition type: '" + precondition + "'",
+				}
+				c.Errors = append(c.Errors, propertyTypeValidationError)
+				continue
+			}
+			switch rule.Type {
+			case "MustHaveHappened":
+				event := rule.Tokens[0]
+				if !existsIn(stream.Events, event) {
+					propertyTypeValidationError := ValidationError{
+						ErrorID: "PreconditionEventDoesntExistInStream",
+						Context: boundedContextName,
+						Stream:  stream.Name,
+						Command: command.Command.Name,
+						Message: "'" + precondition + "' refers to an event which is not produced by any of the commands publishing to the '" + stream.Name + "' stream.",
+					}
+					c.Errors = append(c.Errors, propertyTypeValidationError)
+				}
+				break
+			}
 		}
 		for _, postcondition := range command.Command.Postconditions {
 			_, eventExists := events[postcondition]
@@ -112,6 +145,7 @@ func (c *Solution) validateCommands(boundedContextName string, stream Stream, ev
 					ErrorID: "PostconditionMustExist",
 					Context: boundedContextName,
 					Stream:  stream.Name,
+					Command: command.Command.Name,
 					Message: command.Command.Name + ": Unknown postcondition: The command cannot result in an event of type '" + postcondition + "' because the event type doesn't exist.",
 				}
 				c.Errors = append(c.Errors, propertyTypeValidationError)
@@ -140,4 +174,13 @@ func firstUppercaseLetterIn(s string) int {
 		}
 	}
 	return -1
+}
+
+func existsIn(stream []Event, event string) bool {
+	for _, streamEvent := range stream {
+		if streamEvent.Event.Name == event {
+			return true
+		}
+	}
+	return false
 }
