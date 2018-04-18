@@ -13,11 +13,10 @@ fi
 
 platforms=("linux/amd64" "darwin/amd64" "windows/amd64")
 
-echo -e "# Installation\n" > ${output_file}
+echo -e "# Installation" > ${output_file}
 
 echo -e '
-
-### Docker
+## Docker
 
 Build the 'les' validation tool image:
 

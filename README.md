@@ -63,7 +63,7 @@ There is no step 3.
 
 * EMD Examples: https://github.com/Adaptech/les/src/master/samples**
 
-* EMD Cheat Sheet: https://github.com/Adaptech/letseventsource/raw/master/EMD-Cheatsheet-0.10.0-alpha.pdf
+* EMD Cheat Sheet: https://github.com/Adaptech/letseventsource/raw/master/EMD-Cheatsheet-0.10.0-alpha-alpha.pdf
 
 ## IDE Integrations & Tools
 
