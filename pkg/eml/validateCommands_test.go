@@ -300,8 +300,7 @@ Errors: []
 	}
 }
 
-func TestExistingPostconditionEventsDontResultInErrors(t *testing.T) {
-
+func Test_existing_postcondition_events_dont_result_in_validation_error(t *testing.T) {
 	const emlYAML = `Solution: User Registration
 Contexts:
 - Name: User Registration

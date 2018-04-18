@@ -45,10 +45,10 @@ type Property struct {
 // A Command in a bounded context
 type Command struct {
 	Command struct {
-		Name       string      `yaml:"Name"`
-		Parameters []Parameter `yaml:"Parameters"`
-		// Preconditions  []Event
-		Postconditions []string `yaml:"Postconditions"`
+		Name           string      `yaml:"Name"`
+		Parameters     []Parameter `yaml:"Parameters"`
+		Preconditions  []string    `yaml:"Preconditions"`
+		Postconditions []string    `yaml:"Postconditions"`
 	} `yaml:"Command"`
 }
 
