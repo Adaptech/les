@@ -4,7 +4,7 @@ import (
 	"strings"
 )
 
-func (c *Solution) validateReadmodelsIn(context BoundedContext, events map[string]Event) {
+func (c *Solution) validateReadmodelsIn(context BoundedContext, events map[string]Event, properties map[string]bool) {
 	for _, readmodel := range context.Readmodels {
 		if len(strings.Trim(readmodel.Readmodel.Name, " ")) == 0 {
 			validationError := ValidationError{
@@ -22,6 +22,18 @@ func (c *Solution) validateReadmodelsIn(context BoundedContext, events map[strin
 				Message:   "Missing Readmodel Key",
 			}
 			c.Errors = append(c.Errors, validationError)
+		} else {
+			_, propertyExists := properties[readmodel.Readmodel.Key]
+			if !propertyExists {
+				propertyTypeValidationError := ValidationError{
+					ErrorID:   "ReadModelKeyDoesNotExist",
+					Context:   context.Name,
+					Readmodel: readmodel.Readmodel.Name,
+					Message:   "Unknown read model key: '" + readmodel.Readmodel.Key + "' is not a property of any event in '" + context.Name + "'.",
+				}
+				c.Errors = append(c.Errors, propertyTypeValidationError)
+
+			}
 		}
 		if len(readmodel.Readmodel.SubscribesTo) == 0 {
 			validationError := ValidationError{

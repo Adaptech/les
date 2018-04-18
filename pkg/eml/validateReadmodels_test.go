@@ -79,6 +79,50 @@ func TestMustHaveReadmodelKey(t *testing.T) {
 	}
 }
 
+func Test_readmodel_key_must_exist(t *testing.T) {
+	const emlYAML = `EmlVersion: 0.1-alpha
+Solution: Hello World
+Contexts:
+- Name: Hello World
+  Streams:
+  - Stream: Hello
+    Commands:
+    - Command:
+        Name: SayHello
+        Parameters:
+        - Name: text
+          Type: string
+          Rules: []
+        - Name: helloId
+          Type: string
+          Rules:
+          - IsRequired
+        Postconditions:
+        - HelloSaid
+    Events:
+    - Event:
+        Name: HelloSaid
+        Properties:
+        - Name: text
+          Type: string
+        - Name: helloId
+          Type: string
+  Readmodels:
+  - Readmodel:
+      Name: ListOfHellos
+      Key: propertyWhichDoesntExistId
+      SubscribesTo:
+      - HelloSaid
+Errors: []
+`
+	sut := eml.Solution{}
+	sut.LoadYAML([]byte(emlYAML))
+	sut.Validate()
+	if !hasError("ReadModelKeyDoesNotExist", sut.Errors) {
+		t.Error("expected error")
+	}
+}
+
 func TestMustHaveReadmodelName(t *testing.T) {
 	const emlYAML = `Solution: User Registration
 Contexts:
@@ -192,7 +236,6 @@ Errors: []
 		t.Error("expected error")
 	}
 }
-
 
 func Test_readmodel_name_with_spaces_is_ok(t *testing.T) {
 	const emlYAML = `Solution: Identity & Access
