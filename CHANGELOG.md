@@ -1,7 +1,5 @@
 
-## 0.10.2 (April 18, 2018)
-
-IMPROVEMENTS:
+## 0.10.2-alpha (April 18, 2018)
 
 * Changed default EML and EMD file names so they say what's in the files.
 
@@ -13,10 +11,6 @@ IMPROVEMENTS:
 
 * Automated platform-specific installation instructions.
 
-
-## 0.10.0 (April 11, 2018)
+## 0.10.0-alpha (April 11, 2018)
 
 Initial release of 'les' and 'les-node'.
-
-
-
