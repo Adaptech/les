@@ -1,3 +1,4 @@
+# Releases
 
 ## 0.10.2-alpha (April 18, 2018)
 
@@ -10,6 +11,10 @@
 * Automated multi-platform builds.
 
 * Automated platform-specific installation instructions.
+
+## 0.10.1-alpha (April 15, 2018)
+
+Minor bug fixes
 
 ## 0.10.0-alpha (April 11, 2018)
 

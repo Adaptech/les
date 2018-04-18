@@ -18,7 +18,7 @@
 
 ### Installation
 
-[Instructions for Linux, Windows & Mac](INSTALL.md)
+[Instructions for Linux, Windows Mac & Docker](INSTALL.md)
 
 ### Hello World
 
