@@ -11,9 +11,23 @@ if [[ -z "$output_file" ]]; then
   exit 1
 fi
 
-platforms=("windows/amd64" "linux/amd64" "darwin/amd64")
+platforms=("linux/amd64" "darwin/amd64" "windows/amd64")
 
 echo -e "# Installation\n" > ${output_file}
+
+echo -e '
+
+### Docker
+
+Build the 'les' validation tool image:
+
+```(cd cmd/les ; docker build . -t les)```
+
+Build the 'les-node' image:
+
+```(cd cmd/les-node ; docker build . -t les-node)```
+' >> ${output_file}
+
 for platform in "${platforms[@]}"
 do
     platform_split=(${platform//\// })

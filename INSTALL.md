@@ -1,13 +1,14 @@
 # Installation
 
 
+
 ### Docker
 
-Build the 'les' validation tool image:
+Build the les validation tool image:
 
 ```(cd cmd/les ; docker build . -t les)```
 
-Build the 'les-node' image:
+Build the les-node image:
 
 ```(cd cmd/les-node ; docker build . -t les-node)```
 
@@ -15,29 +16,25 @@ Build the 'les-node' image:
 
 Install the 'les' validation tool:
 
-```sudo curl -L https://github.com/Adaptech/les/blob/master/releases/les/0.10.1/les-linux-amd64?raw=true -o /usr/local/bin/les && sudo chmod +x /usr/local/bin/les```
+```sudo curl -L https://github.com/Adaptech/les/blob/master/releases/les/0.10.2/les-linux-amd64?raw=true -o /usr/local/bin/les && sudo chmod +x /usr/local/bin/les```
 
 Install 'les-node':
 
-```sudo curl -L https://github.com/Adaptech/les/blob/master/releases/les-node/0.10.1/les-node-linux-amd64?raw=true -o /usr/local/bin/les-node && sudo chmod +x /usr/local/bin/les-node```
-
-## Windows AMD64
-
-(experimental)
-
-* [Download](https://github.com/Adaptech/les/blob/master/releases/les/0.10.1/les-windows-amd64.exe?raw=true) the 'les' validation tool .exe
-
-* [Download](https://github.com/Adaptech/les/blob/master/releases/les-node/0.10.1/les-node-windows-amd64.exe?raw=true) 'les-node' .exe
+```sudo curl -L https://github.com/Adaptech/les/blob/master/releases/les-node/0.10.2/les-node-linux-amd64?raw=true -o /usr/local/bin/les-node && sudo chmod +x /usr/local/bin/les-node```
 
 ## Darwin AMD64
 
-(experimental)
-
 Install the 'les' validation tool:
 
-```sudo curl -L https://github.com/Adaptech/les/blob/master/releases/les/0.10.1/les-darwin-amd64?raw=true -o /usr/local/bin/les && sudo chmod +x /usr/local/bin/les```
+```sudo curl -L https://github.com/Adaptech/les/blob/master/releases/les/0.10.2/les-darwin-amd64?raw=true -o /usr/local/bin/les && sudo chmod +x /usr/local/bin/les```
 
 Install 'les-node':
 
-```sudo curl -L https://github.com/Adaptech/les/blob/master/releases/les-node/0.10.1/les-node-darwin-amd64?raw=true -o /usr/local/bin/les-node && sudo chmod +x /usr/local/bin/les-node```
+```sudo curl -L https://github.com/Adaptech/les/blob/master/releases/les-node/0.10.2/les-node-darwin-amd64?raw=true -o /usr/local/bin/les-node && sudo chmod +x /usr/local/bin/les-node```
+
+## Windows AMD64
+
+* [Download](https://github.com/Adaptech/les/blob/master/releases/les/0.10.2/les-windows-amd64.exe?raw=true) the 'les' validation tool .exe
+
+* [Download](https://github.com/Adaptech/les/blob/master/releases/les-node/0.10.2/les-node-windows-amd64.exe?raw=true) 'les-node' .exe
 
