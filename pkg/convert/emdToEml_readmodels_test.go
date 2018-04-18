@@ -8,12 +8,12 @@ import (
 	"github.com/Adaptech/les/pkg/eml"
 )
 
-func TestShouldCreateReadmodel(t *testing.T) {
+func Test_should_create_readmodel(t *testing.T) {
 	input := []string{
 		"# Timesheets",
 		"Create ->",
 		"User Created // name",
-		"User List* // name",
+		"User List* // userId, name",
 	}
 	markdown, err := emd.Parse(input)
 	if err != nil {

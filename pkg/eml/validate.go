@@ -30,7 +30,8 @@ func (c *Solution) Validate() {
 		}
 		eventLookup := allEventsInBoundedContext(context)
 		c.validateStreamsIn(context)
-		c.validateReadmodelsIn(context, eventLookup)
+		allEventProperties := allEventPropertiesInBoundedContext(context)
+		c.validateReadmodelsIn(context, eventLookup, allEventProperties)
 	}
 }
 
@@ -42,6 +43,18 @@ func allEventsInBoundedContext(context BoundedContext) map[string]Event {
 		}
 	}
 	return eventMap
+}
+
+func allEventPropertiesInBoundedContext(context BoundedContext) map[string]bool {
+	eventPropertiesMap := make(map[string]bool)
+	for _, stream := range context.Streams {
+		for _, event := range stream.Events {
+			for _, property := range event.Event.Properties {
+				eventPropertiesMap[property.Name] = true
+			}
+		}
+	}
+	return eventPropertiesMap
 }
 
 func streamCommandEventAndReadmodelNameCountsIn(context BoundedContext) map[string]int {
