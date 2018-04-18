@@ -1,9 +1,13 @@
 
-## 0.10.1 (April 15, 2018)
+## 0.10.2 (April 18, 2018)
 
 IMPROVEMENTS:
 
 * Changed default EML and EMD file names so they say what's in the files.
+
+* Running les and les-node without installation, via Docker.
+
+* EMD parameter & properties validation bug fix.
 
 * Automated multi-platform builds.
 

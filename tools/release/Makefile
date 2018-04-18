@@ -1,5 +1,5 @@
 SHELL := /bin/bash
-VERSION := 0.10.1
+VERSION := 0.10.2
 
 .PHONY: dist
 dist: dist-les dist-les-node installation-instructions
