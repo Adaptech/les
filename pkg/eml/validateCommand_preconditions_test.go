@@ -137,3 +137,129 @@ Errors: []
 		t.Error("expected error")
 	}
 }
+
+func Test_MustHaveHappened_command_precondition_type_does_not_cause_validation_error(t *testing.T) {
+	const emlYAML = `Solution: User Registration
+Contexts:
+- Name: User Registration
+  Streams:
+  - Stream: User
+    Commands:
+    - Command:
+        Name: RegisterUser
+        Parameters:
+        - Name: email
+          Type: string
+          IsRequired: true
+        Postconditions:
+        - UserRegistered
+    - Command:
+        Name: Authenticate
+        Parameters:
+        - Name: email
+          Type: string
+          IsRequired: true
+        Preconditions:
+        - UserRegistered MustHaveHappened
+        Postconditions:
+        - UserAuthenticated
+    Events:
+    - Event:
+        Name: UserRegistered
+        Properties:
+        - Name: "name"
+          Type: string
+          IsHashed: false
+        - Name: "userId"
+          Type: string
+          IsHashed: false
+    - Event:
+        Name: UserAuthenticated
+        Properties:
+        - Name: "userId"
+          Type: string
+          IsHashed: false
+  Readmodels: []
+Errors: []
+`
+	sut := eml.Solution{}
+	sut.LoadYAML([]byte(emlYAML))
+	sut.Validate()
+	if len(sut.Errors) > 0 {
+		t.Log(sut.Errors)
+		t.Error("unexpected error")
+	}
+}
+
+func Test_MustNotHaveHappened_command_precondition_type_does_not_cause_validation_error(t *testing.T) {
+	const emlYAML = `Solution: User Registration
+Contexts:
+- Name: User Registration
+  Streams:
+  - Stream: User
+    Commands:
+    - Command:
+        Name: RegisterUser
+        Parameters:
+        - Name: userId
+          Type: string
+          IsRequired: true
+        - Name: email
+          Type: string
+          IsRequired: true
+        Postconditions:
+        - UserRegistered
+    - Command:
+        Name: MarkAsAuthenticated
+        Parameters:
+        - Name: userId
+          Type: string
+          IsRequired: true
+        Preconditions:
+        - UserRegistered MustHaveHappened
+        - UserDeleted MustNotHaveHappened
+        Postconditions:
+        - UserAuthenticated
+    - Command:
+        Name: DeleteUser
+        Parameters:
+        - Name: email
+          Type: string
+          IsRequired: true
+        Preconditions:
+        - UserRegistered MustHaveHappened
+        Postconditions:
+        - UserDeleted
+    Events:
+    - Event:
+        Name: UserRegistered
+        Properties:
+        - Name: "email"
+          Type: string
+          IsHashed: false
+        - Name: "userId"
+          Type: string
+          IsHashed: false
+    - Event:
+        Name: UserAuthenticated
+        Properties:
+        - Name: "userId"
+          Type: string
+          IsHashed: false
+    - Event:
+        Name: UserDeleted
+        Properties:
+        - Name: "userId"
+          Type: string
+          IsHashed: false
+  Readmodels: []
+Errors: []
+`
+	sut := eml.Solution{}
+	sut.LoadYAML([]byte(emlYAML))
+	sut.Validate()
+	if len(sut.Errors) > 0 {
+		t.Log(sut.Errors)
+		t.Error("unexpected error")
+	}
+}

@@ -1,7 +1,6 @@
-EmlVersion: 0.1-alpha
-Solution: Authentication & Access
+Solution: User Registration
 Contexts:
-- Name: Authentication & Access
+- Name: User Registration
   Streams:
   - Stream: User
     Commands:
@@ -10,73 +9,54 @@ Contexts:
         Parameters:
         - Name: userId
           Type: string
-          Rules:
-          - IsRequired
+          IsRequired: true
         - Name: email
           Type: string
-          Rules: []
-        - Name: password
-          Type: string
-          Rules: []
-        Preconditions: []
+          IsRequired: true
         Postconditions:
         - UserRegistered
     - Command:
-        Name: Login
+        Name: MarkAsAuthenticated
         Parameters:
         - Name: userId
           Type: string
-          Rules:
-          - IsRequired
-        Preconditions: 
+          IsRequired: true
+        Preconditions:
         - UserRegistered MustHaveHappened
+        - UserDeleted MustNotHaveHappened
         Postconditions:
         - UserAuthenticated
+    - Command:
+        Name: DeleteUser
+        Parameters:
+        - Name: email
+          Type: string
+          IsRequired: true
+        Preconditions:
+        - UserRegistered MustHaveHappened
+        Postconditions:
+        - UserDeleted
     Events:
     - Event:
         Name: UserRegistered
         Properties:
-        - Name: userId
+        - Name: "email"
           Type: string
-        - Name: email
+          IsHashed: false
+        - Name: "userId"
           Type: string
-        - Name: password
-          Type: string
-          IsHashed: true
+          IsHashed: false
     - Event:
         Name: UserAuthenticated
         Properties:
-        - Name: userId
+        - Name: "userId"
           Type: string
-  - Stream: ChatAccount
-    Commands:
-    - Command:
-        Name: CreateChatAccount
-        Parameters:
-        - Name: chataccountId
-          Type: string
-          Rules:
-          - IsRequired
-        - Name: userId
-          Type: string
-          Rules:
-          - MustExistIn UserLookup
-        - Name: handle
-          Type: string
-          Rules: []
-        Preconditions: []
-        Postconditions:
-        - ChatAccountCreated
-    Events:
+          IsHashed: false
     - Event:
-        Name: ChatAccountCreated
+        Name: UserDeleted
         Properties:
-        - Name: chataccountId
+        - Name: "userId"
           Type: string
-  Readmodels:
-  - Readmodel:
-      Name: UserLookup
-      Key: userId
-      SubscribesTo:
-      - UserRegistered
+          IsHashed: false
+  Readmodels: []
 Errors: []
