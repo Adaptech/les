@@ -9,10 +9,12 @@ Contexts:
         Parameters:
         - Name: userId
           Type: string
-          IsRequired: true
+          Rules:
+          - IsRequired
         - Name: email
           Type: string
-          IsRequired: true
+          Rules:
+          - IsRequired
         Postconditions:
         - UserRegistered
     - Command:
@@ -20,7 +22,8 @@ Contexts:
         Parameters:
         - Name: userId
           Type: string
-          IsRequired: true
+          Rules:
+          - IsRequired
         Preconditions:
         - UserRegistered MustHaveHappened
         - UserDeleted MustNotHaveHappened
@@ -29,9 +32,10 @@ Contexts:
     - Command:
         Name: DeleteUser
         Parameters:
-        - Name: email
+        - Name: userId
           Type: string
-          IsRequired: true
+          Rules:
+          - IsRequired
         Preconditions:
         - UserRegistered MustHaveHappened
         Postconditions:
