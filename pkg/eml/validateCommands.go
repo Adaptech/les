@@ -136,6 +136,19 @@ func (c *Solution) validateCommands(boundedContextName string, stream Stream, ev
 					c.Errors = append(c.Errors, propertyTypeValidationError)
 				}
 				break
+			case "MustNotHaveHappened":
+				event := rule.Tokens[0]
+				if !existsIn(stream.Events, event) {
+					propertyTypeValidationError := ValidationError{
+						ErrorID: "PreconditionEventDoesntExistInStream",
+						Context: boundedContextName,
+						Stream:  stream.Name,
+						Command: command.Command.Name,
+						Message: "'" + precondition + "' refers to an event which is not produced by any of the commands publishing to the '" + stream.Name + "' stream.",
+					}
+					c.Errors = append(c.Errors, propertyTypeValidationError)
+				}
+				break
 			}
 		}
 		for _, postcondition := range command.Command.Postconditions {
