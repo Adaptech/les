@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"html/template"
 	"log"
+	"strings"
 
 	"github.com/Adaptech/les/pkg/eml"
 )
@@ -33,10 +34,29 @@ func DomainJs(stream eml.Stream, eventList []eml.Event) string {
 export default class {{ .Stream.Name }} {
 	constructor() {
 			this._id = null;
+			this._eventCount = new Map();
 	}
 
+	getEventCount(eventType) {
+		const previousOccurrencesCount = this._eventCount.get(eventType);
+		if (previousOccurrencesCount) {
+			return previousOccurrencesCount;
+		}
+		return 0;
+	}
+
+	incrementEventOccurenceCount(eventType) {
+		const previousOccurrencesCount = this._eventCount.get(eventType);
+		if (previousOccurrencesCount) {
+			this._eventCount.set(eventType, previousOccurrencesCount + 1);
+		} else {
+			this._eventCount.set(eventType, 1);
+		}
+	}
+	
 	hydrate(evt) {
 	{{range $cnt, $event := $.Stream.Events}}	if(evt instanceof {{$event.Event.Name | ToNodeJsClassName}}) {
+			this.incrementEventOccurenceCount("{{$event.Event.Name | ToNodeJsClassName}}");
 			this._on{{$event.Event.Name | ToNodeJsClassName}}(evt);
 		}
 	{{end}}}
@@ -61,6 +81,12 @@ export default class {{ .Stream.Name }} {
 		{{range $cnt, $parameter := $command.Command.Parameters}}{{if eq (.RuleExists "IsRequired") true}}if (!command.{{$parameter.Name}}) {
 			validationErrors.push({ field: "{{$parameter.Name}}", msg: "{{$parameter.Name}} is a required field." });
 		}{{end}}{{end}}	
+		{{range $cnt, $precondition := $command.Command.Preconditions}}
+		{{if eq "MustHaveHappened" (GetToken $precondition 1) }}if (this.getEventCount("{{GetToken $precondition 0}}") == 0) {
+			// {{$precondition}}
+			validationErrors.push({ field: "", msg: "Cannot {{$command.Command.Name}}. {{GetToken $precondition 0}} must have occurred." });
+		}
+		{{end}}{{end}}
 		if(validationErrors.length > 0) {
 			throw new errors.ValidationFailed(validationErrors);
 		}
@@ -100,6 +126,8 @@ export default class {{ .Stream.Name }} {
 
 	funcMap := template.FuncMap{
 		"ToNodeJsClassName": ToNodeJsClassName,
+		"GetToken":          getToken,
+		"Contains":          strings.Contains,
 	}
 
 	t := template.Must(template.New("aggregate").Funcs(funcMap).Parse(aggregateTemplate))
