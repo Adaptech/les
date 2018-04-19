@@ -1,8 +1,6 @@
 package eml
 
-import (
-	"strings"
-)
+import "strings"
 
 type preconditionType struct {
 	Type   string
@@ -21,14 +19,14 @@ func parsePrecondition(precondition string) *preconditionType {
 	}
 }
 
-func tokenize(text string) []string {
-	return strings.Split(text, " ")
-}
-
 func determinePreconditionTypeFrom(tokens []string) string {
 	if len(tokens) == 2 && tokens[1] == "MustHaveHappened" {
 		// Example: "UserRegistered MustHaveHappened"
 		return "MustHaveHappened"
 	}
 	return ""
+}
+
+func tokenize(text string) []string {
+	return strings.Split(text, " ")
 }

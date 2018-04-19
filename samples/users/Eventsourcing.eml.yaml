@@ -18,6 +18,7 @@ Contexts:
         - Name: password
           Type: string
           Rules: []
+        Preconditions: []
         Postconditions:
         - UserRegistered
     - Command:
@@ -27,6 +28,8 @@ Contexts:
           Type: string
           Rules:
           - IsRequired
+        Preconditions: 
+        - UserRegistered MustHaveHappened
         Postconditions:
         - UserAuthenticated
     Events:
@@ -61,6 +64,7 @@ Contexts:
         - Name: handle
           Type: string
           Rules: []
+        Preconditions: []
         Postconditions:
         - ChatAccountCreated
     Events:
