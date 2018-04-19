@@ -80,13 +80,17 @@ export default class {{ .Stream.Name }} {
 		}{{end}}{{end}}	
 		{{range $cnt, $parameter := $command.Command.Parameters}}{{if eq (.RuleExists "IsRequired") true}}if (!command.{{$parameter.Name}}) {
 			validationErrors.push({ field: "{{$parameter.Name}}", msg: "{{$parameter.Name}} is a required field." });
-		}{{end}}{{end}}	
+		}
+		{{end}}{{end}}
 		{{range $cnt, $precondition := $command.Command.Preconditions}}
 		{{if eq "MustHaveHappened" (GetToken $precondition 1) }}if (this.getEventCount("{{GetToken $precondition 0}}") == 0) {
 			// {{$precondition}}
 			validationErrors.push({ field: "", msg: "Cannot {{$command.Command.Name}}. {{GetToken $precondition 0}} must have occurred." });
 		}
-		{{end}}{{end}}
+		{{end}}{{if eq "MustNotHaveHappened" (GetToken $precondition 1) }}if (this.getEventCount("{{GetToken $precondition 0}}") != 0) {
+			// {{$precondition}}
+			validationErrors.push({ field: "", msg: "Cannot {{$command.Command.Name}}. {{GetToken $precondition 0}} must not have occurred." });
+		}{{end}}{{end}}
 		if(validationErrors.length > 0) {
 			throw new errors.ValidationFailed(validationErrors);
 		}
