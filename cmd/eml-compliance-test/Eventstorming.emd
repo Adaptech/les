@@ -1,0 +1,11 @@
+# TODO List
+# A reference system which exercises all available features in EMD 0.10.1-alpha.
+
+Register-> // userId, notificationEmail
+User Registered // userId, notificationEmail
+UserLookup* // userId, notificationEmail
+
+Add Item-> // userId, description
+TodoItem Added // description
+TODO List* // todoitemId, description
+
