@@ -98,13 +98,20 @@ export default class {{ .Stream.Name }} {
 			resolve(hash);
 		}));{{end}}{{end}}{{end}}
 		const result = [];{{range $cnt, $postcondition := $command.Command.Postconditions}}
-		result.push(new {{ $postcondition | ToNodeJsClassName }}({{range $cnt, $parameter := index $.EventLookup $postcondition }}{{if gt $cnt 0}}, {{end}}command.{{$parameter.Name}}{{end}}));{{end}}
+		let event = new {{ $postcondition | ToNodeJsClassName }}();
+		{{range $cnt, $eventProperty := index $.EventLookup $postcondition }}event.{{$eventProperty.Name}}="";
+		{{end}}
+		{{range $cnt, $parameter := $command.Command.Parameters}}event.{{$parameter.Name}}=command.{{$parameter.Name}};
+		{{end}}
+		result.push(event);
+		{{end}}
 		return result;
 	}
 	{{end}}
 }
 `
-
+	// {{range $cnt, $parameter := index $.EventLookup $postcondition }}{{if gt $cnt 0}}, {{end}}command.{{$parameter.Name}}{{end}}
+	// {{range $cnt, $parameter := $command.Command.Parameters}}event.command.{{$parameter.Name}} = command.{{$parameter.Name}};{{end}}
 	eventLookup := make(map[string][]eml.Property)
 	for _, event := range eventList {
 		eventLookup[event.Event.Name] = event.Event.Properties

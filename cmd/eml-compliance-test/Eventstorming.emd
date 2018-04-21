@@ -6,6 +6,6 @@ User Registered // userId, notificationEmail
 UserLookup* // userId, notificationEmail
 
 Add Item-> // userId, description
-TodoItem Added // description
+TodoItem Added // description, userId, unknownField
 TODO List* // todoitemId, description
 

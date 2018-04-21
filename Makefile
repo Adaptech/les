@@ -1,14 +1,18 @@
 SHELL := /bin/bash
 
-.PHONY: build
-build: build-les build-les-node
+.PHONY: install
+install: build-les build-les-node
 
 .PHONY: build-les
 build-les:
 	cd cmd/les \
-	&& go install
+	&& go get \
+	&& go install 
+
 
 .PHONY: build-les-node
 build-les-node:
 	cd cmd/les-node \
+	&& go get \
 	&& go install
+

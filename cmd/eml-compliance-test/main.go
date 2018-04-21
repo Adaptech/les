@@ -12,6 +12,8 @@ Event Markup Language Compliance Test
 package main
 
 import (
+	"time"
+
 	"github.com/verdverm/frisby"
 )
 
@@ -20,6 +22,7 @@ const testUserID = "4481c18058aa494fb033b65665c38de2"
 
 func main() {
 	addingTodoListItemForUnknownUserFails()
+
 	// When
 	registeringUser()
 	// Then
@@ -29,7 +32,8 @@ func main() {
 	addingTodoListItem()
 	// Then
 	todoListContainsNewItem()
-	// omittingMandatoryCommandParameterFails()
+
+	omittingMandatoryCommandParameterFails()
 
 	frisby.Global.PrintReport()
 }
@@ -71,6 +75,7 @@ func addingTodoListItem() {
 }
 
 func userLookupReadmodelContainsUser() {
+	time.Sleep(100 * time.Millisecond)
 	frisby.Create("GET UserLookup Read Model succeeds.").
 		Get(apiURI+"/r/UserLookup").
 		Send().
@@ -80,11 +85,13 @@ func userLookupReadmodelContainsUser() {
 }
 
 func todoListContainsNewItem() {
+	time.Sleep(100 * time.Millisecond)
 	frisby.Create("GET Read Model succeeds.").
 		Get(apiURI+"/r/TODOList").
 		Send().
 		ExpectStatus(200).
 		ExpectJson("0.todoitemId", "10000").
+		ExpectJson("0.userId", testUserID).
 		ExpectJson("0.description", "Carpe Diem")
 }
 
@@ -93,12 +100,12 @@ func omittingMandatoryCommandParameterFails() {
 		SetHeader("Content-Type", "application/json").
 		SetHeader("Accept", "application/json, text/plain, */*").
 		Post(apiURI+"/TodoItem/AddItem").
-		SetJson(todoItem{Description: "Carpe Diem", TodoitemID: ""}).
+		SetJson(todoItem{UserID: "123456", Description: "This will fail.", TodoitemID: ""}).
 		Send().
 		ExpectStatus(400).
-		ExpectJson("message.0.field", "todoitemId").
-		ExpectJson("message.0.msg", "todoitemId is a required field.").
-		ExpectJsonLength("message", 1)
+		ExpectJson("message.1.field", "todoitemId").
+		ExpectJson("message.1.msg", "todoitemId is a required field.").
+		ExpectJsonLength("message", 2) // ... because of the non-existing userId 123456. That's a 2nd validation error, but we aren't interested in it in this test.
 }
 
 type user struct {
