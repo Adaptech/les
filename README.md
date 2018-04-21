@@ -20,6 +20,13 @@
 
 [Instructions for Linux, Windows Mac & Docker](INSTALL.md)
 
+**Building from source:**
+
+```bash
+git clone https://github.com/Adaptech/les.git
+make install
+```
+
 ### Hello World
 
 **Step 1:**
@@ -69,7 +76,6 @@ There is no step 3.
 
 * Event Markdown [vscode extension](https://github.com/markgukov/vscode-event-markdown)
 
-
 ## Known UX Impacting Issues
 
 The issues below have been known to mystify EMD users:
@@ -87,3 +93,11 @@ https://github.com/Adaptech/les/issues/11
 #### Need to have at least one read model parameter which is not an aggregate ID
 
 https://github.com/Adaptech/les/issues/10
+
+## Running The Tests
+
+```bash
+go test ./...
+cd cmd/eml-compliance-test
+make setup && sleep 1 && make test
+```
