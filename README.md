@@ -20,7 +20,7 @@
 
 [Instructions for Linux, Windows Mac & Docker](INSTALL.md)
 
-**Building from source:**
+**Latest version from source:**
 
 ```bash
 git clone https://github.com/Adaptech/les.git
