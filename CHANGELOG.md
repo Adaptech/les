@@ -1,5 +1,20 @@
 # Releases
 
+## 0.10.3-alpha (April 21, 2018)
+
+### New Features
+
+Command preconditions: Do not execute the command if the precondition isn't met:
+
+* "UserRegistered MustHaveHappened"
+* "UserDeleted MustNotHaveHappened"
+
+Automated EML v0.10.x specification [compliance test suite for generated APIs](cmd/eml-compliance-test/README.md) to verify that command validation rules and read models behave as expected.
+
+### Bug Fixes
+
+* Undefined readmodel field causes ''Invalid payload for model' in read model.
+
 ## 0.10.2-alpha (April 18, 2018)
 
 * Changed default EML and EMD file names so they say what's in the files.

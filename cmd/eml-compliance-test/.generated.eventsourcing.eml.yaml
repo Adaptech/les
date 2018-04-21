@@ -51,6 +51,10 @@ Contexts:
         Properties:
         - Name: description
           Type: string
+        - Name: userId
+          Type: string
+        - Name: unknownField
+          Type: string
         - Name: todoitemId
           Type: string
   Readmodels:
