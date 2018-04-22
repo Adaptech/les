@@ -18,14 +18,17 @@
 
 ### Installation
 
-[Instructions for Linux, Windows Mac & Docker](INSTALL.md)
-
-**Latest version from source:**
+**Latest version from source (recommended):**
 
 ```bash
 git clone https://github.com/Adaptech/les.git
 make install
 ```
+
+... or ... 
+
+[Instructions for Linux, Windows Mac & Docker](INSTALL.md)
+
 
 ### Hello World
 
@@ -42,7 +45,7 @@ EOT
 **Step 2:**
 
 ```bash
-les convert && les-node -b && cd api && npm install && docker-compose up -d
+les convert && les-node -b && cd api && npm install && docker-compose up -d --force-recreate
 ```
 
 Or using Docker:
@@ -71,6 +74,8 @@ There is no step 3.
 * EMD Examples: https://github.com/Adaptech/les/src/master/samples**
 
 * EMD Cheat Sheet: https://github.com/Adaptech/letseventsource/raw/master/EMD-Cheatsheet-0.10.0-alpha-alpha.pdf
+
+* https://gitter.im/Adaptech/les 
 
 ## IDE Integrations & Tools
 
