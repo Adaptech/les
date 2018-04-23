@@ -1,6 +1,6 @@
 # LES
 
-## _"Let's Event Source Together"_
+## _"Let's Event Source"_
 
 * Validates the design of an event-based system specified in Event Markdown or Event Markup Language.
 * Generates an API from Event Markdown or Event Markup
