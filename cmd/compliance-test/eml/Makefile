@@ -1,4 +1,6 @@
 SHELL := /bin/bash
+LES_DIRECTORY := ../../les
+LES_NODE_DIRECTORY := ../../les-node
 
 .PHONY: test
 test:
@@ -9,25 +11,29 @@ setup: build-les build-les-node build-api
 
 .PHONY: teardown
 teardown: 
-	pushd api \
+	cd api \
 	&& docker-compose down \
-	&& popd \
-	&& rm -fr api
+	&& rm -fr config \
+	&& rm -fr src \
+	&& rm -fr test \
+	&& rm -fr web \
+	&& rm Dockerfile \
+	&& rm *.*
 
 .PHONY: build-les
 build-les:
-	cd ../les \
+	cd $(LES_DIRECTORY) \
 	&& go build
 
 .PHONY: build-les-node
 build-les-node:
-	cd ../les-node \
+	cd $(LES_NODE_DIRECTORY) \
 	&& go build
 
 .PHONY: build-api
 build-api:
-	../les/les convert \
-	&& ../les-node/les-node -b \
-	&& cd api && npm install && docker-compose up -d \
+	$(LES_DIRECTORY)/les convert \
+	&& $(LES_NODE_DIRECTORY)/les-node -b \
+	&& cd api && npm install && docker-compose up -d --force-recreate \
 	&& docker-compose restart api # workaround for race condition (eventstore not yet available when API starts)
 

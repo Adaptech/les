@@ -12,6 +12,7 @@ Event Markup Language Compliance Test
 package main
 
 import (
+	"os"
 	"time"
 
 	"github.com/verdverm/frisby"
@@ -36,6 +37,9 @@ func main() {
 	omittingMandatoryCommandParameterFails()
 
 	frisby.Global.PrintReport()
+	if frisby.Global.NumErrored > 0 {
+		os.Exit(-1)
+	}
 }
 
 func addingTodoListItemForUnknownUserFails() {
