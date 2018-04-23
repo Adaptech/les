@@ -1,7 +1,6 @@
 package eml
 
 import (
-	"regexp"
 	"strings"
 )
 
@@ -15,70 +14,10 @@ func (c *Solution) validateEvents(boundedContextName string, stream Stream) {
 		}
 		c.Errors = append(c.Errors, validationError)
 	}
-	var isAllAlphanumericAndSpacesAndNumbersWithoutNonAlphaAtStartAndEnd = regexp.MustCompile(`(?m)^[A-Za-z][\w]*[\s]*[\w ]*[A-Za-z]$`)
 	for _, event := range stream.Events {
-		// Verify that the event name follows rules which make it suitable for variable naming when generating code in most programming languages.
-		// Spaces are OK for readability - they are intended to be stripped out in code generators when the name is used as a variable name.
-		if !isAllAlphanumericAndSpacesAndNumbersWithoutNonAlphaAtStartAndEnd.MatchString(event.Event.Name) {
-			validationError := ValidationError{
-				ErrorID: "InvalidEventName",
-				Context: boundedContextName,
-				Stream:  stream.Name,
-				Message: event.Event.Name + ": Invalid event name.",
-			}
-			c.Errors = append(c.Errors, validationError)
-		}
-
-		if len(strings.Trim(event.Event.Name, " ")) == 0 {
-			validationError := ValidationError{
-				ErrorID: "NoEventID",
-				Context: boundedContextName,
-				Stream:  stream.Name,
-				Message: event.Event.Name + ": Event IDs cannot be blank.",
-			}
-			c.Errors = append(c.Errors, validationError)
-		}
-
-		// Verify that the event has an aggregate/stream ID so it's known what aggregate/stream's state change it resulted from:
-		hasAggregateID := false
-		for _, property := range event.Event.Properties {
-			if strings.ToLower(property.Name) == strings.ToLower(stream.Name+"Id") {
-				hasAggregateID = true
-				break
-			}
-		}
-		if !hasAggregateID {
-			validationError := ValidationError{
-				ErrorID: "NoAggregateId",
-				Context: boundedContextName,
-				Stream:  stream.Name,
-				Message: "Missing stream/aggregate ID property for  '" + event.Event.Name + "' event.",
-			}
-			c.Errors = append(c.Errors, validationError)
-		}
-
-		// Ensure that the event is the result of executing a command within the current bounded context:
-		isPostconditionOfCommand := false
-		for _, command := range stream.Commands {
-			for _, postcondition := range command.Command.Postconditions {
-				if postcondition == event.Event.Name {
-					isPostconditionOfCommand = true
-					break
-				}
-			}
-			if isPostconditionOfCommand {
-				break
-			}
-		}
-		if !isPostconditionOfCommand {
-			validationError := ValidationError{
-				ErrorID: "EventMustBeCommandPostcondition",
-				Context: boundedContextName,
-				Stream:  stream.Name,
-				Message: boundedContextName + " has no command which would result in '" + event.Event.Name + "'.",
-			}
-			c.Errors = append(c.Errors, validationError)
-		}
+		c.validateEventName(event, boundedContextName, stream)
+		c.validateThatEventBelongsToAnAggregate(event, boundedContextName, stream)
+		c.validateEventIsTheResultOfACommand(event, boundedContextName, stream)
 
 		// Validate the event's properties:
 		for _, property := range event.Event.Properties {
