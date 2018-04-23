@@ -101,8 +101,4 @@ https://github.com/Adaptech/les/issues/10
 
 ## Running The Tests
 
-```bash
-go test ./...
-cd cmd/eml-compliance-test
-make setup && sleep 1 && make test
-```
+```make test-all```
