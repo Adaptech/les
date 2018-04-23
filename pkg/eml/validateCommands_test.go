@@ -275,6 +275,7 @@ Contexts:
           IsRequired: true
         Postconditions:
         - UnknownEvent
+        - UserRegistered
     Events:
     - Event:
         Name: UserRegistered
@@ -352,16 +353,20 @@ Contexts:
           Type: string
           IsRequired: true
         Postconditions:
+    - Command:
+        Name: DeleteUser
+        Parameters:
+        - Name: email
+          Type: string
+          IsRequired: true
+        Postconditions:
+        - UserDeleted
     Events:
     - Event:
-        Name: UserRegistered
+        Name: UserDeleted
         Properties:
-        - Name: "name"
-          Type: string
-          IsHashed: false
         - Name: "userId"
           Type: string
-          IsHashed: false
   Readmodels: []
 Errors: []
 `

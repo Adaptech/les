@@ -261,3 +261,48 @@ Errors: []
 		t.Error("expected error")
 	}
 }
+
+func Test_event_must_be_a_result_of_executing_command(t *testing.T) {
+
+	const emlYAML = `Solution: User Registration
+Contexts:
+- Name: User Registration
+  Streams:
+  - Stream: User
+    Commands:
+    - Command:
+        Name: 'RegisterUser'
+        Parameters:
+        - Name: UserId
+          Type: string
+          IsRequired: true
+        Postconditions:
+        - UserRegistered
+    Events:
+    - Event:
+        Name: UserRegistered
+        Properties:
+        - Name: userId
+          Type: string
+          IsHashed: false
+    - Event:
+        Name: UserAuthenticated
+        Properties:
+        - Name: userId
+          Type: string
+          IsHashed: false
+  Readmodels: []
+Errors: []
+`
+
+	sut := eml.Solution{}
+	sut.LoadYAML([]byte(emlYAML))
+
+	sut.Validate()
+	if !hasError("EventMustBeCommandPostcondition", sut.Errors) {
+		t.Error("expected error")
+	}
+	if len(sut.Errors) != 1 {
+		t.Error("expected different number of errors")
+	}
+}

@@ -26,13 +26,13 @@ unit-test:
 .PHONY: compliance-test-eml
 compliance-test-eml:
 	cd cmd/compliance-test/eml \
-	&& sleep 1 \
-	&& make setup && sleep 1 && make test \
+	&& sleep 2 \
+	&& make setup && sleep 2 && make test \
 	&& make teardown
 
 .PHONY: compliance-test-emd
 compliance-test-emd:
 	cd cmd/compliance-test/emd \
-	&& sleep 1 \
-	&& make setup && sleep 1 && make test \
+	&& sleep 2 \
+	&& make setup && sleep 2 && make test \
 	&& make teardown
