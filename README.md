@@ -63,6 +63,7 @@ docker run -v $(pwd):/les les convert && docker run -v $(pwd):/les les-node -b &
 There is no step 3.
 
 * Add some items to the TODO list: http://localhost:3001/api-docs (Swagger/OpenAPI)
+* View the items: http://localhost:3001/api/v1/r/TODOList
 * Look at the "TodoAdded" events in the Eventstore DB: http://localhost:2113 (username 'admin', password 'changeit')
 * Check out the source code for the "TODO List" system: ```./api```
 
