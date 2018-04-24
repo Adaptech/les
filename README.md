@@ -2,7 +2,7 @@
 
 ## "Let's Event Source"
 
-**Event sourcing and CQRS/ES based "microservices" are increasingly seen as a nice way to build cohesive, loosely coupled systems with good transactional integrity. Most of us aren't used to thinking event centric and designing software that way, so although the resulting systems tend to be much simpler and easier to understand than traditional (e.g.) object oriented implementations, there is a bit of a learning curve.**
+**Event sourcing and CQRS/ES based "microservices" are increasingly seen as a nice way to build cohesive, loosely coupled systems with good transactional integrity. There is a knack to building software that way, so although the resulting systems tend to be much simpler and easier to understand than traditional (e.g.) object oriented implementations, there is a bit of a learning curve.**
 
 LES attempts to address this in three ways:
 
