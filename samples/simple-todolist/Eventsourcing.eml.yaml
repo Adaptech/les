@@ -1,0 +1,40 @@
+EmlVersion: 0.1-alpha
+Solution: TODO List
+Contexts:
+- Name: TODO List
+  Streams:
+  - Stream: Todo
+    Commands:
+    - Command:
+        Name: AddItem
+        Parameters:
+        - Name: description
+          Type: string
+          Rules: []
+        - Name: dueDate
+          Type: string
+          Rules: []
+        - Name: todoId
+          Type: string
+          Rules:
+          - IsRequired
+        Preconditions: []
+        Postconditions:
+        - TodoAdded
+    Events:
+    - Event:
+        Name: TodoAdded
+        Properties:
+        - Name: description
+          Type: string
+        - Name: dueDate
+          Type: string
+        - Name: todoId
+          Type: string
+  Readmodels:
+  - Readmodel:
+      Name: TODOList
+      Key: todoId
+      SubscribesTo:
+      - TodoAdded
+Errors: []
