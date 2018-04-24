@@ -1,0 +1,10 @@
+# TODO List
+Register User -> // userId, email
+User Registered // userId, email
+User Lookup* // userId, email
+
+Add Item -> // description, dueDate, userId
+Todo Added // description, dueDate, userId
+Set Status -> // status
+Todo Status Changed // status
+TODO List* // todoId, description, dueDate, status

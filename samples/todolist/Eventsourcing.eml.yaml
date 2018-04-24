@@ -3,6 +3,35 @@ Solution: TODO List
 Contexts:
 - Name: TODO List
   Streams:
+  - Stream: User
+    Commands:
+    - Command:
+        Name: Register
+        Parameters:
+        - Name: email
+          Type: string
+          Rules: []
+        - Name: password
+          Type: string
+          Rules: []
+        - Name: userId
+          Type: string
+          Rules:
+          - IsRequired
+        Preconditions: []
+        Postconditions:
+        - UserRegistered
+    Events:
+    - Event:
+        Name: UserRegistered
+        Properties:
+        - Name: email
+          Type: string
+        - Name: password
+          Type: string
+          IsHashed: true
+        - Name: userId
+          Type: string
   - Stream: Todo
     Commands:
     - Command:
@@ -35,7 +64,9 @@ Contexts:
         - Name: isComplete
           Type: string
           Rules: []
-        Preconditions: []
+        Preconditions: 
+        - TodoDeleted MustNotHaveHappened
+        - TodoAdded MustHaveHappened
         Postconditions:
         - TodoCompleted
     - Command:
@@ -48,7 +79,8 @@ Contexts:
         - Name: isDeleted
           Type: string
           Rules: []
-        Preconditions: []
+        Preconditions: 
+        - TodoAdded MustHaveHappened
         Postconditions:
         - TodoDeleted
     Events:
@@ -74,35 +106,6 @@ Contexts:
         - Name: todoId
           Type: string
         - Name: isDeleted
-          Type: string
-  - Stream: User
-    Commands:
-    - Command:
-        Name: Register
-        Parameters:
-        - Name: email
-          Type: string
-          Rules: []
-        - Name: password
-          Type: string
-          Rules: []
-        - Name: userId
-          Type: string
-          Rules:
-          - IsRequired
-        Preconditions: []
-        Postconditions:
-        - UserRegistered
-    Events:
-    - Event:
-        Name: UserRegistered
-        Properties:
-        - Name: email
-          Type: string
-        - Name: password
-          Type: string
-          IsHashed: true
-        - Name: userId
           Type: string
   Readmodels:
   - Readmodel:
