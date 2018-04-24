@@ -1,0 +1,95 @@
+EmlVersion: 0.1-alpha
+Solution: TODO List
+Contexts:
+- Name: TODO List
+  Streams:
+  - Stream: User
+    Commands:
+    - Command:
+        Name: RegisterUser
+        Parameters:
+        - Name: userId
+          Type: string
+          Rules:
+          - IsRequired
+        - Name: email
+          Type: string
+          Rules: []
+        Preconditions: []
+        Postconditions:
+        - UserRegistered
+    Events:
+    - Event:
+        Name: UserRegistered
+        Properties:
+        - Name: userId
+          Type: string
+        - Name: email
+          Type: string
+  - Stream: Todo
+    Commands:
+    - Command:
+        Name: AddItem
+        Parameters:
+        - Name: description
+          Type: string
+          Rules: []
+        - Name: dueDate
+          Type: string
+          Rules: []
+        - Name: userId
+          Type: string
+          Rules:
+          - MustExistIn UserLookup
+        - Name: todoId
+          Type: string
+          Rules:
+          - IsRequired
+        Preconditions: []
+        Postconditions:
+        - TodoAdded
+    - Command:
+        Name: SetStatus
+        Parameters:
+        - Name: status
+          Type: string
+          Rules: []
+        - Name: todoId
+          Type: string
+          Rules:
+          - IsRequired
+        Preconditions: []
+        Postconditions:
+        - TodoStatusChanged
+    Events:
+    - Event:
+        Name: TodoAdded
+        Properties:
+        - Name: description
+          Type: string
+        - Name: dueDate
+          Type: string
+        - Name: userId
+          Type: string
+        - Name: todoId
+          Type: string
+    - Event:
+        Name: TodoStatusChanged
+        Properties:
+        - Name: status
+          Type: string
+        - Name: todoId
+          Type: string
+  Readmodels:
+  - Readmodel:
+      Name: UserLookup
+      Key: userId
+      SubscribesTo:
+      - UserRegistered
+  - Readmodel:
+      Name: TODOList
+      Key: todoId
+      SubscribesTo:
+      - TodoAdded
+      - TodoStatusChanged
+Errors: []
