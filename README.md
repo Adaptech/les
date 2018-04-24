@@ -6,7 +6,7 @@
 
 LES attempts to address this in three ways:
 
-1. **Fast microservice prototyping:** Go directly from an event storming to a working event sourced API.
+1. **Fast microservice prototyping:** Go directly from an [event storming](http://ziobrando.blogspot.ca/2013/11/introducing-event-storming.html) to a working event sourced API.
 
 2. **"Architect in a box":** ```les validate``` assesses whether a prototype will result in a "good" event sourced microservice - cohesive, loosely-coupled, transactionally consistent. Then ```les-node -b``` builds a deployment-ready NodeJS API with plenty of guide fences and best practices in place as developers go forward customizing it. If you have your own coding standards or don't like NodeJS, implement your own in a language of your choice.
 
