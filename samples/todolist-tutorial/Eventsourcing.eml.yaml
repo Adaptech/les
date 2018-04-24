@@ -21,6 +21,19 @@ Contexts:
         Preconditions: []
         Postconditions:
         - TodoAdded
+    - Command:
+        Name: SetStatus
+        Parameters:
+        - Name: status
+          Type: string
+          Rules: []
+        - Name: todoId
+          Type: string
+          Rules:
+          - IsRequired
+        Preconditions: []
+        Postconditions:
+        - TodoStatusChanged
     Events:
     - Event:
         Name: TodoAdded
@@ -31,10 +44,18 @@ Contexts:
           Type: string
         - Name: todoId
           Type: string
+    - Event:
+        Name: TodoStatusChanged
+        Properties:
+        - Name: status
+          Type: string
+        - Name: todoId
+          Type: string
   Readmodels:
   - Readmodel:
       Name: TODOList
       Key: todoId
       SubscribesTo:
       - TodoAdded
+      - TodoStatusChanged
 Errors: []
