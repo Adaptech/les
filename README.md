@@ -34,6 +34,8 @@ make install
 
 **Step 1:**
 
+Create an [Event Markdown](https://webeventstorming.com) file. Event Markdown (EMD) is a simple language used to describe an [event storming](https://ziobrando.blogspot.ca/2013/11/introducing-event-storming.html):
+
 ```bash
 cat <<EOT >> Eventstorming.emd
 # Hello World
