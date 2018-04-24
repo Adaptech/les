@@ -1,0 +1,11 @@
+# TODO List
+Register-> // email, password
+User Registered // email, password
+User Lookup* // userId, email
+Add TODO List Item -> // userId, description, dateCreated
+Todo Added // description, dateCreated
+TODO List* // todoId, description, dateCreated, isComplete
+Mark Complete -> // todoId, isComplete
+Todo Completed // todoId, isComplete
+Delete Item -> // todoId, isDeleted
+Todo Deleted // todoId, isDeleted

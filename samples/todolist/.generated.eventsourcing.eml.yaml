@@ -1,0 +1,119 @@
+EmlVersion: 0.1-alpha
+Solution: TODO List
+Contexts:
+- Name: TODO List
+  Streams:
+  - Stream: User
+    Commands:
+    - Command:
+        Name: Register
+        Parameters:
+        - Name: email
+          Type: string
+          Rules: []
+        - Name: password
+          Type: string
+          Rules: []
+        - Name: userId
+          Type: string
+          Rules:
+          - IsRequired
+        Preconditions: []
+        Postconditions:
+        - UserRegistered
+    Events:
+    - Event:
+        Name: UserRegistered
+        Properties:
+        - Name: email
+          Type: string
+        - Name: password
+          Type: string
+          IsHashed: true
+        - Name: userId
+          Type: string
+  - Stream: Todo
+    Commands:
+    - Command:
+        Name: AddTODOListItem
+        Parameters:
+        - Name: userId
+          Type: string
+          Rules:
+          - MustExistIn UserLookup
+        - Name: description
+          Type: string
+          Rules: []
+        - Name: dateCreated
+          Type: string
+          Rules: []
+        - Name: todoId
+          Type: string
+          Rules:
+          - IsRequired
+        Preconditions: []
+        Postconditions:
+        - TodoAdded
+    - Command:
+        Name: MarkComplete
+        Parameters:
+        - Name: todoId
+          Type: string
+          Rules:
+          - IsRequired
+        - Name: isComplete
+          Type: string
+          Rules: []
+        Preconditions: []
+        Postconditions:
+        - TodoCompleted
+    - Command:
+        Name: DeleteItem
+        Parameters:
+        - Name: todoId
+          Type: string
+          Rules:
+          - IsRequired
+        - Name: isDeleted
+          Type: string
+          Rules: []
+        Preconditions: []
+        Postconditions:
+        - TodoDeleted
+    Events:
+    - Event:
+        Name: TodoAdded
+        Properties:
+        - Name: description
+          Type: string
+        - Name: dateCreated
+          Type: string
+        - Name: todoId
+          Type: string
+    - Event:
+        Name: TodoCompleted
+        Properties:
+        - Name: todoId
+          Type: string
+        - Name: isComplete
+          Type: string
+    - Event:
+        Name: TodoDeleted
+        Properties:
+        - Name: todoId
+          Type: string
+        - Name: isDeleted
+          Type: string
+  Readmodels:
+  - Readmodel:
+      Name: UserLookup
+      Key: userId
+      SubscribesTo:
+      - UserRegistered
+  - Readmodel:
+      Name: TODOList
+      Key: todoId
+      SubscribesTo:
+      - TodoAdded
+      - TodoCompleted
+Errors: []
