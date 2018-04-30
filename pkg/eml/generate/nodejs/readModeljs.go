@@ -13,37 +13,39 @@ func ReadmodelsToJs(readmodel eml.Readmodel, eventLookup map[string]eml.Event) s
 	const readmodelTemplate = `export const config = {
   key: '{{$.Readmodel.Readmodel.Key}}',
   schema: {
-		{{$.Readmodel.Readmodel.Key}}: {type: 'string', format: 'string'},
-		{{ range $cnt, $property := $.Properties}}{{ $property.Name }}: {type: '{{$property.Type}}', format: '{{$property.Type}}'},
-		{{end}}
+    {{$.Readmodel.Readmodel.Key}}: {type: 'string', nullable: false},
+    {{ range $cnt, $property := $.Properties}}{{ $property.Name }}: {type: '{{$property.Type}}'},
+    {{end}}
   }
 };
 
 export async function handler({{ $.Readmodel.Readmodel.Name | ToNodeJsClassName }}Repo, eventData, lookups) {
   const { typeId, event } = eventData;
-  let exists;
   switch (typeId) {
-    {{ range $cnt, $event := $.Readmodel.Readmodel.SubscribesTo}}case '{{$event}}': 
-	    exists = await lookups.findOne("{{ $.Readmodel.Readmodel.Name | ToNodeJsClassName }}", { {{$.Readmodel.Readmodel.Key}}: event.{{$.Readmodel.Readmodel.Key}} }, true);
-    	ensureRecord(exists, event.{{$.Readmodel.Readmodel.Key}}, {{ $.Readmodel.Readmodel.Name | ToNodeJsClassName }}Repo);
-	  	{{ $.Readmodel.Readmodel.Name | ToNodeJsClassName }}Repo.updateOne(({ {{$.Readmodel.Readmodel.Key}}: event.{{$.Readmodel.Readmodel.Key}} }), item => {
-			{{ range $cnt, $property := $.Properties}}{{if eq $property.Event $event}}	item.{{$property.Name}} = event.{{$property.Name}};
-			{{end}}{{end}}
-			});
-			break;
-		{{end}}
-	}
-	return {{ $.Readmodel.Readmodel.Name | ToNodeJsClassName }}Repo;
+    {{ range $cnt, $event := $.Readmodel.Readmodel.SubscribesTo  }}case '{{$event}}': {
+      await createOrUpdate({{ $.Readmodel.Readmodel.Name | ToNodeJsClassName }}Repo, { {{$.Readmodel.Readmodel.Key}}: event.{{$.Readmodel.Readmodel.Key}} }, {
+        {{ range $cnt, $property := $.Properties}}{{if eq $property.Event $event}}{{$property.Name}}: event.{{$property.Name}},
+        {{end}}{{end}}
+      });
+      break;
+    }
+    {{end}}
+  }
+  return {{ $.Readmodel.Readmodel.Name | ToNodeJsClassName }}Repo;
 }
 
-function ensureRecord(exists, id, repo) {
+async function createOrUpdate(repo, idQuery, data) {
+  const exists = await repo.exists(idQuery);
   if (!exists) {
-    repo.create({
-      {{$.Readmodel.Readmodel.Key}}: id,
-	  {{ range $cnt, $property := $.Properties}}	{{$property.Name}}: "",
-	  {{end}}
-    });
-  }  
+    const payload = {...idQuery, ...data};
+    for (const k of Object.keys(config.schema)) {
+      if (!payload[k]) payload[k] = "";
+    }
+    repo.create(payload);
+  } else {
+    const payload = {...data};
+    repo.updateOne(idQuery, payload);
+  }
 }
 `
 

@@ -16,11 +16,13 @@ import (
 	"github.com/Adaptech/les/pkg/utils"
 )
 
-const nodejsTemplateDownloadURL = "https://esp-templates.azurewebsites.net/esp-nodejs-template-latest.tar.gz"
+const latestTemplateName = "les-node-template-20180430-865967d"
+const nodejsTemplateDownloadURL = "https://github.com/Adaptech/les/raw/master/releases/les-node-template/" + latestTemplateName + ".tar.gz"
 
 func ensureTemplateExists(templateDir string, lang string) {
 	langTemplateDir := path.Join(templateDir, lang)
-	if _, err := os.Stat(langTemplateDir); err == nil {
+	latestTemplateDir := path.Join(langTemplateDir, latestTemplateName)
+	if _, err := os.Stat(latestTemplateDir); err == nil {
 		return
 	}
 
@@ -28,8 +30,11 @@ func ensureTemplateExists(templateDir string, lang string) {
 	fmt.Println(lang, "template missing locally, downloading from server...")
 	if res, err := http.Get(templateURL); err != nil {
 		log.Fatalf("Error downloading template: %s", err.Error())
-	} else if err := utils.Untar(templateDir, res.Body); err != nil {
+	} else if err := utils.Untar(langTemplateDir, res.Body); err != nil {
 		log.Fatalf("Error extracting archive: %s", err.Error())
+	}
+	if err := ioutil.WriteFile(path.Join(langTemplateDir, ".latest"), []byte(latestTemplateName), 0644); err != nil {
+		log.Fatalf("Error creating .latest file: %s", err.Error())
 	}
 }
 
