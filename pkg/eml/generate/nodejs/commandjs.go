@@ -12,9 +12,9 @@ import (
 // CommandToJs renders nodeJs for a command
 func CommandToJs(command eml.Command) string {
 	const commandTemplate = `export default class {{ .Command.Name | ToNodeJsClassName }} {
-	constructor({{range $cnt, $parameter := $.Command.Parameters}}{{if gt $cnt 0}}, {{end}}{{$parameter.Name}}{{end}}) {
-		{{range $cnt, $parameter := $.Command.Parameters}}this.{{$parameter.Name}} = {{$parameter.Name}};
-		{{end}}
+  constructor({{range $cnt, $parameter := $.Command.Parameters}}{{if gt $cnt 0}}, {{end}}{{$parameter.Name}}{{end}}) {
+    {{range $cnt, $parameter := $.Command.Parameters}}this.{{$parameter.Name}} = ({{$parameter.Name}} || {{$parameter.Name}} === "") ? String({{$parameter.Name}}) : null;
+    {{end}}
   }
 }
 `

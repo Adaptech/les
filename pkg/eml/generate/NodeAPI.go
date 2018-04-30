@@ -7,6 +7,8 @@ import (
 
 	"github.com/Adaptech/les/pkg/eml"
 	"github.com/Adaptech/les/pkg/eml/generate/nodejs"
+	"io/ioutil"
+	"path"
 )
 
 const nodeJsExt = ".js"
@@ -14,7 +16,11 @@ const nodeJsExt = ".js"
 // NodeAPI Event Markup Language to a nodejs API
 func NodeAPI(system eml.Solution, renderingDirectory string, infrastructureTemplateDirectory string) {
 	var nodeJsRenderingDirectory = renderingDirectory
-	var nodeJsTemplateDirectory = filepath.Join(infrastructureTemplateDirectory, "nodejs")
+	var latestTemplateName, err = ioutil.ReadFile(path.Join(infrastructureTemplateDirectory, "nodejs", ".latest"))
+	if err != nil {
+		log.Fatalf("Can't read nodejs .latest: %s", err.Error())
+	}
+	var nodeJsTemplateDirectory = filepath.Join(infrastructureTemplateDirectory, "nodejs", string(latestTemplateName))
 	var eventsDirectory = filepath.Join(nodeJsRenderingDirectory, "src", "events")
 	var commandsDirectory = filepath.Join(nodeJsRenderingDirectory, "src", "commands")
 	var domainDirectory = filepath.Join(nodeJsRenderingDirectory, "src", "domain")
@@ -39,7 +45,6 @@ func NodeAPI(system eml.Solution, renderingDirectory string, infrastructureTempl
 
 			renderedJavaScript = nodejs.ControllerJs(stream, readmodelLookupFor(boundedContext))
 			writeRenderedController(controllerDirectory, stream.Name, renderedJavaScript, nodeJsExt)
-
 		}
 		eventLookup := make(map[string]eml.Event)
 		for _, stream := range boundedContext.Streams {

@@ -19,28 +19,28 @@ export default class {{ .Stream.Name }}Controller {
   constructor(app, readRepository, commandHandler, logger) {
 	{{range $cnt, $command := $.Stream.Commands}}
     async function {{$command.Command.Name | ToNodeJsClassName | ToLower}}(req, res) {
-			let { {{range $cnt, $parameter := $command.Command.Parameters}}{{if gt $cnt 0}}, {{end}}{{$parameter.Name}}{{end}} } = req.body;
-			let foundItem = null;
-			{{range $cnt, $parameter := $command.Command.Parameters}}{{if eq ($parameter.RuleExists "MustExistIn") true }}
-			foundItem = await readRepository.findOne('{{ $parameter.MustExistInReadmodel }}', { {{ $parameter.MustExistInReadmodel | GetReadmodelKey }}: { eq: req.body.{{$parameter.Name}} } }, true);
-			{{$parameter.Name}} = foundItem && foundItem.{{ $parameter.MustExistInReadmodel | GetReadmodelKey }};{{end}}			{{end}}
-      const command = new {{$command.Command.Name | ToNodeJsClassName }}({{range $cnt, $parameter := $command.Command.Parameters}}{{if gt $cnt 0}}, {{end}}{{$parameter.Name}}{{end}});
-      commandHandler(command.{{ $.Stream.Name | ToNodeJsClassName | ToLower }}Id, new {{$.Stream.Name | ToNodeJsClassName}}(), command)
-          .then(() => {
-            res.status(202).json(command);
-          })
-          .catch(err => {
-            if(err.name == "ValidationFailed") {
-              res.status(400).json({message: err.message});
-            } else {
-              logger.error(err.stack);
-              res.status(500).json({message: err.message});
-            }
-          });
-		}
+      try {
+        let { {{range $cnt, $parameter := $command.Command.Parameters}}{{if gt $cnt 0}}, {{end}}{{$parameter.Name}}{{end}} } = req.body;
+        let foundItem = null;
+        {{range $cnt, $parameter := $command.Command.Parameters}}{{if eq ($parameter.RuleExists "MustExistIn") true }}
+        foundItem = await readRepository.findOne('{{ $parameter.MustExistInReadmodel }}', { {{ $parameter.MustExistInReadmodel | GetReadmodelKey }}: { eq: req.body.{{$parameter.Name}} } }, true);
+        {{$parameter.Name}} = foundItem && foundItem.{{ $parameter.MustExistInReadmodel | GetReadmodelKey }};
+        {{end}}{{end}}
+        const command = new {{$command.Command.Name | ToNodeJsClassName }}({{range $cnt, $parameter := $command.Command.Parameters}}{{if gt $cnt 0}}, {{end}}{{$parameter.Name}}{{end}});
+        await commandHandler({{$.Stream.Name | ToNodeJsClassName}}, command.{{ $.Stream.Name | ToNodeJsClassName | ToLower }}Id, command);
+        res.status(202).json(command);
+      } catch (err) {
+        if (err.name === "ValidationFailed") {
+          res.status(400).json({message: err.message});
+        } else {
+          logger.error(err.stack);
+          res.status(500).json({message: err.message});
+        }
+      }
+    }
     app.post('/api/v1/{{ $.Stream.Name }}/{{$command.Command.Name | ToNodeJsClassName }}', {{$command.Command.Name | ToNodeJsClassName | ToLower}});
-		{{end}}
-	}
+	{{end}}
+  }
 }
 `
 	ReadmodelKeyLookup := func(modelName string) string {

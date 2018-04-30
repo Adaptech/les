@@ -32,82 +32,86 @@ func DomainJs(stream eml.Stream, eventList []eml.Event) string {
 {{if eq .HasHashedProperties true}}import bcrypt from 'bcrypt';	
 {{end}}
 export default class {{ .Stream.Name }} {
-	constructor() {
-			this._id = null;
-			this._eventCount = new Map();
-	}
+  constructor() {
+    this._id = null;
+    this._eventCount = new Map();
+  }
 
-	getEventCount(eventType) {
-		const previousOccurrencesCount = this._eventCount.get(eventType);
-		if (previousOccurrencesCount) {
-			return previousOccurrencesCount;
-		}
-		return 0;
-	}
+  getEventCount(eventType) {
+    const previousOccurrencesCount = this._eventCount.get(eventType);
+    if (previousOccurrencesCount) {
+      return previousOccurrencesCount;
+    }
+    return 0;
+  }
 
-	incrementEventOccurenceCount(eventType) {
-		const previousOccurrencesCount = this._eventCount.get(eventType);
-		if (previousOccurrencesCount) {
-			this._eventCount.set(eventType, previousOccurrencesCount + 1);
-		} else {
-			this._eventCount.set(eventType, 1);
-		}
-	}
+  incrementEventOccurenceCount(eventType) {
+    const previousOccurrencesCount = this._eventCount.get(eventType);
+    if (previousOccurrencesCount) {
+      this._eventCount.set(eventType, previousOccurrencesCount + 1);
+    } else {
+      this._eventCount.set(eventType, 1);
+    }
+  }
 	
-	hydrate(evt) {
-	{{range $cnt, $event := $.Stream.Events}}	if(evt instanceof {{$event.Event.Name | ToNodeJsClassName}}) {
-			this.incrementEventOccurenceCount("{{$event.Event.Name | ToNodeJsClassName}}");
-			this._on{{$event.Event.Name | ToNodeJsClassName}}(evt);
-		}
-	{{end}}}
-	{{range $cnt, $event := $.Stream.Events}}
-	_on{{$event.Event.Name | ToNodeJsClassName}}(evt) {
-	{{range $cnt, $property := $event.Event.Properties}}	this._{{$property.Name}} = evt.{{$property.Name}};
-	{{end}}}
+  hydrate(evt) {
+	{{range $cnt, $event := $.Stream.Events}}if (evt instanceof {{$event.Event.Name | ToNodeJsClassName}}) {
+      this.incrementEventOccurenceCount("{{$event.Event.Name | ToNodeJsClassName}}");
+      this._on{{$event.Event.Name | ToNodeJsClassName}}(evt);
+    }
 	{{end}}
-	execute(command) {
-		{{range $cnt, $command := $.Stream.Commands}}if (command instanceof {{$command.Command.Name | ToNodeJsClassName}}) {
-			return this._{{$command.Command.Name | ToNodeJsClassName}}(command);
-		}
-		{{end}}
-		throw new Error('Unknown command.');
-	}
-	{{range $cnt, $command := $.Stream.Commands}}
-	{{if eq $.HasHashedProperties true}}async {{end}}_{{$command.Command.Name | ToNodeJsClassName}}(command) {
-		const validationErrors = [];
-		{{range $cnt, $parameter := $command.Command.Parameters}}{{if eq (.RuleExists "MustExistIn") true}}if (!command.{{$parameter.Name}}) {
-			validationErrors.push({ field: "{{$parameter.Name}}", msg: "{{$parameter.Name}} does not exist." });
-		}{{end}}{{end}}	
-		{{range $cnt, $parameter := $command.Command.Parameters}}{{if eq (.RuleExists "IsRequired") true}}if (!command.{{$parameter.Name}}) {
-			validationErrors.push({ field: "{{$parameter.Name}}", msg: "{{$parameter.Name}} is a required field." });
-		}
-		{{end}}{{end}}
-		{{range $cnt, $precondition := $command.Command.Preconditions}}
-		{{if eq "MustHaveHappened" (GetToken $precondition 1) }}if (this.getEventCount("{{GetToken $precondition 0}}") == 0) {
-			// {{$precondition}}
-			validationErrors.push({ field: "", msg: "Cannot {{$command.Command.Name}}. {{GetToken $precondition 0}} must have occurred." });
-		}
-		{{end}}{{if eq "MustNotHaveHappened" (GetToken $precondition 1) }}if (this.getEventCount("{{GetToken $precondition 0}}") != 0) {
-			// {{$precondition}}
-			validationErrors.push({ field: "", msg: "Cannot {{$command.Command.Name}}. {{GetToken $precondition 0}} must not have occurred." });
-		}{{end}}{{end}}
-		if(validationErrors.length > 0) {
-			throw new errors.ValidationFailed(validationErrors);
-		}
-		{{range $cnt, $postcondition := $command.Command.Postconditions}}{{range $cnt, $parameter := index $.EventLookup $postcondition }}{{if eq $parameter.IsHashed true}}command.{{$parameter.Name}} = await new Promise((resolve) => bcrypt.hash(command.{{$parameter.Name}}, 10, function(err, hash) {
-			resolve(hash);
-		}));{{end}}{{end}}{{end}}
-		const result = [];{{range $cnt, $postcondition := $command.Command.Postconditions}}
-		let event = new {{ $postcondition | ToNodeJsClassName }}();
-		{{range $cnt, $eventProperty := index $.EventLookup $postcondition }}event.{{$eventProperty.Name}}="";
-		{{end}}
-		{{range $cnt, $parameter := $command.Command.Parameters}}event.{{$parameter.Name}}=command.{{$parameter.Name}};
-		{{end}}
-		result.push(event);
-		{{end}}
-		return result;
-	}
-	{{end}}
+  }
+  
+  {{range $cnt, $event := $.Stream.Events}}
+  _on{{$event.Event.Name | ToNodeJsClassName}}(evt) {
+    {{range $cnt, $property := $event.Event.Properties}}this._{{$property.Name}} = evt.{{$property.Name}};
+    {{end}}
+  }
+  {{end}}
+
+  execute(command) {
+    {{range $cnt, $command := $.Stream.Commands}}if (command instanceof {{$command.Command.Name | ToNodeJsClassName}}) {
+      return this._{{$command.Command.Name | ToNodeJsClassName}}(command);
+    }
+    {{end}}
+    throw new Error('Unknown command.');
+  }
+
+  {{range $cnt, $command := $.Stream.Commands}}
+  {{if eq $.HasHashedProperties true}}async {{end}}_{{$command.Command.Name | ToNodeJsClassName}}(command) {
+    const validationErrors = [];
+    {{range $cnt, $parameter := $command.Command.Parameters}}{{if eq (.RuleExists "MustExistIn") true}}if (!command.{{$parameter.Name}}) {
+      validationErrors.push({ field: "{{$parameter.Name}}", msg: "{{$parameter.Name}} does not exist." });
+    }{{end}}{{end}}
+    {{range $cnt, $parameter := $command.Command.Parameters}}{{if eq (.RuleExists "IsRequired") true}}if (!command.{{$parameter.Name}}) {
+      validationErrors.push({ field: "{{$parameter.Name}}", msg: "{{$parameter.Name}} is a required field." });
+    }{{end}}{{end}}
+    {{range $cnt, $precondition := $command.Command.Preconditions}}
+    {{if eq "MustHaveHappened" (GetToken $precondition 1) }}if (this.getEventCount("{{GetToken $precondition 0}}") == 0) {
+      // {{$precondition}}
+      validationErrors.push({ field: "", msg: "Cannot {{$command.Command.Name}}. {{GetToken $precondition 0}} must have occurred." });
+    }{{end}}
+    {{if eq "MustNotHaveHappened" (GetToken $precondition 1) }}if (this.getEventCount("{{GetToken $precondition 0}}") != 0) {
+      // {{$precondition}}
+      validationErrors.push({ field: "", msg: "Cannot {{$command.Command.Name}}. {{GetToken $precondition 0}} must not have occurred." });
+    }{{end}}
+    {{end}}
+    if (validationErrors.length > 0) {
+      throw new errors.ValidationFailed(validationErrors);
+    }
+    {{range $cnt, $postcondition := $command.Command.Postconditions}}{{range $cnt, $parameter := index $.EventLookup $postcondition }}{{if eq $parameter.IsHashed true}}command.{{$parameter.Name}} = await new Promise((resolve, reject) => bcrypt.hash(command.{{$parameter.Name}}, 10, function(err, hash) {
+      if (err) reject(err);
+      else resolve(hash);
+    }));{{end}}{{end}}{{end}}
+    const result = [];{{range $cnt, $postcondition := $command.Command.Postconditions}}
+    const event{{$cnt}} = new {{ $postcondition | ToNodeJsClassName }}();
+    {{range $param_cnt, $parameter := $command.Command.Parameters}}event{{$cnt}}.{{$parameter.Name}} = command.{{$parameter.Name}} || "";
+    {{end}}
+    result.push(event{{$cnt}});
+    {{end}}
+    return result;
+  }
+  {{end}}
 }
 `
 	// {{range $cnt, $parameter := index $.EventLookup $postcondition }}{{if gt $cnt 0}}, {{end}}command.{{$parameter.Name}}{{end}}

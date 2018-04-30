@@ -13,8 +13,8 @@ import (
 func EventToJs(event eml.Event) string {
 	const eventTemplate = `export default class {{ .Event.Name | ToNodeJsClassName }} {
   constructor({{range $cnt, $property := $.Event.Properties}}{{if gt $cnt 0}}, {{end}}{{$property.Name}}{{end}}) {
-		{{range $cnt, $property := $.Event.Properties}}this.{{$property.Name}} = {{$property.Name}};
-		{{end}}
+    {{range $cnt, $property := $.Event.Properties}}this.{{$property.Name}} = ({{$property.Name}} || {{$property.Name}} === "") ? String({{$property.Name}}) : null;
+    {{end}}
   }
 }
 `
