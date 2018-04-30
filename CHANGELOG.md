@@ -1,5 +1,11 @@
 # Releases
 
+## 0.10.4-alpha (April 30, 2018)
+
+### New Features
+
+* les-node uses newly outsourced les-node-template (https://github.com/Adaptech/les-node-template) (version 20180430-60c6c9e)
+
 ## 0.10.3-alpha (April 21, 2018)
 
 ### New Features
