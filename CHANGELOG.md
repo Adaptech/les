@@ -4,7 +4,7 @@
 
 ### New Features
 
-* les-node uses newly outsourced les-node-template (https://github.com/Adaptech/les-node-template) (version 20180430-60c6c9e)
+* les-node uses newly opensourced les-node-template (https://github.com/Adaptech/les-node-template) (version 20180430-237a5d5)
 
 ## 0.10.3-alpha (April 21, 2018)
 
