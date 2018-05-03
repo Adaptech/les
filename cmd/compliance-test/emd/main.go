@@ -43,7 +43,7 @@ func main() {
 }
 
 func addingTodoListItemForUnknownUserFails() {
-	frisby.Create("Executing valid Command succeeds.").
+	frisby.Create("Executing Command with id missing in read model fails.").
 		SetHeader("Content-Type", "application/json").
 		SetHeader("Accept", "application/json, text/plain, */*").
 		Post(apiURI+"/TodoItem/AddItem").
