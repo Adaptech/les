@@ -8,7 +8,7 @@ import (
 	"gopkg.in/alecthomas/kingpin.v2"
 )
 
-const defaultEmlFile = "Eventsourcing.eml.yaml"
+const defaultEmlFile = "Eventstorming.eml.yaml"
 const generatedEmlFile = ".generated.eventsourcing.eml.yaml"
 
 var (

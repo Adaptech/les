@@ -33,7 +33,7 @@ build-les-node:
 .PHONY: build-api
 build-api:
 	$(LES_DIRECTORY)/les convert EmdReferenceImplementation.emd \
-	&& $(LES_NODE_DIRECTORY)/les-node -b \
+	&& $(LES_NODE_DIRECTORY)/les-node -b EmdReferenceImplementation.eml.yaml \
 	&& cd api && npm install && docker-compose up -d --force-recreate \
 	&& docker-compose restart api # workaround for race condition (eventstore not yet available when API starts)
 
