@@ -14,7 +14,7 @@ LES attempts to address this in three ways:
 
 LES is currently in alpha. We have started using 1. and 2. in Real Life projects. But no.3 (Citizen IT Developer) especially is still quite experimental, with a good number of features missing.
 
-See also: [LES FAQ](https://github.com/Adaptech/letseventsource)
+See also: [LES FAQ](https://docs.letseventsource.org/faq/)
 
 ![LESTER Pipeline](https://github.com/Adaptech/letseventsource/blob/master/LESTER-stack-diagram.png)
 
