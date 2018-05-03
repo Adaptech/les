@@ -16,7 +16,7 @@ import (
 	"github.com/Adaptech/les/pkg/utils"
 )
 
-const latestTemplateName = "les-node-template-20180430-237a5d5"
+const latestTemplateName = "les-node-template-20180503-19cddd0"
 const nodejsTemplateDownloadURL = "https://github.com/Adaptech/les/raw/master/releases/les-node-template/" + latestTemplateName + ".tar.gz"
 
 func ensureTemplateExists(templateDir string, lang string) {
