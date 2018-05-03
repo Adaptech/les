@@ -35,4 +35,3 @@ Install 'les-node':
 * [Download](https://github.com/Adaptech/les/blob/master/releases/les/0.10.3-alpha/les-windows-amd64.exe?raw=true) the 'les' validation tool .exe
 
 * [Download](https://github.com/Adaptech/les/blob/master/releases/les-node/0.10.3-alpha/les-node-windows-amd64.exe?raw=true) 'les-node' .exe
-
