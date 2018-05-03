@@ -28,7 +28,7 @@ type DomainTemplateParams struct {
 func DomainJs(stream eml.Stream, eventList []eml.Event) string {
 	const aggregateTemplate = `{{range $cnt, $command := $.Stream.Commands}}import {{$command.Command.Name | ToNodeJsClassName}} from '../commands/{{$command.Command.Name | ToNodeJsClassName}}';
 {{end}}{{range $cnt, $event := $.Stream.Events}}import {{$event.Event.Name  | ToNodeJsClassName }} from '../events/{{$event.Event.Name | ToNodeJsClassName}}';
-{{end}}import errors from '../domain/errors';
+{{end}}import * as errors from '../domain/errors';
 {{if eq .HasHashedProperties true}}import bcrypt from 'bcrypt';	
 {{end}}
 export default class {{ .Stream.Name }} {
