@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"path/filepath"
 
 	"github.com/Adaptech/les/pkg/convert"
 	"github.com/Adaptech/les/pkg/emd"
@@ -53,12 +54,16 @@ func (n *convertCommand) convert(c *kingpin.ParseContext) error {
 		if err != nil {
 			return fmt.Errorf("convert yaml command: %v", err)
 		}
-		err = WriteToFile(defaultEmlFile, yaml)
+		var extension = filepath.Ext(inputFile)
+		var name = inputFile[0 : len(inputFile)-len(extension)]
+		var outputFile = name + ".eml.yaml"
+
+		err = WriteToFile(outputFile, yaml)
 		if err != nil {
 			return fmt.Errorf("convert command: %v", err)
 		}
 		fmt.Println("Input:\t\t" + inputFile)
-		fmt.Println("Output:\t\t" + defaultEmlFile)
+		fmt.Println("Output:\t\t" + outputFile)
 	}
 	return nil
 }
