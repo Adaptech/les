@@ -9,11 +9,10 @@ import (
 )
 
 const defaultEmlFile = "Eventstorming.eml.yaml"
-const generatedEmlFile = ".generated.eventsourcing.eml.yaml"
 
 var (
 	buildAPI  = kingpin.Flag("build", "Build a NodeJS API from EML.").Short('b').Bool()
-	inputFile = kingpin.Arg("file", ".eml.yaml file. Default: "+defaultEmlFile+" (if present) or "+generatedEmlFile).String()
+	inputFile = kingpin.Arg("file", ".eml.yaml file. Default: "+defaultEmlFile).String()
 )
 
 func main() {

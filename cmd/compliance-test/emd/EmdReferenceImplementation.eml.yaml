@@ -3,6 +3,29 @@ Solution: TODO List
 Contexts:
 - Name: TODO List
   Streams:
+  - Stream: User
+    Commands:
+    - Command:
+        Name: Register
+        Parameters:
+        - Name: userId
+          Type: string
+          Rules:
+          - IsRequired
+        - Name: notificationEmail
+          Type: string
+          Rules: []
+        Preconditions: []
+        Postconditions:
+        - UserRegistered
+    Events:
+    - Event:
+        Name: UserRegistered
+        Properties:
+        - Name: userId
+          Type: string
+        - Name: notificationEmail
+          Type: string
   - Stream: TodoItem
     Commands:
     - Command:
@@ -33,29 +56,6 @@ Contexts:
         - Name: unknownField
           Type: string
         - Name: todoitemId
-          Type: string
-  - Stream: User
-    Commands:
-    - Command:
-        Name: Register
-        Parameters:
-        - Name: userId
-          Type: string
-          Rules:
-          - IsRequired
-        - Name: notificationEmail
-          Type: string
-          Rules: []
-        Preconditions: []
-        Postconditions:
-        - UserRegistered
-    Events:
-    - Event:
-        Name: UserRegistered
-        Properties:
-        - Name: userId
-          Type: string
-        - Name: notificationEmail
           Type: string
   Readmodels:
   - Readmodel:
