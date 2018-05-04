@@ -1,6 +1,8 @@
 # LES
 
-## "Let's Event Source"
+[![Join the chat at https://gitter.im/Adaptech/les](https://badges.gitter.im/Adaptech/les.svg)](https://gitter.im/Adaptech/les?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
+### "Let's Event Source"
 
 **Event sourcing and CQRS/ES based "microservices" are increasingly seen as a nice way to build cohesive, loosely coupled systems with good transactional integrity. There is a knack to building software that way, so although the resulting systems tend to be much simpler and easier to understand than traditional (e.g.) object oriented implementations, there is a bit of a learning curve.**
 
