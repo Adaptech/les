@@ -9,6 +9,6 @@ The version here has been turned into "green" EMD, suitable for auto-generating 
 * Some read models which are needed to validate IDs (e.g. administratorId, projectId, ...) have been added.
 
 
-
+![consentaur event storming](Eventstorming.png)
 
 

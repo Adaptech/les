@@ -1,7 +1,7 @@
 SHELL := /bin/bash
 
 .PHONY: install
-install: build-les build-les-node
+install: build-les build-les-node build-les-viz
 
 .PHONY: build-les
 build-les:
@@ -13,6 +13,11 @@ build-les:
 .PHONY: build-les-node
 build-les-node:
 	cd cmd/les-node \
+	&& go get \
+	&& go install
+
+build-les-viz:
+	cd cmd/les-viz \
 	&& go get \
 	&& go install
 
