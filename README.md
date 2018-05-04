@@ -1,298 +1,117 @@
 # LES
 
-## _"Let's Event Source Together"_
+[![Join the chat at https://gitter.im/Adaptech/les](https://badges.gitter.im/Adaptech/les.svg)](https://gitter.im/Adaptech/les?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-* Validates the design of an event-based system specified in Event Markdown or Event Markup Language.
-* Generates an API from Event Markdown or Event Markup
+## "Let's Event Source"
 
-## Installation
+**Event sourcing and CQRS/ES based "microservices" are increasingly seen as a nice way to build cohesive, loosely coupled systems with good transactional integrity. There is a knack to building software that way, so although the resulting systems tend to be much simpler and easier to understand than traditional (e.g.) object oriented implementations, there is a bit of a learning curve.**
 
-### Prerequisites
+LES attempts to address this in three ways:
 
-- [NodeJS 8.11.1 LTS](https://nodejs.org/en/) or better
-- [docker-compose](https://docs.docker.com/compose/install/)
+1. **Fast microservice prototyping:** Go directly from an [event storming](http://ziobrando.blogspot.ca/2013/11/introducing-event-storming.html) to a working event sourced API.
 
-### Linux (Ubuntu 16.04 x86_64)
+2. **"Architect in a box":** ```les validate``` assesses whether a prototype will result in a "good" event sourced microservice - cohesive, loosely-coupled, transactionally consistent. Then ```les-node -b``` builds a deployment-ready NodeJS API with plenty of guide fences and best practices in place as developers go forward customizing it. If you have your own coding standards or don't like NodeJS, implement your own in a language of your choice.
 
-Install the 'les' validation tool:
+3. **"Citizen IT Developer".** One of the goals of the LES project is to enable "business coders", "power users" and entrepreneurs with little technical knowledge to build highly scalable event sourced microservices from scratch, basically "I've made this API for my startup - could you build me an app for that?"
 
-```sudo curl -L https://github.com/Adaptech/letseventsource/blob/master/releases/les/0.10.0/les-Linux-x86_64?raw=true -o /usr/local/bin/les && sudo chmod +x /usr/local/bin/les```
+LES is currently in alpha. We have started using 1. and 2. in Real Life projects. But no.3 (Citizen IT Developer) especially is still quite experimental, with a good number of features missing.
 
-Install 'les-node':
+See also: [LES FAQ](https://docs.letseventsource.org/faq/)
 
-```sudo curl -L https://github.com/Adaptech/letseventsource/blob/master/releases/les-node/0.10.0/les-node-Linux-x86_64?raw=true -o /usr/local/bin/les-node && sudo chmod +x /usr/local/bin/les-node```
-
-### Windows (x86_84) binaries
-
-Install the 'les' validation tool:
-
-```curl -L https://github.com/Adaptech/letseventsource/blob/master/releases/les/0.10.0/les-windows-x86_64.exe?raw=true -o les.exe```
-
-Install 'les-node':
-
-```curl -L https://github.com/Adaptech/letseventsource/blob/master/releases/les-node/0.10.0/les-node-windows-x86_64.exe?raw=true -o les-node.exe```
-
-### Max OSX (x86_64) binaries
-
-Install the 'les' validation tool:
-
-```sudo curl -L https://github.com/Adaptech/letseventsource/blob/master/releases/les/0.10.0/les-darwin-x86_64?raw=true -o /usr/local/bin/les && sudo chmod +x /usr/local/bin/les```
-
-Install 'les-node':
-
-```sudo curl -L https://github.com/Adaptech/letseventsource/blob/master/releases/les-node/0.10.0/les-node-darwin-x86_64?raw=true -o /usr/local/bin/les-node && sudo chmod +x /usr/local/bin/les-node```
+![LESTER Pipeline](https://github.com/Adaptech/letseventsource/blob/master/LESTER-stack-diagram.png)
 
 ## Getting Started
 
-**Step 1:**
+### Prerequisites
+
+* [NodeJS 8.11.1 LTS](https://nodejs.org/en/) or better
+* [docker-compose](https://docs.docker.com/compose/install/)
+
+### Installation
+
+**Latest version from source:**
 
 ```bash
-cat <<EOT >> Eventmarkdown.emd
-# Hello World
-Say Hello World->
-HelloWorld Said
-EOT
+git clone https://github.com/Adaptech/les.git
+make install
 ```
+
+... or ... 
+
+[Instructions for Linux, Windows Mac & Docker](INSTALL.md)
+
+
+### Hello World
+
+**Step 1:**
+
+Create an [Event Markdown](https://webeventstorming.com) file. Event Markdown (EMD) is a simple language used to describe an [event storming](https://ziobrando.blogspot.ca/2013/11/introducing-event-storming.html):
+
+```bash
+# TODO List
+Add Item -> // description, dueDate
+Todo Added // description, dueDate
+TODO List* // todoId, description, dueDate
+```
+Save it to ```Eventstorming.emd```. 
 
 **Step 2:**
 
 ```bash
-les convert && les-node -b && cd api && npm install && docker-compose up -d
+les convert && les-node -b && cd api && npm install && docker-compose up -d --force-recreate
 ```
+
+Or using Docker:
+```bash
+docker run -v $(pwd):/les les convert && docker run -v $(pwd):/les les-node -b && cd api && npm install && docker-compose up -d
+```
+
+(If you doing this in Linux and encounter "permission denied" errors, your USER or GROUP ID need to be specified.
+ Say your USER ID is 1003, then add `--user 1003` after each `docker run` in the above command.)
 
 **Step 3:**
 
 There is no step 3.
 
-* Swagger/OpenAPI docs for the new API: http://localhost:3001/api-docs
-* Source Code: ./api
-* API URI: http://localhost:3001/api/v1
-* Eventstore DB: http://localhost:2113 (username 'admin', password 'changeit')
+* Add some items to the TODO list: http://localhost:3001/api-docs (Swagger/OpenAPI)
+* View the items: http://localhost:3001/api/v1/r/TODOList
+* Look at the "TodoAdded" events in the Eventstore DB: http://localhost:2113 (username 'admin', password 'changeit')
+* Check out the source code for the "TODO List" system: ```./api```
 
-**Examples: https://github.com/Adaptech/les/src/master/samples**
+## What next ...
 
-## Event Markup Language (EML) & Event Markdown (EMD) Versions
+* A collection of Event Markdown (EMD) examples: https://github.com/Adaptech/les/src/master/samples**
 
-### Current (0.1-alpha)
+* Learn Event Storming: http://eventstorming.com
 
+* Learn Event Markdown: https://webeventstorming.com
 
-**Known Issues** 
+* EMD Cheat Sheet: https://github.com/Adaptech/letseventsource/raw/master/EMD-Cheatsheet-0.10.0-alpha-alpha.pdf
 
-* TODO: Casing shouldn't matter in property/parameter names (other than the "Id" convention at the end)
+* https://gitter.im/Adaptech/les 
 
-```
-Receive Product-> // productId, description
-InventoryItem Stocked // inventoryitemId, sku, description, purchasePrice, quantityAvailable
-InventoryitemLookup* // inventoryitemId, productId, description
-```
-with "inventoryitemId" works. 
+## IDE Integrations & Tools
 
-```
-Receive Product-> // productId, description
-InventoryItem Stocked // inventoryItemId, sku, description, purchasePrice, quantityAvailable
-InventoryitemLookup* // inventoryItemId, productId, description
-```
+* Event Markdown [vscode extension](https://github.com/markgukov/vscode-event-markdown)
 
-with "inventoryItemId" does not; gives misleading validation errors.
+## Known UX Impacting Issues
 
-* TODO: 'command -> someParameter' should fail emd validation - 'command -> // someParameter is the correct way. Alternatively: Should the EMD DSL be changed so that this (... and 'This Happened* firstProperty, secondProperty' for events... ) is valid instead of requiring the '//'? 
+The issues below have been known to mystify EMD users:
 
-* TODO: "Emails* // emailId, fromUserId," leads to a validation error (because of the comma at the end), but should be OK.
-* Race condition when doing ```cd api && npm install && docker-compose up -d```: API doesn't start because Eventstore isn't up yet. (Workaround: ```docker-compose restart api```)
-* TODO: Find a way of finding SubscribesTo events for read models which exclusively have aggregateId fields.
-* TODO: EMD: A command followed immediately by another command without an event in between should fail validation.
+#### "DromedaryCase": myaggregateId GOOD, myAggregateId BAD
 
-* TODO: Introduce numeric, date and boolean types.
-* TODO: vscode EMD code colorizer
+https://github.com/Adaptech/les/issues/9
 
-* TODO: Prompt before overwriting 'les convert' files.
-* TODO: Prompt before overwriting 'les-node -b' .api dirctory.
-* TODO: Introduce '-y' to always say yes when prompted about overwriting files.
-* TODO: Do a non-zero return code from the les command line client when there are validation errors.
+#### Sporadic Race condition when doing ```cd api && npm install && docker-compose up -d```
 
+API doesn't start because Eventstore isn't up yet. (Workaround: ```docker-compose restart api```)
 
-### Next (0.2-alpha)
+https://github.com/Adaptech/les/issues/11
 
+#### Need to have at least one read model parameter which is not an aggregate ID
 
-* TODO: Preconditions for commands, e.g. ```Has TimesheetCreated``` or ```Not TimesheetDeleted``` or ```LastEventIs Not TimesheetSubmitted```
-* TODO: Selecting individual event properties in Readmodel SubscribesTo
-* TODO: Spreadsheet-like functionality for Readmodels, e.g. ```@SUM(TimesheetHoursLogged.hours).totalHours```
+https://github.com/Adaptech/les/issues/10
 
-```yaml
+## Running The Tests
 
-Solution: Timesheets & Billing
-EmlVersion: 0.2-alpha
-Contexts:
-- Name: Timesheets & Billing
-  Streams:
-  - Stream: User
-    Commands:
-    - Command:
-        ID: RegisterUser
-        Name: Register User
-        Parameters:
-        - Name: email
-          Type: string
-          Rules: []
-        - Name: password
-          Type: string
-          Rules: []
-        - Name: userId
-          Type: string
-          Rules:
-          - IsRequired
-        Postconditions:
-        - UserRegistered
-    Events:
-    - Event:
-        ID: UserRegistered
-        Name: User Registered
-        Properties:
-        - Name: email
-          Type: string
-          IsHashed: false
-        - Name: password
-          Type: string
-          IsHashed: true
-        - Name: userId
-          Type: string
-          IsHashed: false
-        Type: ""
-  - Stream: Timesheet
-    Commands:
-    - Command:
-        ID: CreateTimesheet
-        Name: Create Timesheet
-        Parameters:
-        - Name: userId
-          Type: string
-          Rules:
-          - MustExistIn UserLookup
-        - Name: description
-          Type: string
-          Rules: []
-        - Name: timesheetId
-          Type: string
-          Rules:
-          - IsRequired
-        Preconditions:
-        - Not TimesheetCreated
-        - LastEventIs Not TimesheetSubmitted
-        Postconditions:
-        - TimesheetCreated
-    - Command:
-        ID: SubmitTimesheet
-        Name: Submit Timesheet
-        Parameters:
-        - Name: submissionDate
-          Type: string
-          Rules: []
-        - Name: userId
-          Type: string
-          Rules:
-          - MustExistIn UserLookup
-        - Name: timesheetId
-          Type: string
-          Rules:
-          - IsRequired
-        Preconditioins:
-        - Has TimesheetCreated
-        - Not Has TimesheetSubmitted
-        Postconditions:
-        - TimesheetSubmitted
-    Events:
-    - Event:
-        ID: TimesheetCreated
-        Name: Timesheet Created
-        Properties:
-        - Name: userId
-          Type: string
-          IsHashed: false
-        - Name: description
-          Type: string
-          IsHashed: false
-        - Name: timesheetId
-          Type: string
-          IsHashed: false
-        Type: ""
-    - Event:
-        ID: TimesheetSubmitted
-        Name: Timesheet Submitted
-        Properties:
-        - Name: timesheetId
-          Type: string
-          IsHashed: false
-        - Name: submissionDate
-          Type: string
-          IsHashed: false
-        - Name: userId
-          Type: string
-          IsHashed: false
-        Type: ""
-  - Stream: TimesheetHours
-    Commands:
-    - Command:
-        ID: LogHours
-        Name: Log Hours
-        Parameters:
-        - Name: timesheethoursId
-          Type: string
-          Rules:
-          - IsRequired
-        - Name: timesheetId
-          Type: string
-          Rules:
-          - MustExistIn TimesheetLookup
-        - Name: date
-          Type: string
-          Rules: []
-        - Name: hours
-          Type: string
-          Rules: []
-        Postconditions:
-        - TimesheetHoursLogged
-    Events:
-    - Event:
-        ID: TimesheetHoursLogged
-        Name: TimesheetHours Logged
-        Properties:
-        - Name: timesheethoursId
-          Type: string
-          IsHashed: false
-        - Name: timesheetId
-          Type: string
-          IsHashed: false
-        - Name: date
-          Type: string
-          IsHashed: false
-        - Name: hours
-          Type: string
-          IsHashed: false
-        Type: ""
-  Readmodels:
-  - Readmodel:
-      ID: UserLookup
-      Name: UserLookup
-      Key: userId
-      Columns:
-      - UserRegistered.*
-  - Readmodel:
-      ID: TimesheetLookup
-      Name: TimesheetLookup
-      Key: timesheetId
-      SubscribesTo:
-      - TimesheetCreated.*
-      - TimesheetSubmitted.submissionDate
-      - @SUM(TimesheetHoursLogged.hours).totalHours
-      - @MIN(TimesheetHoursLogged.date).fromDate
-      - @MAX(TimesheetHoursLogged.date).toDate
-      - @IF(@ISBLANK(TimesheetSubmitted.submissionDate),"","submitted on {{TimesheetSubmitted.submissionDate}}")
-  - Readmodel:
-      ID: TimesheetHoursLookup
-      Name: TimesheetHoursLookup
-      Key: timesheethoursId
-      Columns:
-      - TimesheetHoursLogged.*
-Errors: []
-
-```
+```make test-all```
