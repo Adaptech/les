@@ -17,7 +17,7 @@ import (
 )
 
 const latestTemplateName = "les-node-template-20180504-2d42cce"
-const nodejsTemplateDownloadURL = "https://github.com/Adaptech/les-node-template/raw/master/releases/les-node-template/" + latestTemplateName + ".tar.gz"
+const nodejsTemplateDownloadURL = "https://github.com/Adaptech/les/raw/master/releases/les-node-template/" + latestTemplateName + ".tar.gz"
 
 func ensureTemplateExists(templateDir string, lang string) {
 	langTemplateDir := path.Join(templateDir, lang)
