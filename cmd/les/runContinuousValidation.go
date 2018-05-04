@@ -36,7 +36,7 @@ func whenFileChangesThenValidate(emdFile string, folder string) {
 	for _, f := range w.WatchedFiles() {
 		if strings.HasSuffix(f.Name(), emdFile) || strings.HasSuffix(f.Name(), defaultEmlFile) {
 			fmt.Println("Initial validation: " + f.Name())
-			validateFile(f.Name())
+			isFileValidEmdOrEml(f.Name())
 		}
 	}
 
@@ -53,11 +53,11 @@ func whenFileChangesThenValidate(emdFile string, folder string) {
 
 func processEvent(event watcher.Event) {
 	if !event.IsDir() && len(event.Path) >= 4 {
-		validateFile(event.Path)
+		isFileValidEmdOrEml(event.Path)
 	}
 }
 
-func validateFile(fileName string) {
+func isFileValidEmdOrEml(fileName string) bool {
 	if len(fileName) >= 4 {
 		isValidatingEmdFile := strings.HasSuffix(fileName, ".emd")
 		isValidatingEmlFile := strings.HasSuffix(fileName, ".eml.yaml")
@@ -72,7 +72,9 @@ func validateFile(fileName string) {
 			}
 			if isValidEml && isValidEmd {
 				fmt.Println("OK")
+				return true
 			}
+			return false
 		}
 		if isValidatingEmlFile {
 			isValidEmd, err := checkIfFileContainsValidEml(fileName)
@@ -81,7 +83,10 @@ func validateFile(fileName string) {
 			}
 			if isValidEmd {
 				fmt.Println("OK")
+				return true
 			}
+			return false
 		}
 	}
+	return false
 }
