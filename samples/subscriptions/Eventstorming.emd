@@ -6,5 +6,5 @@ Deliver->
 Subscription Received
 Cancel->
 Subscription Cancelled
-Subscription List* // name
+Subscription List* // subscriptionId, name
 
