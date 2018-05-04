@@ -15,6 +15,9 @@ Contexts:
         - Name: notificationEmail
           Type: string
           Rules: []
+        - Name: secret
+          Type: string
+          Rules: []
         Preconditions: []
         Postconditions:
         - UserRegistered
@@ -51,6 +54,9 @@ Contexts:
           Type: string
         - Name: validationCode
           Type: string
+        - Name: secret
+          Type: string
+          IsHashed: true          
     - Event:
         Name: UserValidated
         Properties:

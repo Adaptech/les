@@ -1,5 +1,11 @@
 # Releases
 
+## 0.10.5-alpha (May 04, 2018)
+
+### New Features
+
+* Simpler/more intuitive les-node and les input & output file naming behaviour.
+
 ## 0.10.4-alpha (April 30, 2018)
 
 ### New Features

@@ -42,7 +42,7 @@ func registeringUser() {
 		SetHeader("Content-Type", "application/json").
 		SetHeader("Accept", "application/json, text/plain, */*").
 		Post(apiURI + "/User/Register").
-		SetJson(user{UserID: testUserID, NotificationEmail: "fake@mail.com"}).
+		SetJson(user{UserID: testUserID, NotificationEmail: "fake@mail.com", Secret: "password"}).
 		Send().
 		ExpectStatus(202)
 }
@@ -96,4 +96,5 @@ func validatingUserWhoHasBeenDeletedFails() {
 type user struct {
 	UserID            string `json:"userId"`
 	NotificationEmail string `json:"notificationEmail"`
+	Secret            string `json:"secret"`
 }
