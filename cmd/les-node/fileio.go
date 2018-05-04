@@ -52,10 +52,7 @@ func useDefaulEmlFileIfInputFileNotSpecified(fileArg string) string {
 		inputFile = defaultEmlFile
 	}
 	if !fileExists(inputFile) {
-		if !fileExists(generatedEmlFile) {
-			return ""
-		}
-		return generatedEmlFile
+		return ""
 	}
 	return inputFile
 }
