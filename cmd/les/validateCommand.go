@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"os"
 
 	kingpin "gopkg.in/alecthomas/kingpin.v2"
 )
@@ -35,6 +36,8 @@ func (n *validateCommand) validate(c *kingpin.ParseContext) error {
 		return nil
 	}
 
-	validateFile(inputFile)
+	if !isFileValidEmdOrEml(inputFile) {
+		os.Exit(-1)
+	}
 	return nil
 }

@@ -26,5 +26,7 @@ OrderItemLookup* // orderItemId, catalogueitemId, quantity, price
 
 Place Order-> // orderId
 Order Placed // orderId
+
+Remove Item From Inventory -> 
 InventoryItem Reduced // inventoryitemId, quantity 
 InventoryItem OutOfStock // inventoryitemId

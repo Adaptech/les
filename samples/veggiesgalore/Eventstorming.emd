@@ -2,7 +2,7 @@
 Add Vegetable To Inventory -> // vegetableId, name
 Vegetable Added // vegetableId, name
 Receive Vegetable -> // vegetableId, amount
-VegetableReceived // vegetableId, amount
+Vegetable Received // vegetableId, amount
 Release Vegetable -> // vegetableId, amount
 Vegetable Released // vegetableId, amount
 Remove Vegetable FromInventroy -> // vegetableId
