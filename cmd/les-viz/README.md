@@ -1,5 +1,7 @@
 # les-viz: Event Markdown Vizualization (EMD -> GraphViz)
 
+![example](consentaur-example.png)
+
 **Generates a [GraphViz](http://www.graphviz.org/) digraph for an event storming.**
 
 [What is Event Markdown?](https://docs.letseventsource.org/faq/eventmarkdown/)
@@ -43,5 +45,3 @@ curl -L https://raw.githubusercontent.com/Adaptech/les/master/samples/consentaur
 && eog Eventstorming.png
 
 ```
-
-![example](consentaur-example.png)
