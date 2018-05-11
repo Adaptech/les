@@ -8,7 +8,7 @@ User Authenticated // userId
 Create Mail -> // emailId, fromUserId, toUserId, subject, body
 Email Created // emailId, fromUserId, toUserId, subject, body
 
-Send Mail -> // emailId
+Send Mail ->emailId
 Email Sent // emailId, dateSent
 
 Read Mail -> // emailId, dateTimeRead

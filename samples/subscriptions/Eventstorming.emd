@@ -1,6 +1,6 @@
 # Subscriptions
 
-Subscribe->
+Subscribe-> subscriptionId, name
 Subscription Started // subscriptionId, name
 Deliver->
 Subscription Received

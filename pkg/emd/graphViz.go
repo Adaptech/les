@@ -48,8 +48,9 @@ const parameterTemplate = "&#92; &#92; &#92; -&#92; %s\\l"
 
 const invisibleSpacerTemplate = "                %s%v[style=invis]\n                %s->%s%v [style=invis]\n"
 
-func ToGraphViz(esSpec string) string {
-	postitNotes := strings.Split(esSpec, "\n")
+// ToGraphViz turns EMD into a GraphViz digraph which can be used to generate images of the event storming described by the EMD input
+func ToGraphViz(emdString string) string {
+	postitNotes := strings.Split(emdString, "\n")
 	commandList := ""
 	eventList := ""
 	documentList := ""
@@ -60,6 +61,12 @@ func ToGraphViz(esSpec string) string {
 	writeCommandEventArrow := false
 	nonWordCharacterRemover := regexp.MustCompile("\\W")
 	for index, postitNote := range postitNotes {
+		// This is a hack to support commands with parameters without the '//' slashes.
+		// "command -> // param1" and "command -> param1" should both be valid ... because
+		// it turns out that users commonly forget the forward slashes when entering EMD commands.
+		if strings.Contains(postitNote, "->") && !strings.Contains(postitNote, "//") {
+			postitNote = strings.Replace(postitNote, "->", "-> // ", -1)
+		}
 		graphVizDotPropertiesList := ""
 		// Guard against DOS attacks by limiting length of lines and number of lines:
 		if len(postitNote) > 200 {
