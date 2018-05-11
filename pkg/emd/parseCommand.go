@@ -1,34 +1,23 @@
 package emd
 
 import (
-	"regexp"
 	"strings"
 )
 
 func parseCommand(emdInput string, lineItems []Item) []Item {
-	if strings.Contains(emdInput, "//") {
-		re, err := regexp.Compile("^(.*) *-> *\\/\\/ *(.*)")
-		if err != nil {
-			panic(err)
+	emdInput = strings.Trim(emdInput, " ")
+	parts := strings.Split(emdInput, "->")
+	commandName := strings.Trim(parts[0], " ")
+	propertiesString := strings.Replace(parts[1], "/", "", -1)
+	propertiesString = strings.Replace(propertiesString, " ", "", -1)
+	inputParameters := strings.Split(propertiesString, ",")
+	var parameters []Parameter
+	for _, inputParameter := range inputParameters {
+		if len(inputParameter) > 0 {
+			var parsedParameter = Parameter{Name: inputParameter}
+			parameters = append(parameters, parsedParameter)
 		}
-		command := re.FindAllStringSubmatch(emdInput, -1)
-		if len(command) > 0 {
-			var parameters []Parameter
-			first := command[0]
-			propertiesList := first[2]
-			propertiesList = strings.Trim(propertiesList, ", ")
-			inputProperties := strings.Split(propertiesList, ",")
-			for _, inputParameter := range inputProperties {
-				var parsedParameter = Parameter{Name: strings.Trim(inputParameter, " ")}
-				parameters = append(parameters, parsedParameter)
-			}
-
-			lineItems = append(lineItems, Command{Name: strings.Trim(command[0][1], " "), Parameters: parameters})
-		}
-	} else {
-		spacesRemoved := strings.Trim(emdInput, " ")
-		commandName := strings.Trim(strings.Replace(spacesRemoved, "->", "", -1), " ")
-		lineItems = append(lineItems, Command{Name: commandName})
 	}
+	lineItems = append(lineItems, Command{Name: commandName, Parameters: parameters})
 	return lineItems
 }
