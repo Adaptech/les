@@ -1,12 +1,19 @@
 workspace:
   base: /go
-  path: src/github.com/octocat/hello-world
+  path: src/github.com/Adaptech/les
 
 pipeline:
-  build:
+  unit-test:
     image: golang:latest
     commands:
       - go get ./...
       - make unit-test
+  build:
+    image: golang:latest
+    commands:
+      - make install
+  test-samples-are-valid:
+    image: golang:latest
+    commands:
       - make test-samples-are-valid
 
