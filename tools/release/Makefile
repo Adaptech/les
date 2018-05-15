@@ -1,5 +1,5 @@
 SHELL := /bin/bash
-VERSION := 0.10.6-alpha
+VERSION := 0.10.5-alpha
 
 .PHONY: dist
 dist: dist-les dist-les-node installation-instructions commit-tag-push github-release
@@ -30,4 +30,4 @@ commit-tag-push:
 
 .PHONY: github-release
 github-release:
-    ./make-github-release.sh $(VERSION) Adaptech/les
+	./make-github-release.sh $(VERSION) Adaptech/les
