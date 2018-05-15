@@ -53,14 +53,14 @@ do
     echo "Uploading les-${platform_executable_name}..."
     curl -s -u ${github_username}:${github_token} \
      -H 'Content-Type:application/octet-stream' \
-     -d @../../releases/les/${version}/les-${platform_executable_name} \
+     --data-binary @../../releases/les/${version}/les-${platform_executable_name} \
      ${upload_url}?name=les-${platform_executable_name}
     echo ''
 
     echo "Uploading les-node-${platform_executable_name}..."
     curl -s -u ${github_username}:${github_token} \
      -H 'Content-Type:application/octet-stream' \
-     -d @../../releases/les-node/${version}/les-node-${platform_executable_name} \
+     --data-binary @../../releases/les-node/${version}/les-node-${platform_executable_name} \
      ${upload_url}?name=les-node-${platform_executable_name}
     echo ''
 

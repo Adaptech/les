@@ -1,5 +1,5 @@
 SHELL := /bin/bash
-VERSION := 0.10.5-test
+VERSION := 0.10.5-alpha
 
 .PHONY: dist
 dist: dist-les dist-les-node installation-instructions commit-tag-push github-release
