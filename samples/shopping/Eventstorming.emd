@@ -1,0 +1,54 @@
+# Online Ordering
+
+Create Inventory Item-> // sku, description
+Inventory*
+Inventory Item Created // sku, description
+Record New Inventory-> // sku, quantity
+Inventory Item Stocked // sku, quantity
+
+Create Product-> // productId, sku, hasInventory, description, retailPrice 
+Product Added To Catalog // productId
+Product Catalog*
+
+Add Item To Cart-> // cartId, productId, quantity
+Shopping Cart Created // cartId
+Shopping Cart*
+Shopping Cart Item Added // cartId, productId, quantity
+
+Register -> // userId, email, password
+User Registered // userId, email, encryptedPassword
+User Profile*
+User Authenticated // userId
+Shopping Cart Associated With User // userId, cartId
+
+Check Out -> // cartId
+Shopping Cart Checked Out // cartId
+Order Created // orderId
+Order*
+Order Item Added // orderId, sku, productId, quanity, retailPrice
+My Orders*
+
+Provide Payment Info-> // userId, creditCardNo, nameOnCard, expiryDate
+Payment Info Provided // userId, linkToEncryptedCreditCardVault
+Payment Info*
+Pay-> // paymentId, creditCardNo, orderId
+Payment Processed // paymentId 
+My Payments*
+
+Place Order-> // userId, orderId
+Order Placed // orderId
+
+# Fulfill the order by adding items from inventory to the package to be shipped:
+Add Item From Inventory-> // orderId, sku, quantity
+Inventory Item Added To Order // orderId, sku, quantity
+
+# When all the ordered items have been added to the package, the order is ready for shipment:
+Order Ready // orderId
+
+Mark Order As Shipped-> // orderId, dateShipped
+Order Shipped // orderId, dateShipped
+
+Mark Order As Delivered-> // orderId, deliveryDate
+Order Delivered // orderId, deliveryDate
+
+
