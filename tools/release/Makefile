@@ -1,8 +1,8 @@
 SHELL := /bin/bash
-VERSION := 0.10.5-alpha
+VERSION := 0.10.6-alpha
 
 .PHONY: dist
-dist: dist-les dist-les-node installation-instructions
+dist: dist-les dist-les-node installation-instructions commit-tag-push github-release
 
 .PHONY: dist-les
 dist-les:
@@ -21,3 +21,13 @@ clean:
 	rm -fr ../../releases/les/$(VERSION) \
 	&& rm -fr ../../releases/les-node/$(VERSION) \
 	&& rm ../../INSTALL.md
+
+.PHONY: commit-tag-push
+commit-tag-push:
+	git commit -a -m 'Release $(VERSION)' \
+	&& git tag release-$(VERSION) \
+	&& git push origin
+
+.PHONY: github-release
+github-release:
+    ./make-github-release.sh $(VERSION) Adaptech/les

@@ -35,20 +35,20 @@ do
 
 Install the 'les' validation tool:
 
-\`\`\`sudo curl -L https://github.com/Adaptech/les/blob/master/releases/les/${version}/les-${platform_executable_name}?raw=true -o /usr/local/bin/les && sudo chmod +x /usr/local/bin/les\`\`\`
+\`\`\`sudo curl -L https://github.com/Adaptech/les/releases/download/release-${version}/les-${platform_executable_name} -o /usr/local/bin/les && sudo chmod +x /usr/local/bin/les\`\`\`
 
 Install 'les-node':
 
-\`\`\`sudo curl -L https://github.com/Adaptech/les/blob/master/releases/les-node/${version}/les-node-${platform_executable_name}?raw=true -o /usr/local/bin/les-node && sudo chmod +x /usr/local/bin/les-node\`\`\`
+\`\`\`sudo curl -L https://github.com/Adaptech/les/releases/download/les-node/${version}/les-node-${platform_executable_name} -o /usr/local/bin/les-node && sudo chmod +x /usr/local/bin/les-node\`\`\`
 "
 
     if [ ${platform_split[0]} = "windows" ]; then
         platform_executable_name+='.exe'
         instructions="## ${platform_split[0]^} ${platform_split[1]^^}
 
-* [Download](https://github.com/Adaptech/les/blob/master/releases/les/${version}/les-${platform_executable_name}?raw=true) the 'les' validation tool .exe
+* [Download](https://github.com/Adaptech/les/releases/download/release-${version}/les-${platform_executable_name}) the 'les' validation tool .exe
 
-* [Download](https://github.com/Adaptech/les/blob/master/releases/les-node/${version}/les-node-${platform_executable_name}?raw=true) 'les-node' .exe
+* [Download](https://github.com/Adaptech/les/releases/download/release-${version}/les-node-${platform_executable_name}) 'les-node' .exe
 "
     fi  
 
