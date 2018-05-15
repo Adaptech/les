@@ -81,3 +81,4 @@ samples/consentaur/present
 # vim swap files
 **/*.swp 
 
+releases/
