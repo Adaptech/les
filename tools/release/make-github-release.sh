@@ -17,7 +17,7 @@ fi
 
 platforms=("linux/amd64" "darwin/amd64" "windows/amd64")
 
-# Fetch github token so we don't have to login for earch request
+# Ask for github credentials so we don't have to login for each request
 echo 'Enter your Github credentials'
 read -p 'username: ' github_username
 read -s -p 'token or password: ' github_token
