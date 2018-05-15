@@ -1,0 +1,614 @@
+EmlVersion: 0.1-alpha
+Solution: Online Ordering
+Contexts:
+- Name: Online Ordering
+  Streams:
+  - Stream: Order
+    Commands:
+    - Command:
+        Name: PlaceOrder
+        Parameters:
+        - Name: userId
+          Type: string
+          Rules:
+          - MustExistIn UserLookup
+        - Name: orderId
+          Type: string
+          Rules:
+          - IsRequired
+        Preconditions: []
+        Postconditions:
+        - OrderPlaced
+    - Command:
+        Name: MarkOrderAsShipped
+        Parameters:
+        - Name: orderId
+          Type: string
+          Rules:
+          - IsRequired
+        - Name: dateShipped
+          Type: string
+          Rules: []
+        Preconditions: []
+        Postconditions:
+        - OrderShipped
+    - Command:
+        Name: MarkOrderAsDelivered
+        Parameters:
+        - Name: orderId
+          Type: string
+          Rules:
+          - IsRequired
+        - Name: deliveryDate
+          Type: string
+          Rules: []
+        Preconditions: []
+        Postconditions:
+        - OrderDelivered
+    Events:
+    - Event:
+        Name: OrderCreated
+        Properties:
+        - Name: orderId
+          Type: string
+    - Event:
+        Name: OrderItemAdded
+        Properties:
+        - Name: orderId
+          Type: string
+        - Name: sku
+          Type: string
+        - Name: productId
+          Type: string
+        - Name: quanity
+          Type: string
+        - Name: retailPrice
+          Type: string
+    - Event:
+        Name: OrderPlaced
+        Properties:
+        - Name: orderId
+          Type: string
+    - Event:
+        Name: OrderReady
+        Properties:
+        - Name: orderId
+          Type: string
+    - Event:
+        Name: OrderShipped
+        Properties:
+        - Name: orderId
+          Type: string
+        - Name: dateShipped
+          Type: string
+    - Event:
+        Name: OrderDelivered
+        Properties:
+        - Name: orderId
+          Type: string
+        - Name: deliveryDate
+          Type: string
+  - Stream: Payment
+    Commands:
+    - Command:
+        Name: ProvidePaymentInfo
+        Parameters:
+        - Name: userId
+          Type: string
+          Rules:
+          - MustExistIn UserLookup
+        - Name: creditCardNo
+          Type: string
+          Rules: []
+        - Name: nameOnCard
+          Type: string
+          Rules: []
+        - Name: expiryDate
+          Type: string
+          Rules: []
+        - Name: paymentId
+          Type: string
+          Rules:
+          - IsRequired
+        Preconditions: []
+        Postconditions:
+        - PaymentInfoProvided
+    - Command:
+        Name: Pay
+        Parameters:
+        - Name: paymentId
+          Type: string
+          Rules:
+          - IsRequired
+        - Name: creditCardNo
+          Type: string
+          Rules: []
+        - Name: orderId
+          Type: string
+          Rules:
+          - MustExistIn OrderLookup
+        Preconditions: []
+        Postconditions:
+        - PaymentProcessed
+    Events:
+    - Event:
+        Name: PaymentInfoProvided
+        Properties:
+        - Name: userId
+          Type: string
+        - Name: linkToEncryptedCreditCardVault
+          Type: string
+        - Name: paymentId
+          Type: string
+    - Event:
+        Name: PaymentProcessed
+        Properties:
+        - Name: paymentId
+          Type: string
+  - Stream: Inventory
+    Commands:
+    - Command:
+        Name: CreateInventoryItem
+        Parameters:
+        - Name: sku
+          Type: string
+          Rules: []
+        - Name: description
+          Type: string
+          Rules: []
+        - Name: inventoryId
+          Type: string
+          Rules:
+          - IsRequired
+        Preconditions: []
+        Postconditions:
+        - InventoryItemCreated
+    - Command:
+        Name: RecordNewInventory
+        Parameters:
+        - Name: sku
+          Type: string
+          Rules: []
+        - Name: quantity
+          Type: string
+          Rules: []
+        - Name: inventoryId
+          Type: string
+          Rules:
+          - IsRequired
+        Preconditions: []
+        Postconditions:
+        - InventoryItemStocked
+    - Command:
+        Name: AddItemFromInventory
+        Parameters:
+        - Name: orderId
+          Type: string
+          Rules:
+          - MustExistIn OrderLookup
+        - Name: sku
+          Type: string
+          Rules: []
+        - Name: quantity
+          Type: string
+          Rules: []
+        - Name: inventoryId
+          Type: string
+          Rules:
+          - IsRequired
+        Preconditions: []
+        Postconditions:
+        - InventoryItemAddedToOrder
+    Events:
+    - Event:
+        Name: InventoryItemCreated
+        Properties:
+        - Name: sku
+          Type: string
+        - Name: description
+          Type: string
+        - Name: inventoryId
+          Type: string
+    - Event:
+        Name: InventoryItemStocked
+        Properties:
+        - Name: sku
+          Type: string
+        - Name: quantity
+          Type: string
+        - Name: inventoryId
+          Type: string
+    - Event:
+        Name: InventoryItemAddedToOrder
+        Properties:
+        - Name: orderId
+          Type: string
+        - Name: sku
+          Type: string
+        - Name: quantity
+          Type: string
+        - Name: inventoryId
+          Type: string
+  - Stream: Product
+    Commands:
+    - Command:
+        Name: CreateProduct
+        Parameters:
+        - Name: productId
+          Type: string
+          Rules:
+          - IsRequired
+        - Name: sku
+          Type: string
+          Rules: []
+        - Name: hasInventory
+          Type: string
+          Rules: []
+        - Name: description
+          Type: string
+          Rules: []
+        - Name: retailPrice
+          Type: string
+          Rules: []
+        Preconditions: []
+        Postconditions:
+        - ProductAddedToCatalog
+    Events:
+    - Event:
+        Name: ProductAddedToCatalog
+        Properties:
+        - Name: productId
+          Type: string
+  - Stream: Shopping
+    Commands:
+    - Command:
+        Name: AddItemToCart
+        Parameters:
+        - Name: cartId
+          Type: string
+          Rules:
+          - MustExistIn CartLookup
+        - Name: productId
+          Type: string
+          Rules:
+          - MustExistIn ProductLookup
+        - Name: quantity
+          Type: string
+          Rules: []
+        - Name: shoppingId
+          Type: string
+          Rules:
+          - IsRequired
+        Preconditions: []
+        Postconditions:
+        - ShoppingCartCreated
+        - ShoppingCartItemAdded
+    - Command:
+        Name: CheckOut
+        Parameters:
+        - Name: cartId
+          Type: string
+          Rules:
+          - MustExistIn CartLookup
+        - Name: shoppingId
+          Type: string
+          Rules:
+          - IsRequired
+        Preconditions: []
+        Postconditions:
+        - ShoppingCartCheckedOut
+    Events:
+    - Event:
+        Name: ShoppingCartCreated
+        Properties:
+        - Name: cartId
+          Type: string
+        - Name: shoppingId
+          Type: string
+    - Event:
+        Name: ShoppingCartItemAdded
+        Properties:
+        - Name: cartId
+          Type: string
+        - Name: productId
+          Type: string
+        - Name: quantity
+          Type: string
+        - Name: shoppingId
+          Type: string
+    - Event:
+        Name: ShoppingCartAssociatedWithUser
+        Properties:
+        - Name: userId
+          Type: string
+        - Name: cartId
+          Type: string
+        - Name: shoppingId
+          Type: string
+    - Event:
+        Name: ShoppingCartCheckedOut
+        Properties:
+        - Name: cartId
+          Type: string
+        - Name: shoppingId
+          Type: string
+  - Stream: User
+    Commands:
+    - Command:
+        Name: Register
+        Parameters:
+        - Name: userId
+          Type: string
+          Rules:
+          - IsRequired
+        - Name: email
+          Type: string
+          Rules: []
+        - Name: password
+          Type: string
+          Rules: []
+        Preconditions: []
+        Postconditions:
+        - UserRegistered
+        - UserAuthenticated
+    Events:
+    - Event:
+        Name: UserRegistered
+        Properties:
+        - Name: userId
+          Type: string
+        - Name: email
+          Type: string
+        - Name: encryptedPassword
+          Type: string
+    - Event:
+        Name: UserAuthenticated
+        Properties:
+        - Name: userId
+          Type: string
+  Readmodels:
+  - Readmodel:
+      Name: Inventory
+      Key: ""
+      SubscribesTo: []
+  - Readmodel:
+      Name: ProductCatalog
+      Key: ""
+      SubscribesTo: []
+  - Readmodel:
+      Name: ShoppingCart
+      Key: ""
+      SubscribesTo: []
+  - Readmodel:
+      Name: UserProfile
+      Key: ""
+      SubscribesTo: []
+  - Readmodel:
+      Name: Order
+      Key: ""
+      SubscribesTo: []
+  - Readmodel:
+      Name: MyOrders
+      Key: ""
+      SubscribesTo: []
+  - Readmodel:
+      Name: PaymentInfo
+      Key: ""
+      SubscribesTo: []
+  - Readmodel:
+      Name: MyPayments
+      Key: ""
+      SubscribesTo: []
+Errors:
+- errorid: NamesMustBeUnique
+  context: ""
+  stream: ""
+  command: ""
+  event: ""
+  readmodel: ""
+  message: 'Names must be unique within a bounded context: ''Order'' found 2 times
+    in ''Online Ordering''.'
+- errorid: NamesMustBeUnique
+  context: ""
+  stream: ""
+  command: ""
+  event: ""
+  readmodel: ""
+  message: 'Names must be unique within a bounded context: ''Inventory'' found 2 times
+    in ''Online Ordering''.'
+- errorid: MustExistInReadmodelNotFound
+  context: Online Ordering
+  stream: Order
+  command: PlaceOrder
+  event: ""
+  readmodel: ""
+  message: '''PlaceOrder userId'' has a MustExistIn UserLookup rule, but that read
+    model does not exist.'
+- errorid: EventMustBeCommandPostcondition
+  context: Online Ordering
+  stream: Order
+  command: ""
+  event: ""
+  readmodel: ""
+  message: Online Ordering has no command which would result in 'OrderCreated'.
+- errorid: EventMustBeCommandPostcondition
+  context: Online Ordering
+  stream: Order
+  command: ""
+  event: ""
+  readmodel: ""
+  message: Online Ordering has no command which would result in 'OrderItemAdded'.
+- errorid: EventMustBeCommandPostcondition
+  context: Online Ordering
+  stream: Order
+  command: ""
+  event: ""
+  readmodel: ""
+  message: Online Ordering has no command which would result in 'OrderReady'.
+- errorid: MustExistInReadmodelNotFound
+  context: Online Ordering
+  stream: Payment
+  command: ProvidePaymentInfo
+  event: ""
+  readmodel: ""
+  message: '''ProvidePaymentInfo userId'' has a MustExistIn UserLookup rule, but that
+    read model does not exist.'
+- errorid: MustExistInReadmodelNotFound
+  context: Online Ordering
+  stream: Payment
+  command: Pay
+  event: ""
+  readmodel: ""
+  message: '''Pay orderId'' has a MustExistIn OrderLookup rule, but that read model
+    does not exist.'
+- errorid: MustExistInReadmodelNotFound
+  context: Online Ordering
+  stream: Inventory
+  command: AddItemFromInventory
+  event: ""
+  readmodel: ""
+  message: '''AddItemFromInventory orderId'' has a MustExistIn OrderLookup rule, but
+    that read model does not exist.'
+- errorid: MustExistInReadmodelNotFound
+  context: Online Ordering
+  stream: Shopping
+  command: AddItemToCart
+  event: ""
+  readmodel: ""
+  message: '''AddItemToCart cartId'' has a MustExistIn CartLookup rule, but that read
+    model does not exist.'
+- errorid: MustExistInReadmodelNotFound
+  context: Online Ordering
+  stream: Shopping
+  command: AddItemToCart
+  event: ""
+  readmodel: ""
+  message: '''AddItemToCart productId'' has a MustExistIn ProductLookup rule, but
+    that read model does not exist.'
+- errorid: MustExistInReadmodelNotFound
+  context: Online Ordering
+  stream: Shopping
+  command: CheckOut
+  event: ""
+  readmodel: ""
+  message: '''CheckOut cartId'' has a MustExistIn CartLookup rule, but that read model
+    does not exist.'
+- errorid: EventMustBeCommandPostcondition
+  context: Online Ordering
+  stream: Shopping
+  command: ""
+  event: ""
+  readmodel: ""
+  message: Online Ordering has no command which would result in 'ShoppingCartAssociatedWithUser'.
+- errorid: MissingReadmodelKey
+  context: Online Ordering
+  stream: ""
+  command: ""
+  event: ""
+  readmodel: Inventory
+  message: Missing Readmodel Key
+- errorid: MissingReadmodelSubscribesToEvent
+  context: Online Ordering
+  stream: ""
+  command: ""
+  event: ""
+  readmodel: Inventory
+  message: Missing Readmodel SubscribesTo Event(s)
+- errorid: MissingReadmodelKey
+  context: Online Ordering
+  stream: ""
+  command: ""
+  event: ""
+  readmodel: ProductCatalog
+  message: Missing Readmodel Key
+- errorid: MissingReadmodelSubscribesToEvent
+  context: Online Ordering
+  stream: ""
+  command: ""
+  event: ""
+  readmodel: ProductCatalog
+  message: Missing Readmodel SubscribesTo Event(s)
+- errorid: MissingReadmodelKey
+  context: Online Ordering
+  stream: ""
+  command: ""
+  event: ""
+  readmodel: ShoppingCart
+  message: Missing Readmodel Key
+- errorid: MissingReadmodelSubscribesToEvent
+  context: Online Ordering
+  stream: ""
+  command: ""
+  event: ""
+  readmodel: ShoppingCart
+  message: Missing Readmodel SubscribesTo Event(s)
+- errorid: MissingReadmodelKey
+  context: Online Ordering
+  stream: ""
+  command: ""
+  event: ""
+  readmodel: UserProfile
+  message: Missing Readmodel Key
+- errorid: MissingReadmodelSubscribesToEvent
+  context: Online Ordering
+  stream: ""
+  command: ""
+  event: ""
+  readmodel: UserProfile
+  message: Missing Readmodel SubscribesTo Event(s)
+- errorid: MissingReadmodelKey
+  context: Online Ordering
+  stream: ""
+  command: ""
+  event: ""
+  readmodel: Order
+  message: Missing Readmodel Key
+- errorid: MissingReadmodelSubscribesToEvent
+  context: Online Ordering
+  stream: ""
+  command: ""
+  event: ""
+  readmodel: Order
+  message: Missing Readmodel SubscribesTo Event(s)
+- errorid: MissingReadmodelKey
+  context: Online Ordering
+  stream: ""
+  command: ""
+  event: ""
+  readmodel: MyOrders
+  message: Missing Readmodel Key
+- errorid: MissingReadmodelSubscribesToEvent
+  context: Online Ordering
+  stream: ""
+  command: ""
+  event: ""
+  readmodel: MyOrders
+  message: Missing Readmodel SubscribesTo Event(s)
+- errorid: MissingReadmodelKey
+  context: Online Ordering
+  stream: ""
+  command: ""
+  event: ""
+  readmodel: PaymentInfo
+  message: Missing Readmodel Key
+- errorid: MissingReadmodelSubscribesToEvent
+  context: Online Ordering
+  stream: ""
+  command: ""
+  event: ""
+  readmodel: PaymentInfo
+  message: Missing Readmodel SubscribesTo Event(s)
+- errorid: MissingReadmodelKey
+  context: Online Ordering
+  stream: ""
+  command: ""
+  event: ""
+  readmodel: MyPayments
+  message: Missing Readmodel Key
+- errorid: MissingReadmodelSubscribesToEvent
+  context: Online Ordering
+  stream: ""
+  command: ""
+  event: ""
+  readmodel: MyPayments
+  message: Missing Readmodel SubscribesTo Event(s)
