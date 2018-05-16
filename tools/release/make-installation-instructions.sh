@@ -39,7 +39,7 @@ Install the 'les' validation tool:
 
 Install 'les-node':
 
-\`\`\`sudo curl -L https://github.com/Adaptech/les/releases/download/les-node/${version}/les-node-${platform_executable_name} -o /usr/local/bin/les-node && sudo chmod +x /usr/local/bin/les-node\`\`\`
+\`\`\`sudo curl -L https://github.com/Adaptech/les/releases/download/release-${version}/les-node-${platform_executable_name} -o /usr/local/bin/les-node && sudo chmod +x /usr/local/bin/les-node\`\`\`
 "
 
     if [ ${platform_split[0]} = "windows" ]; then
