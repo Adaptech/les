@@ -121,6 +121,9 @@ func TestShouldGetEventWithoutPropertiesWithTrailingSlashes(t *testing.T) {
 		if result.Lines[0].(emd.Event).Name != "User Registered" {
 			t.Error("Unexpected Event.Name")
 		}
+		if len(result.Lines[0].(emd.Event).Properties) != 0 {
+			t.Error("Unexpected Event.Properties.")
+		}
 	default:
 		t.Error("expected event")
 	}
