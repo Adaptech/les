@@ -17,13 +17,17 @@ func parseEvent(emdInput string, lineItems []Item) []Item {
 			first := event[0]
 			propertiesList := first[2]
 			propertiesList = strings.Trim(propertiesList, ", ")
-			inputProperties := strings.Split(propertiesList, ",")
-			for _, inputProperty := range inputProperties {
-				var parsedProperty = Property{Name: strings.Trim(inputProperty, " ")}
-				properties = append(properties, parsedProperty)
+			if len(propertiesList) > 0 {
+				inputProperties := strings.Split(propertiesList, ",")
+				for _, inputProperty := range inputProperties {
+					var parsedProperty = Property{Name: strings.Trim(inputProperty, " ")}
+					properties = append(properties, parsedProperty)
+				}
+				lineItems = append(lineItems, Event{Name: strings.Trim(event[0][1], " "), Properties: properties})
+			} else {
+				lineItems = append(lineItems, Event{Name: strings.Trim(event[0][1], " ")})
 			}
 
-			lineItems = append(lineItems, Event{Name: strings.Trim(event[0][1], " "), Properties: properties})
 		}
 	} else {
 		lineItems = append(lineItems, Event{Name: strings.Trim(emdInput, " ")})
