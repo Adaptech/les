@@ -18,7 +18,7 @@ LES is currently in alpha. We have started using 1. and 2. in Real Life projects
 
 See also: [LES FAQ](https://docs.letseventsource.org/faq/)
 
-![LESTER Pipeline](https://github.com/Adaptech/letseventsource/blob/master/LESTER-stack-diagram.png)
+![LESTER Pipeline](https://github.com/Adaptech/les/blob/master/LESTER-stack-diagram.png)
 
 ## Getting Started
 
