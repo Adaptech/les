@@ -3,6 +3,7 @@ package convert
 import (
 	"fmt"
 	"strings"
+	"unicode"
 
 	"github.com/Adaptech/les/pkg/emd"
 	"github.com/Adaptech/les/pkg/eml"
@@ -97,7 +98,7 @@ func getReadmodels(markdown emd.Emd, eventsByPropertyLookup map[string][]string,
 				// results in readmodel key = userId
 				//Ensures consistent casing for stream Ids: e.g. TimesheetHoursId is represented as "timesheethoursId".
 				streamName := properties[0].Name[:len(properties[0].Name)-2]
-				key := strings.ToLower(streamName) + "Id"
+				key := firstCharToLower(streamName) + "Id"
 				readmodelEml.Readmodel.Key = key
 			}
 
@@ -252,7 +253,6 @@ func getCommandPostconditions(markdown emd.Emd) map[string][]string {
 				eventName := emdEvent.Name
 				eventNameWords := strings.Split(eventName, " ")
 				firstWordInEventName := eventNameWords[0]
-				// streamName := strings.ToLower(firstWordInEventName)
 				streamName := firstWordInEventName
 				eventID := strings.Replace(eventName, " ", "", -1)
 				postConditions[streamName+"."+mostRecentCommandID] = append(postConditions[streamName+"."+mostRecentCommandID], eventID)
@@ -275,9 +275,9 @@ func ensureThatCommandHasAggregateIDParameter(command *eml.Command, streamName s
 	// Ensure that the command has a mandatory aggregate id parameter:
 	hasAggregateID := false
 	for index, parameter := range command.Command.Parameters {
-		if strings.ToLower(parameter.Name) == strings.ToLower(streamName+"Id") {
-			//Ensure consistent casing for stream Ids: e.g. TimesheetHoursId is represented as "timesheethoursId".
-			command.Command.Parameters[index].Name = strings.ToLower(streamName) + "Id"
+		if parameter.Name == firstCharToLower(streamName)+"Id" {
+			//Ensure consistent casing for stream Ids: e.g. TimesheetHoursId is represented as "timesheetHoursId".
+			command.Command.Parameters[index].Name = firstCharToLower(streamName) + "Id"
 			if !ruleExists("IsRequired", command.Command.Parameters[index].Rules) {
 				command.Command.Parameters[index].Rules = append(command.Command.Parameters[index].Rules, "IsRequired")
 			}
@@ -286,35 +286,43 @@ func ensureThatCommandHasAggregateIDParameter(command *eml.Command, streamName s
 	}
 	if !hasAggregateID {
 		parameterValidationRules := []string{"IsRequired"}
-		aggregateIDParameter := eml.Parameter{Name: strings.ToLower(streamName) + "Id", Rules: parameterValidationRules, Type: "string"}
+		aggregateIDParameter := eml.Parameter{Name: firstCharToLower(streamName) + "Id", Rules: parameterValidationRules, Type: "string"}
 		command.Command.Parameters = append(command.Command.Parameters, aggregateIDParameter)
 	}
 	return command
 }
 
 func ensureThatEventHasAggregateIDProperty(event eml.Event, streamName string) eml.Event {
-	// Ensure that the event has an aggregate id parameter:
 	hasAggregateID := false
-	for index, parameter := range event.Event.Properties {
-		if strings.ToLower(parameter.Name) == strings.ToLower(streamName+"Id") {
-			//Ensure consistent casing for stream Ids: e.g. TimesheetHoursId is represented as "timesheethoursId".
-			event.Event.Properties[index].Name = strings.ToLower(streamName) + "Id"
+	for _, parameter := range event.Event.Properties {
+		if parameter.Name == firstCharToLower(streamName+"Id") {
 			hasAggregateID = true
+			break
 		}
 	}
+
 	var aggregateIDParameter eml.Property
 	if !hasAggregateID {
-		aggregateIDParameter = eml.Property{Name: strings.ToLower(streamName) + "Id", Type: "string"}
+		aggregateIDParameter = eml.Property{Name: firstCharToLower(streamName) + "Id", Type: "string"}
 		event.Event.Properties = append(event.Event.Properties, aggregateIDParameter)
 	}
 	return event
+}
+
+func firstCharToLower(s string) string {
+	if len(s) == 0 {
+		return s
+	}
+	a := []rune(s)
+	a[0] = unicode.ToLower(a[0])
+	return (string(a))
 }
 
 func ensureThatAggregateIDParameterIsRequiredField(command *eml.Command, streamName string) *eml.Command {
 	parameters := []eml.Parameter{}
 	for _, parameter := range command.Command.Parameters {
 		if strings.HasSuffix(parameter.Name, "Id") {
-			if parameter.Name == strings.ToLower(streamName)+"Id" {
+			if parameter.Name == firstCharToLower(streamName)+"Id" {
 				if !parameter.RuleExists("IsRequired") {
 					parameter.Rules = append(parameter.Rules, "IsRequired")
 				}

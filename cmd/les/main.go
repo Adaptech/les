@@ -13,7 +13,7 @@ const generatedEmlFile = ".generated.eventsourcing.eml.yaml"
 
 func main() {
 	app := kingpin.New("les", "Event Markdown (EMD) and Event Markup Language (EML) validation and conversion.")
-	app.Version("0.10.6-alpha")
+	app.Version("0.10.7-alpha")
 	configureConvertCommand(app)
 	configureValidateCommand(app)
 	kingpin.MustParse(app.Parse(os.Args[1:]))

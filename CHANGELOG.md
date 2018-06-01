@@ -1,5 +1,10 @@
 # Releases
 
+## 0.10.7-alpha (June 01, 2018)
+
+* Fixed https://github.com/Adaptech/les/issues/9
+* Typo/wording fixed in les --help.
+
 ## 0.10.6-alpha (May 23, 2018)
 
 * Use github release instead of repository for distribution

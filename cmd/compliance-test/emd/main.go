@@ -94,7 +94,7 @@ func todoListContainsNewItem() {
 		Get(apiURI+"/r/TODOList").
 		Send().
 		ExpectStatus(200).
-		ExpectJson("0.todoitemId", "10000").
+		ExpectJson("0.todoItemId", "10000").
 		ExpectJson("0.userId", testUserID).
 		ExpectJson("0.description", "Carpe Diem")
 }
@@ -107,8 +107,8 @@ func omittingMandatoryCommandParameterFails() {
 		SetJson(todoItem{UserID: "123456", Description: "This will fail.", TodoitemID: ""}).
 		Send().
 		ExpectStatus(400).
-		ExpectJson("message.1.field", "todoitemId").
-		ExpectJson("message.1.msg", "todoitemId is a required field.").
+		ExpectJson("message.1.field", "todoItemId").
+		ExpectJson("message.1.msg", "todoItemId is a required field.").
 		ExpectJsonLength("message", 2) // ... because of the non-existing userId 123456. That's a 2nd validation error, but we aren't interested in it in this test.
 }
 
@@ -119,6 +119,6 @@ type user struct {
 
 type todoItem struct {
 	UserID      string `json:"userId"`
-	TodoitemID  string `json:"todoitemId"`
+	TodoitemID  string `json:"todoItemId"`
 	Description string `json:"description"`
 }

@@ -38,7 +38,7 @@ Contexts:
         - Name: description
           Type: string
           Rules: []
-        - Name: todoitemId
+        - Name: todoItemId
           Type: string
           Rules:
           - IsRequired
@@ -55,7 +55,7 @@ Contexts:
           Type: string
         - Name: unknownField
           Type: string
-        - Name: todoitemId
+        - Name: todoItemId
           Type: string
   Readmodels:
   - Readmodel:
@@ -65,7 +65,7 @@ Contexts:
       - UserRegistered
   - Readmodel:
       Name: TODOList
-      Key: todoitemId
+      Key: todoItemId
       SubscribesTo:
       - TodoItemAdded
 Errors: []
