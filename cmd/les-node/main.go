@@ -16,7 +16,7 @@ var (
 )
 
 func main() {
-	kingpin.Version("0.10.6-alpha")
+	kingpin.Version("0.10.7-alpha")
 	kingpin.Parse()
 	if *buildAPI {
 		inputFile := useDefaulEmlFileIfInputFileNotSpecified(*inputFile)

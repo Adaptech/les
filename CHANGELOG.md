@@ -1,6 +1,6 @@
 # Releases
 
-## 0.10.5-alpha (May 23, 2018)
+## 0.10.6-alpha (May 23, 2018)
 
 * Use github release instead of repository for distribution
 * les-node looks for latest template on github

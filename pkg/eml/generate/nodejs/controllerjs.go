@@ -27,7 +27,7 @@ export default class {{ .Stream.Name }}Controller {
         {{$parameter.Name}} = foundItem && foundItem.{{ $parameter.MustExistInReadmodel | GetReadmodelKey }};
         {{end}}{{end}}
         const command = new {{$command.Command.Name | ToNodeJsClassName }}({{range $cnt, $parameter := $command.Command.Parameters}}{{if gt $cnt 0}}, {{end}}{{$parameter.Name}}{{end}});
-        await commandHandler({{$.Stream.Name | ToNodeJsClassName}}, command.{{ $.Stream.Name | ToNodeJsClassName | ToLower }}Id, command);
+        await commandHandler({{$.Stream.Name | ToNodeJsClassName}}, command.{{ $.Stream.Name | ToNodeJsClassName | FirstCharToLower }}Id, command);
         res.status(202).json(command);
       } catch (err) {
         if (err.name === "ValidationFailed") {
@@ -49,6 +49,7 @@ export default class {{ .Stream.Name }}Controller {
 
 	funcMap := template.FuncMap{
 		"ToLower":           strings.ToLower,
+		"FirstCharToLower":  FirstCharToLower,
 		"ToNodeJsClassName": ToNodeJsClassName,
 		"GetReadmodelKey":   ReadmodelKeyLookup,
 	}
@@ -70,5 +71,4 @@ export default class {{ .Stream.Name }}Controller {
 		log.Fatal("error executing ControllerJS template:", err)
 	}
 	return buf.String()
-
 }
