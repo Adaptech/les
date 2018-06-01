@@ -6,6 +6,8 @@
 
 * ```make dist```
 
+* ```make github-release```
+
 * git commit
 
 * (e.g.) ```git tag -m 'release-0.10.0-alpha' -a release-0.10.0-alpha && git push origin --tags```

@@ -2,7 +2,7 @@ SHELL := /bin/bash
 VERSION := 0.10.7-alpha
 
 .PHONY: dist
-dist: dist-les dist-les-node installation-instructions commit-tag-push github-release
+dist: dist-les dist-les-node installation-instructions commit-tag-push
 
 .PHONY: dist-les
 dist-les:
