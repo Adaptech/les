@@ -12,7 +12,7 @@ const defaultEmlFile = "Eventstorming.eml.yaml"
 const generatedEmlFile = ".generated.eventsourcing.eml.yaml"
 
 func main() {
-	app := kingpin.New("les", "Let's Event Source: Validate & convert Event Markup Language and Event Markup.")
+	app := kingpin.New("les", "Event Markdown (EMD) and Event Markup Language (EML) validation and conversion.")
 	app.Version("0.10.6-alpha")
 	configureConvertCommand(app)
 	configureValidateCommand(app)
