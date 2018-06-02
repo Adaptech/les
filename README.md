@@ -80,13 +80,11 @@ There is no step 3.
 
 ## What next ...
 
-* A collection of Event Markdown (EMD) examples: https://github.com/Adaptech/les/tree/master/samples**
+* Tutorial & FAQ: https://docs.letseventsource.org
+
+* A collection of Event Markdown (EMD) examples: https://github.com/Adaptech/les/tree/master/samples
 
 * Learn Event Storming: http://eventstorming.com
-
-* Learn Event Markdown: https://webeventstorming.com
-
-* EMD Cheat Sheet: https://docs.letseventsource.org/faq/eventmarkdown/EMD-Cheatsheet-0.10.0-alpha.pdf
 
 * https://gitter.im/Adaptech/les 
 
