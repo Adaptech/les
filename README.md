@@ -80,7 +80,7 @@ There is no step 3.
 
 ## What next ...
 
-* A collection of Event Markdown (EMD) examples: https://github.com/Adaptech/les/src/master/samples**
+* A collection of Event Markdown (EMD) examples: https://github.com/Adaptech/les/tree/master/samples**
 
 * Learn Event Storming: http://eventstorming.com
 
