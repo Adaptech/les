@@ -86,7 +86,7 @@ There is no step 3.
 
 * Learn Event Markdown: https://webeventstorming.com
 
-* EMD Cheat Sheet: https://github.com/Adaptech/letseventsource/raw/master/EMD-Cheatsheet-0.10.0-alpha-alpha.pdf
+* EMD Cheat Sheet: https://docs.letseventsource.org/faq/eventmarkdown/EMD-Cheatsheet-0.10.0-alpha.pdf
 
 * https://gitter.im/Adaptech/les 
 
@@ -97,10 +97,6 @@ There is no step 3.
 ## Known UX Impacting Issues
 
 The issues below have been known to mystify EMD users:
-
-#### "DromedaryCase": myaggregateId GOOD, myAggregateId BAD
-
-https://github.com/Adaptech/les/issues/9
 
 #### Sporadic Race condition when doing ```cd api && npm install && docker-compose up -d```
 
